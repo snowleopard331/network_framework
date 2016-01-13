@@ -1,47 +1,38 @@
 /*
-    基于Boost.Asio来提高程序的可扩展性推荐的方法是:
-        采用单个I/O service多次调用run()方法
-
-    也有另外的方法可以选择:
-        可以创建多个I/O service 而不是将所有的线程都绑定到一个I/O service上
-        每个 I/O service 对应于一个线程 
-        如果 I/O service 的个数和计算机的核数相匹配 异步操作将会在各自对应的核上运行
+    a simple web server 
+    my IP: 192.168.195.131
+    input http://192.168.100.100 in chrome will display Hello,world!
 */
 
-#include <iostream>
 #include <boost/asio.hpp>
-#include <boost/thread.hpp>
-
-void handler1(const boost::system::error_code &ec)
-{
-    std::cout<<"5 s"<<std::endl;
-}
-
-void handler2(const boost::system::error_code &ec)
-{
-    std::cout<<"5 s"<<std::endl;
-}
+#include <string>
 
 boost::asio::io_service io_service;
+boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), 80);
+boost::asio::ip::tcp::acceptor acceptor(io_service, endpoint);
+boost::asio::ip::tcp::socket sock(io_service);
 
-void run()
+std::string data = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\nHello, world!";
+
+void HandlerWrite(const boost::system::error_code &ec, std::size_t bytes_transferred)
 {
-    io_service.run();
+
+}
+
+void HandlerAccept(const boost::system::error_code &ec)
+{
+    if(!ec)
+    {
+        boost::asio::async_write(sock, boost::asio::buffer(data), HandlerWrite);
+    }
 }
 
 int main()
 {
-    boost::asio::deadline_timer timer1(io_service, boost::posix_time::seconds(5));
-    timer1.async_wait(handler1);
+    acceptor.listen();
+    acceptor.async_accept(sock, HandlerAccept);
 
-    boost::asio::deadline_timer timer2(io_service, boost::posix_time::seconds(5));
-    timer2.async_wait(handler2);
-
-    boost::thread thread1(run);
-    boost::thread thread2(run);
-
-    thread1.join();
-    thread2.join();
+    io_service.run();
 
     return 0;
 }
