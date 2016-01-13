@@ -8,7 +8,7 @@
 #include <string>
 
 boost::asio::io_service io_service;
-boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), 80);
+boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), 80); // Runtime, normal users can only listen to more than 1024 port
 boost::asio::ip::tcp::acceptor acceptor(io_service, endpoint);
 boost::asio::ip::tcp::socket sock(io_service);
 
