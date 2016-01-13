@@ -5,10 +5,10 @@ SRC = $(shell ls *.cpp)
 OBJS = $(subst .cpp,.o,$(SRC))
 
 test:$(OBJS)
-	g++ -o test $(OBJS) -I $(INC_PATH) -L $(LIB_PATH) -lboost_system
+	g++ -o test $(OBJS) -I $(INC_PATH) -L $(LIB_PATH) -lboost_system -lboost_thread
 
 $(OBJS):%.o:%.cpp
-	g++ -c $< -I $(INC_PATH) -L $(LIB_PATH) -lboost_system
+	g++ -c $< -I $(INC_PATH) -L $(LIB_PATH)
 
 #.PHONY:clean
 clean:
