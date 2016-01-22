@@ -9,7 +9,10 @@
 
 #include <assert.h>
 #include "StackTrace.h"
-#include "glogHelper.h"
+#include "log/glogHelper.h"
+
+#include <boost/asio.hpp>
+#include <boost/asio/ip/tcp.hpp>
 
 #define DEBUG_INFO
 
@@ -21,6 +24,11 @@ typedef int                 int32;
 typedef unsigned int        uint32, uint;
 typedef long long           int64;
 typedef unsigned long long  uint64;
+
+
+typedef boost::asio::io_service                 Proactor;
+typedef boost::asio::ip::tcp::socket            BSocket;
+typedef boost::asio::ip::tcp::endpoint          EndPoint;
 
 
 /// ---- RETURN ----

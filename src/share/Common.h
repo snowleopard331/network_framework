@@ -16,6 +16,7 @@
 #include <sstream>
 
 #include "Define.h"
+#include "log/glogHelper.h"
 //#include "glogHelper.h"
 
 /**
