@@ -106,9 +106,14 @@ typedef boost::asio::ip::tcp::endpoint          EndPoint;
     }
     // TODO, 日志, 打印文件名, 行号, 函数名, CONDITION, 堆栈
 #ifdef DEBUG_INFO
-#define Jovi_ASSERT     WPErrorAssert
+    #define Jovi_ASSERT     WPErrorAssert
 #else
-#define Jovi_ASSERT
+    #define Jovi_ASSERT
 #endif
+
+#ifndef SOCKET_READ_BUFFER_SIZE
+#define SOCKET_READ_BUFFER_SIZE  4096
+#endif
+
 
 #endif//_DEFINE_H_
