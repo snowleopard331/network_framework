@@ -384,7 +384,7 @@ public:
 
     bool empty() const
     {
-        _storage.empty();
+        return _storage.empty();
     }
 
     void resize(size_t newsize)

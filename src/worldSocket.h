@@ -18,15 +18,16 @@ class WorldPacket;
 class WorldSocket
 {
 public:
-    friend WorldSocketMgr;
+    friend class WorldSocketMgr;
 
 public:
-    WorldSocket(Proactor* proactor);
+    WorldSocket();
     ~WorldSocket();
 
 public:
     // declare the acceptor for this class
     typedef boost::asio::ip::tcp::acceptor          Acceptor;
+
     // Mutex type used for various synchronizations.
     typedef boost::mutex                            LockType;
     typedef boost::unique_lock<LockType>            GuardType;
@@ -36,7 +37,11 @@ public:
     // packet queue
 
     // check if socket is closed
-    bool isClose(void) const;
+    bool close(void) const;
+
+    // set close flag 
+    // ? check close status when using BSocket every time
+    void close(bool flag);
 
     // close the socket 
     void closeSocket(void);
@@ -47,6 +52,26 @@ public:
     // send a packet on the socket
     int sendPacket(const WorldPacket& packet);
 
+public:
+    int HandleAccept();
+
+    int Update();
+
+private:
+    int HandleInput();
+
+    int HandleOutput();
+
+    void HandleAsyncWriteComplete();
+
+    int HandleClose();
+
+private:
+    // helper functions for processing incoming data
+    int HandleInputMissingData();
+    int HandleInputHeader();
+    int HandleInputPayload();
+
     // get proactor
     Proactor* proactor() const;
 
@@ -54,16 +79,24 @@ public:
     void proactor(Proactor* pPtr);
 
     // get socket
-    BSocket* getSocket() const;
+    BSocket* bsocket() const;
 
-public:
-    int HandleAccept();
+    // set socket
+    void bsocket(BSocket* sock);
 
-private:
-    // helper functions for processing incoming data
-    int handleInputHeader(void);
-    int handleInputPayload(void);
-    int handleInputMissingData(void);
+    /// process one incoming packet.
+    /// @param pPkt received packet ,note that you need to delete it.
+    int ProcessIncoming(WorldPacket* pPkt);
+
+    /// Flush m_PacketQueue if there are packets in it
+    /// Need to be called with m_OutBufferLock lock held
+    /// @return true if it wrote to the buffer ( AKA you need
+    /// to mark the socket for output ).
+    bool iFlushPacketQueue();
+
+    /// Try to write WorldPacket to m_OutBuffer ,return -1 if no space
+    /// Need to be called with m_OutBufferLock lock held
+    int iSendPacket(const WorldPacket& pkt);
 
 private:
     // Time in which the last ping was received
@@ -75,24 +108,38 @@ private:
     // Address of the remote peer
     std::string             m_address;
 
+    // Mutex lock to protect m_Session
+    LockType                m_SessionLock;
+
+    // Session to which received packets are routed
+    WorldSession*           m_Session;
+
     // here are stored the fragments of the received data
     WorldPacket*            m_pRecvWorldPacket;
 
     Buffer                  m_recvBuffer;
     Buffer                  m_header;
 
+    // Mutex for protecting output related data
+    LockType                m_OutBufferLock;
     // Buffer used for writing output.
     Buffer*                 m_outBuffer;
     // Size of the m_OutBuffer.
     size_t                  m_outBufferSize;
-    // True if the socket is registered with the proactor for output
-    bool                    m_outActive;
+
+    /// Here are stored packets for which there was no space on m_OutBuffer,
+    /// this allows not-to kick player if its buffer is overflowed.
+    PacketQueue             m_PacketQueue;
 
     uint32                  m_seed;
 
-    BSocket                 m_socket;
+    BSocket*                m_socket;
 
     Proactor*               m_proactor;
+
+    bool                    m_isClose;
+
+    char                    m_buffer[SOCKET_READ_BUFFER_SIZE];
 };
 
 #endif//_WORLD_SOCKET_H_

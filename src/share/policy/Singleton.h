@@ -7,9 +7,9 @@
 #ifndef _SINGLETON_H_
 #define _SINGLETON_H_
 
-#include "ThreadingModel.h"
-#include "CreationPolicy.h"
-#include "ObjectLifeTime.h"
+#include "policy/ThreadingModel.h"
+#include "policy/CreationPolicy.h"
+#include "policy/ObjectLifeTime.h"
 
 namespace Jovi
 {
@@ -79,5 +79,8 @@ namespace Jovi
         _destroyed = true;
     }
 }
+
+#define  INSTANTIATE_SINGLETON_1(TYPE) \
+    template class Jovi::Singleton<TYPE, Jovi::SingleThreaded<TYPE>, Jovi::OperatorNew<TYPE>, Jovi::ObjectLifeTime<TYPE> >
 
 #endif//_SINGLETON_H_
