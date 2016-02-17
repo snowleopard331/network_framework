@@ -283,13 +283,6 @@ public:
         return _storage.size();
     }
 
-    template<typename T>
-    void append(T value)
-    {
-        // ? endian
-        append((uint8*)&value, sizeof(value));
-    }
-
     void append(const uint8* src, size_t cnt)
     {
         if(!cnt)
