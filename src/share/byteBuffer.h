@@ -412,7 +412,7 @@ private:
         append((uint8*)&value, sizeof(value));
     }
 
-protect:
+protected:
     size_t _rpos, _wpos;
     std::vector<uint8> _storage;
 };
