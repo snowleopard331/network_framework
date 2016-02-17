@@ -14,6 +14,7 @@
 #include <boost/thread/mutex.hpp>
 
 class WorldPacket;
+class WorldSession;
 
 class WorldSocket
 {
