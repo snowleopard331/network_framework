@@ -16,6 +16,7 @@ namespace Jovi
     template<class T>
     class ObjectLifeTime
     {
+    public:
         static void SchedeleCall(void (*destroyer)())
         {
             at_exit(destroyer);
