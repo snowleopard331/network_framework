@@ -57,7 +57,7 @@ public:
 
     ByteBuffer(const ByteBuffer& buf)
         : _rpos(buf._rpos)
-        , _wpos(buf.wpos)
+        , _wpos(buf._wpos)
         , _storage(buf._storage)
     {
 
