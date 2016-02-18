@@ -68,7 +68,7 @@ bool Config::getBoolDefault(const std::string& sectionName, const std::string& k
     return m_Config->get<bool>(name, def);
 }
 
-bool Config::getBoolDefault(const std::string& sectionName, const std::string& key, const bool def /* = false */)
+bool Config::getBoolDefault(const char* sectionName, const char* key, const bool def /* = false */)
 {
     std::string name = sectionName;
     name += ".";
@@ -82,7 +82,7 @@ int Config::getIntDefault(const std::string& sectionName, const std::string& key
     return m_Config->get<int>(name, def);
 }
 
-int Config::getIntDefault(const std::string& sectionName, const std::string& key, const int def)
+int Config::getIntDefault(const char* sectionName, const char* key, const int def)
 {
     std::string name = sectionName;
     name += ".";
@@ -96,7 +96,7 @@ float Config::getFloatDefault(const std::string& sectionName, const std::string&
     return m_Config->get<float>(name, def);
 }
 
-float Config::getFloatDefault(const std::string& sectionName, const std::string& key, const float def)
+float Config::getFloatDefault(const char* sectionName, const char* key, const float def)
 {
     std::string name = sectionName;
     name += ".";
