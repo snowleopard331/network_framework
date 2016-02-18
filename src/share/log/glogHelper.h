@@ -21,10 +21,13 @@ class GLogHelper
 {
 public:
     // glog config
-    GLogHelper(char* program);
+    GLogHelper();
 
     // glog clear memery
     ~GLogHelper();
+
+public:
+    void initialize(char* programName);
 };
 
 #define sLog Jovi::Singleton<GLogHelper>::Instance()
