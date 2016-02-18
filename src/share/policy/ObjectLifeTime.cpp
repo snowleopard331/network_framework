@@ -5,7 +5,6 @@
 */
 
 #include "ObjectLifeTime.h"
-
 #include <cstdlib>
 
 namespace Jovi
