@@ -80,10 +80,21 @@ private:
     void proactor(Proactor* pPtr);
 
     // get socket
-    BSocket* bsocket() const;
+    BSocket* bsocket() const
+    {
+        return m_socket;
+    }
 
     // set socket
-    void bsocket(BSocket* sock);
+    void bsocket(BSocket* sock)
+    {
+        if(m_socket || !sock)
+        {
+            // ? exception operating
+        }
+
+        m_socket = sock;
+    }
 
     /// process one incoming packet.
     /// @param pPkt received packet ,note that you need to delete it.
