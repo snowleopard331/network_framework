@@ -8,7 +8,6 @@ des:    read config file
 /************************************************************************/
 
 #include "config.h"
-
 #include <unistd.h>
 
 Config::Config()
