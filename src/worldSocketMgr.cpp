@@ -193,6 +193,11 @@ WorldSocketMgr::WorldSocketMgr()
 
 }
 
+WorldSocketMgr::~WorldSocketMgr()
+{
+
+}
+
 int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
 {
     if(StartIOService(port, address.c_str()) == -1)
