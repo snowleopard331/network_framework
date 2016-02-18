@@ -10,9 +10,10 @@
 
 extern int main(int argc, char** argv)
 {
-    /// init log
-    sLog;
+    /// initialize log
+    sLog.initialize(argv[0]);
     
+    /// initialize config
     if(!sConfig.setSource("./config"))
     {
         LOG(ERROR)<<"Could not find configuration file config";

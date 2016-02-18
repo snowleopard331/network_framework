@@ -30,10 +30,21 @@ void signalHandle(const char* data, int size)
 }
 
 // GLOG配置
-GLogHelper::GLogHelper(char* program)
+GLogHelper::GLogHelper()
+{
+    
+}
+
+//GLOG内存清理
+GLogHelper::~GLogHelper()
+{
+    google::ShutdownGoogleLogging();
+}
+
+void GLogHelper::initialize(char* programName)
 {
     system(MKDIR);
-    google::InitGoogleLogging(program);
+    google::InitGoogleLogging(programName);
 
     //设置级别高于 google::INFO 的日志同时输出到屏幕
     google::SetStderrLogging(google::INFO);
@@ -64,10 +75,4 @@ GLogHelper::GLogHelper(char* program)
     //google::InstallFailureSignalHandler();
     //默认捕捉 SIGSEGV 信号信息输出会输出到 stderr，可以通过下面的方法自定义输出>方式：
     //google::InstallFailureWriter(&signalHandle);
-}
-
-//GLOG内存清理
-GLogHelper::~GLogHelper()
-{
-    google::ShutdownGoogleLogging();
 }
