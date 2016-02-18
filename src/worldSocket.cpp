@@ -279,7 +279,7 @@ int WorldSocket::HandleOutput()
     // We are using boost::asio::async_write(), 
     // rather than ip::tcp::socket::async_write_some(), 
     // to ensure that the entire block of data is sent.
-    boost::asio::async_write(m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), boost::bind(&WorldSocket::HandleAsyncWriteComplete, this));
+    boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), boost::bind(&WorldSocket::HandleAsyncWriteComplete, this));
 
     return 0;
 }
