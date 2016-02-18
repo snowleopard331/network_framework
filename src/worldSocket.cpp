@@ -82,6 +82,27 @@ void WorldSocket::close(bool flag)
     m_isClose = flag;
 }
 
+void WorldSocket::closeSocket()
+{
+    {
+        boost::mutex::scoped_lock guard(m_OutBufferLock);
+
+        if(m_isClose)
+        {
+            return;
+        }
+
+        m_isClose = true;
+        m_socket->close();
+    }
+
+    {
+        boost::mutex::scoped_lock guard(m_SessionLock);
+
+        m_Session = NULL;
+    }
+}
+
 int WorldSocket::Update()
 {
     if(m_isClose)
@@ -384,5 +405,10 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
         m_PacketQueue.push_back(pkt);
     }
 
+    return 0;
+}
+
+int WorldSocket::ProcessIncoming(WorldPacket* pPkt)
+{
     return 0;
 }
