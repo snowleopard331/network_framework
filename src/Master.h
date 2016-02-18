@@ -8,6 +8,7 @@
 #define _MASTER_H_
 
 #include "Common.h"
+#include "policy/Singleton.h"
 
 class Master
 {

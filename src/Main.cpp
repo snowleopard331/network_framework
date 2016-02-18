@@ -5,8 +5,9 @@
 */
 
 #include "Common.h"
+#include "Master.h"
 
 extern int main(int argc, char** argv)
 {
-    return 1;
+    return sMaster.Run();
 }
