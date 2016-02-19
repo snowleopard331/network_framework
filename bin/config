@@ -1,0 +1,3 @@
+[Network]
+	TcpNoDelay=true
+	Threads=4
