@@ -239,6 +239,8 @@ void WorldSocketMgr::Wait()
 
 int WorldSocketMgr::OnSocketOpen()
 {
+    LOG(INFO)<<"OnSocketOpen  was called, one connector input";
+
     Jovi_ASSERT(m_SoketReady);
     Jovi_ASSERT(m_SoketReady->bsocket());
 
