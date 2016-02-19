@@ -13,8 +13,6 @@ extern int main(int argc, char** argv)
 {
     /// initialize log
     sLog.initialize(argv[0]);
-    
-    startDaemon();
 
     /// initialize config
     if(!sConfig.setSource("./config"))
@@ -22,6 +20,8 @@ extern int main(int argc, char** argv)
         LOG(ERROR)<<"Could not find configuration file config";
         return 1;
     }
+
+    startDaemon();
 
     return sMaster.Run();
 }
