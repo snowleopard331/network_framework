@@ -7,9 +7,6 @@
 #ifndef _GAME_DEF_H_
 #define _GAME_DEF_H_
 
-enum DebugInfo
-{
-    DEBUG_TEST_MSG,
-};
+
 
 #endif//_GAME_DEF_H_
