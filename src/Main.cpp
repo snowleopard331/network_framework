@@ -7,12 +7,15 @@
 #include "Common.h"
 #include "Master.h"
 #include "config.h"
+#include "PosixDaemon.h"
 
 extern int main(int argc, char** argv)
 {
     /// initialize log
     sLog.initialize(argv[0]);
     
+    startDaemon();
+
     /// initialize config
     if(!sConfig.setSource("./config"))
     {
