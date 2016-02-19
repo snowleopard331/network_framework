@@ -13,7 +13,7 @@ des:    this file function is packaging and pratice glog libiary
 #include "glogHelper.h"
 
 #define LOGDIR  "log"
-#define MKDIR   "mkdir "LOGDIR
+#define MKDIR   "mkdir " LOGDIR
 
 //将信息输出到单独的文件和 LOG(ERROR
 void signalHandle(const char* data, int size)
