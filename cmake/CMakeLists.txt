@@ -17,7 +17,7 @@ SET(BOOST_LIB_DIR ../dep/boost/lib)
 
 SET(LIB_LIST boost_thread boost_system glog)
 
-#ADD_DEFINITIONS( -g -W -Wall -std=c++11)
+ADD_DEFINITIONS( -g -W -Wall -std=c++11)
 
 INCLUDE_DIRECTORIES(../src/share ${GLOG_INCLUDE_DIR} ${BOOST_INCLUDE_DIR})
 LINK_DIRECTORIES(${GLOG_LIB_DIR} ${BOOST_LIB_DIR})

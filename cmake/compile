@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd ../
+
+pwd
+
+git pull
+
+cd -
+
+make clean;make
