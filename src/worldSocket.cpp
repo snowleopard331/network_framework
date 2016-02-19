@@ -410,5 +410,24 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
 
 int WorldSocket::ProcessIncoming(WorldPacket* pPkt)
 {
+    Jovi_ASSERT(pPkt);
+    
+   // test code begin
+
+    uint16 opcode = pPkt->getOpcode();
+    switch(opcode)
+    {
+    default:
+        {
+            WorldPacket packet;
+            packet.initialize(MSG_NULL_ACTION, 1);
+            packet<<888;
+            sendPacket(packet);
+        }
+        break;
+    }
+
+    // test code end
+
     return 0;
 }

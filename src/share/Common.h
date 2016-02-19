@@ -18,7 +18,7 @@
 
 #include "Define.h"
 #include "log/glogHelper.h"
-//#include "glogHelper.h"
+#include "GameDef.h"
 
 /**
  * @brief operator new[] based version of strdup() function! Release memory by using operator delete[] !
