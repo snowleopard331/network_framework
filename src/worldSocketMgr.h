@@ -36,9 +36,14 @@ private:
     int     StartIOService(uint16 port, const char* address);
 
     // handle socket accept
-    int     OnSocketOpen();
+    int     OnSocketOpen(const boost::system::error_code &ec);
+
+    // new boost socket obj and select a thread index
     void    OnAcceptReady();
+
     void    AddAcceptHandler();
+
+    void    ReadyReset();
 
 private:
     ProactorRunnable*       m_NetThreads;

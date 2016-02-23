@@ -30,6 +30,7 @@ int Master::Run()
     if(sWorldSocketMgr.StartNetwork(port, addr) == -1)
     {
         LOG(ERROR)<<"Failed to start network";
+        return -1;
     }
 
     sWorldSocketMgr.Wait();
