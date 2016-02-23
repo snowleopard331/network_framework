@@ -128,8 +128,8 @@ private:
         */
         boost::asio::io_service::work work(*m_Proactor);
 
-        //boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-        //timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this));
+        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this));
 
         m_Proactor->run();
 
