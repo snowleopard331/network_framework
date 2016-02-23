@@ -128,8 +128,8 @@ private:
         */
         boost::asio::io_service::work work(*m_Proactor);
 
-        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this));
+        //boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        //timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this));
 
         m_Proactor->run();
 
@@ -237,16 +237,26 @@ void WorldSocketMgr::Wait()
     }
 }
 
-int WorldSocketMgr::OnSocketOpen()
+int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
 {
+#ifdef DEBUG_INFO_SOCKET
     LOG(INFO)<<"OnSocketOpen  was called, one connector input";
+#endif
+
+    if(ec)
+    {
+        LOG(ERROR)<<boost::system::system_error(ec).what();
+        ReadyReset();
+        return -1;
+    }
 
     Jovi_ASSERT(m_SoketReady);
     Jovi_ASSERT(m_SoketReady->bsocket());
 
     if(m_SoketReady->HandleAccept() < 0)
     {
-        SafeDelete(m_SoketReady);
+        // SafeDelete(m_SoketReady);
+        ReadyReset();
         return -1;
     }
 
@@ -270,8 +280,7 @@ int WorldSocketMgr::OnSocketOpen()
 
     if(0 == m_NetThreadIndexReady && m_NetThreadIndexReady >= m_NetThreadsCount)
     {
-        m_NetThreadIndexReady = 0;
-        SafeDelete(m_SoketReady);
+        ReadyReset();
         return -1;
     }
 
@@ -286,13 +295,18 @@ int WorldSocketMgr::OnSocketOpen()
         m_SoketReady->bsocket()->async_read_some(boost::asio::buffer(m_SoketReady->m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInput, m_SoketReady));
     }
 
+    ReadyReset();
+
+    return 0;
+}
+
+void WorldSocketMgr::ReadyReset()
+{
     m_NetThreadIndexReady = 0;
-    m_SoketReady = NULL;
+    SafeDelete(m_SoketReady);
 
     // new handler to acceptor
     AddAcceptHandler();
-
-    return 0;
 }
 
 void WorldSocketMgr::AddAcceptHandler()
@@ -300,7 +314,7 @@ void WorldSocketMgr::AddAcceptHandler()
     OnAcceptReady();
 
     Jovi_ASSERT(m_NetThreadIndexReady);
-    Jovi_ASSERT(m_NetThreadIndexReady != 0 && m_NetThreadIndexReady < m_NetThreadsCount);
+    Jovi_ASSERT(m_NetThreadIndexReady < m_NetThreadsCount);
 
     m_Acceptor->async_accept(*(m_SoketReady->bsocket()), boost::bind(&WorldSocketMgr::OnSocketOpen, this));
 }
@@ -332,17 +346,24 @@ int WorldSocketMgr::StartIOService(uint16 port, const char* address)
 
     m_Acceptor = new WorldSocket::Acceptor(*(m_NetThreads[0].proactor()));
 
-    // ?
     // boost::asio::ip::tcp::v4();
     boost::asio::ip::address addr;
     addr.from_string(address);
     EndPoint endpoint(addr, port);
 
     // set acceptor
-    m_Acceptor->open(endpoint.protocol());
-    m_Acceptor->set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
-    m_Acceptor->bind(endpoint);
-    m_Acceptor->listen();
+    try
+    {
+        m_Acceptor->open(endpoint.protocol());
+        m_Acceptor->set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
+        m_Acceptor->bind(endpoint);
+        m_Acceptor->listen();
+    }
+    catch(boost::system::system_error& ec)
+    {
+        LOG(ERROR)<<ec.what();
+        return -1;
+    }
 
     for(size_t i = 0; i < m_NetThreadsCount; ++i)
     {
