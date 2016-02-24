@@ -1,3 +1,5 @@
 [Network]
-	TcpNoDelay=true
-	Threads=4
+	Ip = 192.168.195.131
+	Port = 10301
+	TcpNoDelay = true
+	Threads = 4
