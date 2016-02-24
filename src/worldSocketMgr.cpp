@@ -162,7 +162,6 @@ private:
             }
         }
 
-        // boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
     }
