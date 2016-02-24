@@ -128,16 +128,15 @@ private:
         */
         boost::asio::io_service::work work(*m_Proactor);
 
-        // boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::seconds(1));
-        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this));
+        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
 
         m_Proactor->run();
 
         LOG(INFO)<<"Network Thread Exitting";
     }
 
-    void threadLoop()
+    void threadLoop(boost::asio::deadline_timer &timer)
     {
         if(m_Proactor->stopped())
         {
@@ -163,8 +162,9 @@ private:
             }
         }
 
-        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this));
+        // boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
     }
 
 private:
