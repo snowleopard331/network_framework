@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd boost_1_60_0/
+
+./bootstrap.sh --prefix=/home/yunfei/myworld/network_ramework/dep/boost
+
+./bjam install
+
+cd -
+
