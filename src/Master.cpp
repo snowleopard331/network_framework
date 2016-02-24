@@ -25,7 +25,7 @@ int Master::Run()
 {
     // launch the world listener socket
     uint16 port = 10301;
-    std::string addr = "192.168.195.131";
+    std::string addr = "127.0.0.1";
 
     if(sWorldSocketMgr.StartNetwork(port, addr) == -1)
     {
