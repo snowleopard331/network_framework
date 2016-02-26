@@ -302,6 +302,11 @@ int WorldSocket::HandleOutput()
 
     const size_t sendSize = m_outBuffer->length();
 
+#ifdef DEBUG_INFO_SOCKET
+    LOG(INFO)<<"sendSize: "<<sendSize;
+    LOG(INFO)<<"info: "<<m_outBuffer->rd_ptr();
+#endif
+
     if(sendSize == 0)
     {
         m_OutBufferLock.unlock();
@@ -312,6 +317,10 @@ int WorldSocket::HandleOutput()
     // rather than ip::tcp::socket::async_write_some(), 
     // to ensure that the entire block of data is sent.
     boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), boost::bind(&WorldSocket::HandleAsyncWriteComplete, this));
+
+#ifdef DEBUG_INFO_SOCKET
+    LOG(INFO)<<"send successful";
+#endif
 
     return 0;
 }
