@@ -37,9 +37,6 @@ WorldSocket::~WorldSocket()
 {
     if(m_outBuffer)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"delete m_outBuffer";
-#endif
         SafeDelete(m_outBuffer);
     }
 
@@ -60,9 +57,6 @@ int WorldSocket::HandleAccept()
     close(false);
 
     //  new buffer
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"new m_outBuffer, size: "<<m_outBufferSize;
-#endif
     m_outBuffer = new Buffer(m_outBufferSize);
 
     try
@@ -407,6 +401,9 @@ int WorldSocket::iSendPacket(const WorldPacket& pkt)
 
 int WorldSocket::sendPacket(const WorldPacket& packet)
 {
+#ifdef DEBUG_INFO_SOCKET
+    LOG(INFO)<<"call sendPacket";
+#endif
     boost::mutex::scoped_lock guard(m_OutBufferLock);
 
     if(m_isClose)
