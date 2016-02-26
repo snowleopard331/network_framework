@@ -61,7 +61,7 @@ void startDaemon(uint32 timeout /* = 10 */)
         exit(EXIT_FAILURE);
     }
 
-    if((chdir("/")) < 0)
+    if((chdir("./")) < 0)
     {
         exit(EXIT_FAILURE);
     }
