@@ -65,7 +65,18 @@ int WorldSocket::HandleAccept()
 #endif
     m_outBuffer = new Buffer(m_outBufferSize);
 
-    m_address = m_socket->remote_endpoint().address().to_string();
+    try
+    {
+        m_address = m_socket->remote_endpoint().address().to_string();
+    }
+    catch(boost::system::system_error& ec)
+    {
+        StackTrace stack;
+        LOG(ERROR)<<ec.what();
+        LOG(ERROR)<<stack.c_str();
+        return -1;
+    }
+    
 
     WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
     packet << m_seed;
