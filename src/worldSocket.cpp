@@ -116,6 +116,9 @@ void WorldSocket::closeSocket()
 
 int WorldSocket::Update()
 {
+#ifdef DEBUG_INFO
+    LOG(INFO)<<"socket update";
+#endif
     if(m_isClose)
     {
         return -1;
@@ -125,6 +128,10 @@ int WorldSocket::Update()
     {
         return 0;
     }
+
+#ifdef DEBUG_INFO
+    LOG(INFO)<<"check success";
+#endif
 
     return HandleOutput();
 }
