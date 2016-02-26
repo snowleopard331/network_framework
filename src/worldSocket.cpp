@@ -37,6 +37,9 @@ WorldSocket::~WorldSocket()
 {
     if(m_outBuffer)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"delete m_outBuffer";
+#endif
         SafeDelete(m_outBuffer);
     }
 
@@ -57,6 +60,9 @@ int WorldSocket::HandleAccept()
     close(false);
 
     //  new buffer
+#ifdef DEBUG_INFO_SOCKET
+    LOG(INFO)<<"new m_outBuffer, size: "<<m_outBufferSize;
+#endif
     m_outBuffer = new Buffer(m_outBufferSize);
 
     m_address = m_socket->remote_endpoint().address().to_string();
