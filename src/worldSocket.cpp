@@ -37,6 +37,9 @@ WorldSocket::~WorldSocket()
 {
     if(m_outBuffer)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"delete m_outBuffer";
+#endif
         SafeDelete(m_outBuffer);
     }
 
