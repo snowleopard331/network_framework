@@ -295,7 +295,11 @@ int WorldSocketMgr::OnSocketOpen()
         m_SoketReady->bsocket()->async_read_some(boost::asio::buffer(m_SoketReady->m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInput, m_SoketReady));
     }
 
-    ReadyReset();
+    m_NetThreadIndexReady = 0;
+    m_SoketReady = NULL;
+
+    // new handler to acceptor
+    AddAcceptHandler();
 
     return 0;
 }
