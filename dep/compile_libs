@@ -19,7 +19,7 @@ else
 fi
 
 
-chmod 775 -R $PROJECT_PATH/dep
+chmod 775 -R $PROJECT_PATH/network_ramework/dep
 
 
 # compile libs
