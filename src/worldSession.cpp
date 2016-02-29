@@ -5,8 +5,11 @@
 */
 
 #include "worldSession.h"
+#include "worldPacket.h"
 
-//void WorldSession::Handle_NULL(WorldPacket& recvPacket)
-//{
-//
-//}
+void WorldSession::Handle_NULL(WorldPacket& recvPacket)
+{
+    // processing warning information begin
+    recvPacket.size();
+    // processing warning information end
+}
