@@ -144,6 +144,8 @@ public:
 
         memcpy(m_Buffer + m_wPtr, buf, len);
         m_wPtr += len;
+
+        return 0;
     }
 
     // Get the length of the readable message

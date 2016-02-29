@@ -10,7 +10,7 @@
 #include "Common.h"
 #include "log/glogHelper.h"
 
-void startDaemon(uint32 timeout = 10);
+void startDaemon(/*uint32 timeout = 10*/);
 
 void stopDaemon();
 

@@ -28,7 +28,7 @@
 //    exit(EXIT_FAILURE);
 //}
 
-void startDaemon(uint32 timeout /* = 10 */)
+void startDaemon(/*uint32 timeout = 10*/)
 {
     // parent_pid = getpid();
     pid_t pid;
