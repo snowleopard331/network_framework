@@ -14,7 +14,7 @@ class WorldSession
 
 // opcodes handlers
 public:
-    void Handle_NULL(WorldPacket& recvPacket);  // not used
+    // void Handle_NULL(WorldPacket& recvPacket);  // not used
 };
 
 #endif//_WORLD_SESSION_H_
