@@ -1,17 +1,50 @@
 #!/bin/bash
 
+# do ready work
+BOOST_PATH=/home/yunfei/myworld/network_ramework/dep/boost
+GLOG_PATH=/home/yunfei/myworld/network_ramework/dep/glog
+
+if [ -d "boost" ];then
+    rm -rv $BOOST_PATH/*
+else
+    mkdir -vpm 775 $BOOST_PATH
+fi
+
+if [ -d "glog" ];then
+    rm -rv $GLOG_PATH/*
+else
+    mkdir -vpm 775 $GLOG_PATH
+fi
+
+
+# compile libs
 cd boost_1_60_0/
 
-./bootstrap.sh --prefix=/home/yunfei/myworld/network_ramework/dep/boost
+./bootstrap.sh --prefix=$BOOST_PATH
 
 ./bjam install
 
 cd -
 
+echo -e "\n"
+echo "**********************************************************"
+echo "*                 boost compile finished                 *"
+echo "**********************************************************"
+echo -e "\n"
+
 cd glog-0.3.3/
 
-./configure --prefix=/home/yunfei/myworld/network_ramework/dep/glog
+./configure --prefix=$GLOG_PATH
 
 make;make install
 
 cd -
+
+echo -e "\n"
+echo "**********************************************************"
+echo "*                 glog compile finished                  *"
+echo "**********************************************************"
+echo -e "\n"
+
+rm -rv $GLOG_PATH/share
+
