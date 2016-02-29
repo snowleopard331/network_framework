@@ -13,6 +13,12 @@ extern int main(int argc, char** argv)
 {
     /// initialize log
     sLog.initialize(argv[0]);
+    
+    /// log argv
+    for(int i = 0; i <= argc; ++i)
+    {
+        LOG(INFO)<<"argv["<<i<<"]: "<<argv[i];
+    }
 
     /// initialize config
     if(!sConfig.setSource("./config"))

@@ -6,7 +6,7 @@
 
 #include "worldSession.h"
 
-void WorldSession::Handle_NULL(WorldPacket& recvPacket)
-{
-
-}
+//void WorldSession::Handle_NULL(WorldPacket& recvPacket)
+//{
+//
+//}
