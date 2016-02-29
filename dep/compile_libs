@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # do ready work
-BOOST_PATH=/home/yunfei/myworld/network_ramework/dep/boost
-GLOG_PATH=/home/yunfei/myworld/network_ramework/dep/glog
+PROJECT_PATH=/home/yunfei/myworld
+
+BOOST_PATH=$PROJECT_PATH/network_ramework/dep/boost
+GLOG_PATH=$PROJECT_PATH/network_ramework/dep/glog
 
 if [ -d "boost" ];then
     rm -rv $BOOST_PATH/*
@@ -15,6 +17,9 @@ if [ -d "glog" ];then
 else
     mkdir -vpm 775 $GLOG_PATH
 fi
+
+
+chmod 775 -R $PROJECT_PATH/dep
 
 
 # compile libs
