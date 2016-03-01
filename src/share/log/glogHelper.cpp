@@ -9,7 +9,7 @@ des:    this file function is packaging and pratice glog libiary
 
 #include <stdlib.h>
 #include <string>
-
+#include <fstream>
 #include "glogHelper.h"
 
 #define LOGDIR  "log"
@@ -43,7 +43,14 @@ GLogHelper::~GLogHelper()
 
 void GLogHelper::initialize(char* programName)
 {
-    system(MKDIR);
+    fstream logFolder;
+
+    logFolder.open("./log", ios::in);
+    if(!logFolder)
+    {
+        system(MKDIR);
+    }
+
     google::InitGoogleLogging(programName);
 
     //设置级别高于 google::INFO 的日志同时输出到屏幕
