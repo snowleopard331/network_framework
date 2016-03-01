@@ -948,12 +948,12 @@ void LogFileObject::Write(bool force_flush,
     time_pid_stream << 1900+tm_time.tm_year
                     << setw(2) << 1+tm_time.tm_mon
                     << setw(2) << tm_time.tm_mday
-                    << '-'
-                    << setw(2) << tm_time.tm_hour
-                    << setw(2) << tm_time.tm_min
-                    << setw(2) << tm_time.tm_sec
-                    << '.'
-                    << GetMainThreadPid();
+                    //<< '-'
+                    //<< setw(2) << tm_time.tm_hour
+                    //<< setw(2) << tm_time.tm_min
+                    //<< setw(2) << tm_time.tm_sec
+                    << '.log';
+                    //<< GetMainThreadPid();
     const string& time_pid_string = time_pid_stream.str();
 
     if (base_filename_selected_) {
