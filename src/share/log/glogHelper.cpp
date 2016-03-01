@@ -43,9 +43,9 @@ GLogHelper::~GLogHelper()
 
 void GLogHelper::initialize(char* programName)
 {
-    fstream logFolder;
+    std::fstream logFolder;
 
-    logFolder.open("./log", ios::in);
+    logFolder.open("./log", std::ios::in);
     if(!logFolder)
     {
         system(MKDIR);
