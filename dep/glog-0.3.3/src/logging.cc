@@ -952,7 +952,7 @@ void LogFileObject::Write(bool force_flush,
                     //<< setw(2) << tm_time.tm_hour
                     //<< setw(2) << tm_time.tm_min
                     //<< setw(2) << tm_time.tm_sec
-                    << '.log';
+                    << ".log";
                     //<< GetMainThreadPid();
     const string& time_pid_string = time_pid_stream.str();
 
