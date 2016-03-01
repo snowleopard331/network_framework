@@ -43,8 +43,8 @@ GLogHelper::~GLogHelper()
 
 void GLogHelper::initialize(char* programName)
 {
+    // check if the folder exist 
     std::fstream logFolder;
-
     logFolder.open("./log", std::ios::in);
     if(!logFolder)
     {
