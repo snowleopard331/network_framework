@@ -144,6 +144,9 @@ int WorldSocket::HandleInput(const boost::system::error_code &ec, size_t bytes_t
         return -1;
     }
 
+    // ? add other arguments later
+    LOG(INFO)<<"input data size: "<<bytes_transferred;
+
     if(m_isClose)
     {
         return -1;
@@ -344,6 +347,9 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
         LOG(ERROR)<<boost::system::system_error(ec).what();
         return;
     }
+
+    // ? add other arguments later
+    LOG(INFO)<<"output data size: "<<bytes_transferred;
 
     // lock in HandleOutput
     m_outBuffer->reset();
