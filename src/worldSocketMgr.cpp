@@ -292,7 +292,7 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
     else
     {
         // start async read data event
-        m_SoketReady->bsocket()->async_read_some(boost::asio::buffer(m_SoketReady->m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInput, m_SoketReady));
+        m_SoketReady->bsocket()->async_read_some(boost::asio::buffer(m_SoketReady->m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInput, m_SoketReady, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
     }
 
     m_NetThreadIndexReady = 0;
