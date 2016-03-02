@@ -59,11 +59,11 @@ public:
     int Update();
 
 private:
-    int HandleInput();
+    int HandleInput(const boost::system::error_code &ec, size_t bytes_transferred);
 
     int HandleOutput();
 
-    void HandleAsyncWriteComplete();
+    void HandleAsyncWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred);
 
     int HandleClose();
 

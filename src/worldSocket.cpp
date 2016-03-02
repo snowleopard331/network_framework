@@ -136,14 +136,19 @@ int WorldSocket::Update()
     return HandleOutput();
 }
 
-int WorldSocket::HandleInput()
+int WorldSocket::HandleInput(const boost::system::error_code &ec, size_t bytes_transferred)
 {
+    if(ec)
+    {
+        LOG(ERROR)<<boost::system::system_error(ec).what();
+        return -1;
+    }
+
     if(m_isClose)
     {
         return -1;
     }
 
-    
     switch(HandleInputMissingData())
     {
     case -1:
@@ -240,7 +245,7 @@ int WorldSocket::HandleInputMissingData()
 
     memset(m_buffer, 0, SOCKET_READ_BUFFER_SIZE);
 
-    m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInput, this));
+    m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInput, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
     return size == SOCKET_READ_BUFFER_SIZE ? 1 : 2;
 }
@@ -332,8 +337,14 @@ int WorldSocket::HandleOutput()
     return 0;
 }
 
-void WorldSocket::HandleAsyncWriteComplete()
+void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred)
 {
+    if(ec)
+    {
+        LOG(ERROR)<<boost::system::system_error(ec).what();
+        return;
+    }
+
     // lock in HandleOutput
     m_outBuffer->reset();
 
