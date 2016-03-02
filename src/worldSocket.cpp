@@ -156,16 +156,22 @@ int WorldSocket::HandleInput(const boost::system::error_code &ec, size_t bytes_t
     {
     case -1:
         {
-            // ? why do this
-            return Update();
-        }
-    case -2:
-        {
+            if(errno == EWOULDBLOCK || errno == EAGAIN)
+            {
+                // ? why do this
+                return Update();
+            }
+
+            LOG(INFO)<<"WorldSocket::handle_input: Peer error closing connection errno = "<<errno;
+        
+            errno = ECONNRESET;
             return -1;
         }
     case 0:
         {
             LOG(ERROR)<<"WorldSocket::handle_input: Peer has closed connection";
+
+            errno = ECONNRESET;
             return -1;
         }
     case 1:
@@ -205,13 +211,15 @@ int WorldSocket::HandleInputMissingData()
         {
             // Couldn't receive the whole header this time
             Jovi_ASSERT(message_block.length() == 0);
+            errno = EWOULDBLOCK;
             return -1;// EWOULDBLOCK
         }
 
         // received a nice new header
         if(HandleInputHeader() == -1)
         {
-            return -2;
+            Jovi_ASSERT(errno != EWOULDBLOCK && errno != EAGAIN)
+            return -1;
         }
 
         // Its possible on some error situations that this happens
@@ -220,7 +228,8 @@ int WorldSocket::HandleInputMissingData()
         if(!m_pRecvWorldPacket)
         {
             LOG(ERROR)<<"Forcing close on input m_pRecvWorldPacket = NULL";
-            return -2;
+            errno = EAGAIN;
+            return -1;
         }
 
         // We have full read header, now check the data payload
@@ -235,6 +244,7 @@ int WorldSocket::HandleInputMissingData()
             {
                 // Couldn't receive the whole data this time.
                 Jovi_ASSERT(message_block.length() == 0);
+                errno = EWOULDBLOCK;
                 return -1;
             }
         }
@@ -242,6 +252,7 @@ int WorldSocket::HandleInputMissingData()
         // just received fresh new payload
         if(HandleInputPayload() == -1)
         {
+            Jovi_ASSERT((errno != EWOULDBLOCK) && (errno != EAGAIN));
             return -1;
         }
     }
