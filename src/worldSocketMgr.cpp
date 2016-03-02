@@ -237,18 +237,18 @@ void WorldSocketMgr::Wait()
     }
 }
 
-int WorldSocketMgr::OnSocketOpen()
+int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
 {
 #ifdef DEBUG_INFO_SOCKET
     LOG(INFO)<<"OnSocketOpen  was called, one connector input";
 #endif
 
-    //if(ec)
-    //{
-    //    LOG(ERROR)<<boost::system::system_error(ec).what();
-    //    ReadyReset();
-    //    return -1;
-    //}
+    if(ec)
+    {
+        LOG(ERROR)<<boost::system::system_error(ec).what();
+        ReadyReset();
+        return -1;
+    }
 
     Jovi_ASSERT(m_SoketReady);
     Jovi_ASSERT(m_SoketReady->bsocket());
@@ -320,7 +320,7 @@ void WorldSocketMgr::AddAcceptHandler()
     Jovi_ASSERT(m_NetThreadIndexReady);
     Jovi_ASSERT(m_NetThreadIndexReady < m_NetThreadsCount);
 
-    m_Acceptor->async_accept(*(m_SoketReady->bsocket()), boost::bind(&WorldSocketMgr::OnSocketOpen, this));
+    m_Acceptor->async_accept(*(m_SoketReady->bsocket()), boost::bind(&WorldSocketMgr::OnSocketOpen, this, boost::asio::placeholders::error));
 }
 
 int WorldSocketMgr::StartIOService(uint16 port, const char* address)

@@ -36,7 +36,7 @@ private:
     int     StartIOService(uint16 port, const char* address);
 
     // handle socket accept
-    int     OnSocketOpen(/*const boost::system::error_code &ec*/);
+    int     OnSocketOpen(const boost::system::error_code &ec);
 
     // new boost socket obj and select a thread index
     void    OnAcceptReady();
