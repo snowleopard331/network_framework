@@ -121,11 +121,17 @@ int WorldSocket::Update()
 #endif
     if(m_isClose)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(ERROR)<<"m_isClose is true";
+#endif
         return -1;
     }
 
     if(m_outBuffer->length() == 0)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(ERROR)<<"m_outBuffer length: "<<m_outBuffer->length();
+#endif
         return 0;
     }
 
@@ -483,6 +489,9 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
 
     if(m_isClose)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(ERROR)<<"m_isClose is true";
+#endif
         return -1;
     }
 
@@ -490,6 +499,9 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
     
     if(iSendPacket(packet) == -1)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(ERROR)<<"iSendPacket failed";
+#endif
         WorldPacket* pkt = new WorldPacket(packet);
         m_PacketQueue.push_back(pkt);
     }
