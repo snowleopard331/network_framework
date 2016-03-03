@@ -365,6 +365,10 @@ int WorldSocket::HandleOutput()
     m_OutBufferLock.lock();
 #endif
 
+#ifdef DEBUG_INFO_SOCKET
+    LOG(INFO)<<"m_OutBufferLock lock success";
+#endif
+
     if(m_isClose)
     {
 #ifdef DEBUG_INFO_SOCKET
@@ -417,7 +421,9 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     m_outBuffer->reset();
 
     m_OutBufferLock.unlock();
-
+#ifdef DEBUG_INFO_SOCKET
+    LOG(INFO)<<"m_OutBufferLock unlock success";
+#endif
     if(iFlushPacketQueue())
     {
         HandleOutput();
