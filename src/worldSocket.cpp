@@ -359,6 +359,9 @@ int WorldSocket::HandleOutput()
 
     if(m_isClose)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(ERROR)<<"socket is close";
+#endif
         m_OutBufferLock.unlock();
         return -1;
     }
@@ -372,6 +375,9 @@ int WorldSocket::HandleOutput()
 
     if(sendSize == 0)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"socket send data size is 0";
+#endif
         m_OutBufferLock.unlock();
         return 0;
     }
