@@ -161,8 +161,14 @@ private:
 
     void threadLoop(boost::asio::deadline_timer &timer)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"enter loop, m_NewSockets size: "<<m_NewSockets.size();
+#endif
         if(m_Proactor->stopped())
         {
+#ifdef DEBUG_INFO_SOCKET
+            LOG(ERROR)<<"m_Proactor stopped";
+#endif
             return;
         }
 #ifdef DEBUG_INFO_SOCKET
