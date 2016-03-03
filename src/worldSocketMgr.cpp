@@ -138,10 +138,6 @@ private:
 
     void threadLoop(boost::asio::deadline_timer &timer)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"************************** threadLoop begin *******************************";
-#endif
-
         if(m_Proactor->stopped())
         {
             return;
@@ -168,10 +164,6 @@ private:
                 ++iter;
             }
         }
-
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"************************** threadLoop end *******************************";
-#endif
 
         timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));

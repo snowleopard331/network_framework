@@ -130,7 +130,7 @@ int WorldSocket::Update()
     if(m_outBuffer->length() == 0)
     {
 #ifdef DEBUG_INFO_SOCKET
-        LOG(ERROR)<<"m_outBuffer length: "<<m_outBuffer->length();
+        LOG(INFO)<<"m_outBuffer length: "<<m_outBuffer->length();
 #endif
         return 0;
     }
