@@ -61,6 +61,10 @@ public:
 private:
     int HandleInput(const boost::system::error_code &ec, size_t bytes_transferred);
 
+#ifdef DEBUG_INFO_CONCURRENCE_TEST
+    int HandleInputTest(const boost::system::error_code &ec, size_t bytes_transferred);
+#endif
+
     int HandleOutput();
 
     void HandleAsyncWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred);
