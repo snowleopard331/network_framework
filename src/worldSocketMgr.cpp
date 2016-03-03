@@ -195,9 +195,14 @@ private:
                 ++iter;
             }
         }
-
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"before new timer";
+#endif
         timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"after new timer";
+#endif
     }
 
 private:
