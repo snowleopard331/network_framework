@@ -138,6 +138,10 @@ private:
 
     void threadLoop(boost::asio::deadline_timer &timer)
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"************************** threadLoop begin *******************************";
+#endif
+
         if(m_Proactor->stopped())
         {
             return;
@@ -149,6 +153,9 @@ private:
         {
             if((*iter)->Update() == -1)
             {
+#ifdef DEBUG_INFO_SOCKET
+                LOG(ERROR)<<"socket error, cannot update";
+#endif
                 SocketSet::iterator iterTemp = iter;
                 ++iter;
 
@@ -161,6 +168,10 @@ private:
                 ++iter;
             }
         }
+
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"************************** threadLoop end *******************************";
+#endif
 
         timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
@@ -249,10 +260,10 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
         ReadyReset();
         return -1;
     }
-
+    
     Jovi_ASSERT(m_SoketReady);
     Jovi_ASSERT(m_SoketReady->bsocket());
-
+    
     if(m_SoketReady->HandleAccept() < 0)
     {
         // SafeDelete(m_SoketReady);
