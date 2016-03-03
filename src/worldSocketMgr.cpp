@@ -92,9 +92,6 @@ private:
 
     void addNewSockets()
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"into addNewSockets";
-#endif
         // mutex or recursive mutex, is deadlock ?
         boost::mutex::scoped_lock guard(m_NewSocketsLock);
 
