@@ -11,6 +11,7 @@
 
 #ifdef DEBUG_INFO
 #define DEBUG_INFO_SOCKET
+#define DEBUG_INFO_CONCURRENCE_TEST
 #endif
 
 #endif//_GAME_DEF_H_

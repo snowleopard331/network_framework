@@ -136,6 +136,36 @@ int WorldSocket::Update()
     return HandleOutput();
 }
 
+
+#ifdef DEBUG_INFO_CONCURRENCE_TEST
+int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t bytes_transferred)
+{
+    if(ec)
+    {
+        LOG(ERROR)<<boost::system::system_error(ec).what();
+        return -1;
+    }
+
+    // ? add other arguments later
+    LOG(INFO)<<"input data size: "<<bytes_transferred;
+    LOG(INFO)<<"input data: "<<m_buffer;
+
+    memset(&m_buffer, 0, SOCKET_READ_BUFFER_SIZE);
+
+    WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
+    packet << "5678";
+
+    if(sendPacket(packet) == -1)
+    {
+        LOG(ERROR)<<"sendPacket failed";
+    }
+
+    m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInputTest, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+    return 0;
+}
+#endif
+
 int WorldSocket::HandleInput(const boost::system::error_code &ec, size_t bytes_transferred)
 {
     if(ec)
@@ -323,6 +353,7 @@ int WorldSocket::HandleOutput()
 
     if(m_isClose)
     {
+        m_OutBufferLock.unlock();
         return -1;
     }
 
