@@ -165,7 +165,9 @@ private:
         {
             return;
         }
-
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"before addNewSockets, m_NewSockets size: "<<m_NewSockets.size();
+#endif
         addNewSockets();
 
         for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end(); ++iter)
