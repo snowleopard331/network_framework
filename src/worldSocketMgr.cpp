@@ -92,6 +92,9 @@ private:
 
     void addNewSockets()
     {
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"into addNewSockets";
+#endif
         // mutex or recursive mutex, is deadlock ?
         boost::mutex::scoped_lock guard(m_NewSocketsLock);
 
@@ -99,6 +102,11 @@ private:
         {
             return;
         }
+
+#ifdef DEBUG_INFO_SOCKET
+        LOG(INFO)<<"m_NewSockets size: "<<m_NewSockets.size();
+        LOG(INFO)<<"before adding, m_Sockets size: "<<m_Sockets.size();
+#endif
 
         for(SocketSet::const_iterator iter = m_NewSockets.begin(); iter != m_NewSockets.end(); ++iter)
         {
@@ -120,7 +128,7 @@ private:
         m_NewSockets.clear();
 
 #ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"m_Sockets size: "<<m_Sockets.size();
+        LOG(INFO)<<"after adding, m_Sockets size: "<<m_Sockets.size();
 #endif
     }
 
