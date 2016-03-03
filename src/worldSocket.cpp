@@ -355,7 +355,15 @@ int WorldSocket::HandleInputPayload()
 int WorldSocket::HandleOutput()
 {
     // unlock in callback func
+#ifdef DEBUG_INFO_SOCKET
+    if(!m_OutBufferLock.try_lock())
+    {
+        LOG(ERROR)<<"m_OutBufferLock lock failed";
+        return 0;
+    }
+#else
     m_OutBufferLock.lock();
+#endif
 
     if(m_isClose)
     {
