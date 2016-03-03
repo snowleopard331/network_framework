@@ -16,6 +16,11 @@
 Makefile
 cmake_install.cmake
 CMakeFiles
+CMakeCache.txt
+
 *.swp
 log
 server
+
+boost_1_60_0
+glog-0.3.3
