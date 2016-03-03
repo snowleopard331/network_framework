@@ -292,7 +292,13 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
     else
     {
         // start async read data event
-        m_SoketReady->bsocket()->async_read_some(boost::asio::buffer(m_SoketReady->m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInput, m_SoketReady, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+#ifdef DEBUG_INFO_CONCURRENCE_TEST
+        m_SoketReady->bsocket()->async_read_some(boost::asio::buffer(m_SoketReady->m_buffer, SOCKET_READ_BUFFER_SIZE), 
+            boost::bind(&WorldSocket::HandleInputTest, m_SoketReady, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+#else
+        m_SoketReady->bsocket()->async_read_some(boost::asio::buffer(m_SoketReady->m_buffer, SOCKET_READ_BUFFER_SIZE), 
+            boost::bind(&WorldSocket::HandleInput, m_SoketReady, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+#endif
     }
 
     m_NetThreadIndexReady = 0;
