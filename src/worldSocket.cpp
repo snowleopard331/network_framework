@@ -116,7 +116,7 @@ void WorldSocket::closeSocket()
 
 int WorldSocket::Update()
 {
-#ifdef DEBUG_INFO
+#ifdef DEBUG_INFO_SOCKET
     LOG(INFO)<<"socket update";
 #endif
     if(m_isClose)
@@ -135,7 +135,7 @@ int WorldSocket::Update()
         return 0;
     }
 
-#ifdef DEBUG_INFO
+#ifdef DEBUG_INFO_SOCKET
     LOG(INFO)<<"check success";
 #endif
 
@@ -394,11 +394,15 @@ int WorldSocket::HandleOutput()
         return 0;
     }
 
-    // We are using boost::asio::async_write(), 
-    // rather than ip::tcp::socket::async_write_some(), 
-    // to ensure that the entire block of data is sent.
+    /*
+        We are using boost::asio::async_write(), 
+        rather than ip::tcp::socket::async_write_some(), 
+        to ensure that the entire block of data is sent.
 
-    // be careful managing the buf objectLefttime
+        be careful managing the buf objectLefttime
+        linux: data in buffer has copy when async_write return
+        windows: data maybe not written when async_write return
+    */
     boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
         boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
