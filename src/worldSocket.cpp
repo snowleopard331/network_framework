@@ -397,10 +397,18 @@ int WorldSocket::HandleOutput()
     // We are using boost::asio::async_write(), 
     // rather than ip::tcp::socket::async_write_some(), 
     // to ensure that the entire block of data is sent.
-    boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+    // be careful managing the buf objectLefttime
+    boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
+        boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
 #ifdef DEBUG_INFO_SOCKET
     LOG(INFO)<<"send successful";
+#endif
+
+    m_OutBufferLock.unlock();
+#ifdef DEBUG_INFO_SOCKET
+    LOG(INFO)<<"m_OutBufferLock unlock success";
 #endif
 
     return 0;
@@ -408,6 +416,9 @@ int WorldSocket::HandleOutput()
 
 void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred)
 {
+#ifdef DEBUG_INFO_SOCKET
+    LOG(INFO)<<"write handler is invoked";
+#endif
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
@@ -420,10 +431,10 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     // lock in HandleOutput
     m_outBuffer->reset();
 
-    m_OutBufferLock.unlock();
+    /*m_OutBufferLock.unlock();
 #ifdef DEBUG_INFO_SOCKET
     LOG(INFO)<<"m_OutBufferLock unlock success";
-#endif
+#endif*/
     if(iFlushPacketQueue())
     {
         HandleOutput();
