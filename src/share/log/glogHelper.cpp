@@ -54,7 +54,7 @@ void GLogHelper::initialize(char* programName)
     google::InitGoogleLogging(programName);
 
     //设置级别高于 google::INFO 的日志同时输出到屏幕
-    google::SetStderrLogging(google::FATAL);
+    google::SetStderrLogging(google::ERROR);
 
     /*
         日志文件名格式:basename+时间戳（年月日-HH:MM:SS.主线程ID）
