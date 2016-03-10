@@ -142,7 +142,6 @@ int WorldSocket::Update()
     return HandleOutput();
 }
 
-
 #ifdef DEBUG_INFO_CONCURRENCE_TEST
 int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t bytes_transferred)
 {
