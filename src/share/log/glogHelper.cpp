@@ -55,7 +55,7 @@ void GLogHelper::initialize(char* programName)
 
     //设置级别高于 google::INFO 的日志同时输出到屏幕
     google::SetStderrLogging(google::FATAL);
-    
+
     /*
         日志文件名格式:basename+时间戳（年月日-HH:MM:SS.主线程ID）
         日志是分级别存放的，低级别的日志文件包含高级别的日志信息, 
@@ -74,7 +74,9 @@ void GLogHelper::initialize(char* programName)
     FLAGS_max_log_size = 1024;
     //当磁盘被写满时，停止日志输出
     FLAGS_stop_logging_if_full_disk = true;
-    
+    //设置输出到屏幕的日志
+    FLAGS_colorlogtostderr = true;
+
     /*
         Linux
     */
