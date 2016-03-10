@@ -411,7 +411,7 @@ int WorldSocketMgr::StartIOService(uint16 port, const char* address)
     }
     catch(boost::system::system_error& ec)
     {
-        LOG(INFO)<<"ip: "<<address<<", port: "<<port;
+        LOG(ERROR)<<"local ip: "<<address<<", port: "<<port;
         LOG(ERROR)<<ec.what();
         return -1;
     }
