@@ -20,12 +20,6 @@ void signalHandle(const char* data, int size)
 {
     std::string str = std::string(data, size);
 
-    /*
-    ofstream fs("glog_test.log", ios::app);
-    fs<<str;
-    fs.close();
-    */
-
     LOG(ERROR)<<str;
 }
 
@@ -81,7 +75,7 @@ void GLogHelper::initialize(char* programName)
         Linux
     */
     //捕捉 core dumped
-    //google::InstallFailureSignalHandler();
+    google::InstallFailureSignalHandler();
     //默认捕捉 SIGSEGV 信号信息输出会输出到 stderr，可以通过下面的方法自定义输出>方式：
-    //google::InstallFailureWriter(&signalHandle);
+    google::InstallFailureWriter(&signalHandle);
 }
