@@ -26,3 +26,4 @@ boost_1_60_0
 glog-0.3.3
 dep/boost/lib
 dep/glog/lib
+callgrind.out.*
