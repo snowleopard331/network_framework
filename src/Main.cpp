@@ -9,6 +9,14 @@
 #include "config.h"
 #include "PosixDaemon.h"
 
+#ifdef DEBUG_INFO_CALLGRIND
+    void PorgramExitHandle(int exitCode)
+    {
+        LOG(ERROR)<<"program exit in DEBUG_INFO_CALLGRIND mode, exit: "<<exitCode;
+        exit(exitCode);
+    }
+#endif
+
 extern int main(int argc, char** argv)
 {
     /// initialize log
@@ -29,5 +37,11 @@ extern int main(int argc, char** argv)
 
     startDaemon();
 
+#ifdef DEBUG_INFO_CALLGRIND
+    boost::asio::io_service iosv;
+    boost::asio::deadline_timer timer(iosv, boost::posix_time::seconds(30));
+    timer.async_wait(boost::bind(&PorgramExitHandle, 2));
+#endif
+    
     return sMaster.Run();
 }
