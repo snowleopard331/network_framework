@@ -41,6 +41,7 @@ extern int main(int argc, char** argv)
     boost::asio::io_service iosv;
     boost::asio::deadline_timer timer(iosv, boost::posix_time::seconds(30));
     timer.async_wait(boost::bind(&PorgramExitHandle, 2));
+    iosv.run();
 #endif
     
     return sMaster.Run();
