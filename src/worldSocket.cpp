@@ -491,7 +491,9 @@ bool WorldSocket::iFlushPacketQueue()
     {
         pkt = *(m_PacketQueue.begin());
         m_PacketQueue.pop_front();
-
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"call iSendPacket in iFlushPacketQueue";
+#endif
         if(iSendPacket(*pkt) == -1)
         {
             m_PacketQueue.push_front(pkt);
