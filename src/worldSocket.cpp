@@ -404,6 +404,17 @@ int WorldSocket::HandleOutput()
         return 0;
     }
 
+#ifdef DEBUG_INFO_SOCKET_WRITE
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    char* buffer = new char[m_outBuffer->length() + 1];
+    memset(buffer, 0, m_outBuffer->length());
+    memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
+    buffer[m_outBuffer->length()] = '\0';
+    LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<" in HandleOutput";
+    SafeDeleteArray(buffer);
+#endif
+#endif
+
     /*
         We are using boost::asio::async_write(), 
         rather than ip::tcp::socket::async_write_some(), 
