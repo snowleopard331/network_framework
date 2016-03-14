@@ -82,6 +82,16 @@ public:
         return m_Buffer + m_wPtr;
     }
 
+    void wr_ptr(char* new_ptr)
+    {
+        if(new_ptr - m_Buffer >= m_BufferSize)
+        {
+            return;
+        }
+
+        m_wPtr = new_ptr - m_Buffer;
+    }
+
     void rd_ptr(size_t len)
     {
         if(len > m_BufferSize - m_rPtr)
@@ -95,6 +105,16 @@ public:
     char* rd_ptr() const
     {
         return m_Buffer + m_rPtr;
+    }
+
+    void rd_ptr(char* new_ptr)
+    {
+        if(new_ptr - m_Buffer >= m_BufferSize)
+        {
+            return;
+        }
+
+        m_rPtr = new_ptr - m_Buffer;
     }
 
     // set flag
@@ -171,15 +191,34 @@ public:
         m_rPtr = m_wPtr = 0;
     }
 
+    char* base() const
+    {
+        return m_Buffer;
+    }
+
     void reset()
     {
-        if(isFlag(BUFFER_FLAG_ALLOCATE))
-        {
-            delete [] m_Buffer;
-        }
-
         m_wPtr = m_rPtr = 0;
         m_BufferFlag = 0;
+    }
+
+    int crunch()
+    {
+        if(this->rd_ptr() != 0)
+        {
+            if(this->rd_ptr() > this->wr_ptr())
+            {
+                return -1;
+            }
+
+            const size_t len = length();
+            memmove(this->base(), this->rd_ptr(), len);
+
+            this->rd_ptr(this->base());
+            this->wr_ptr(this->base() + len);
+        }
+
+        return 0;
     }
 
 private:

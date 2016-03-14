@@ -165,6 +165,10 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
         LOG(ERROR)<<"sendPacket failed";
     }
 
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"write a packet when receiving a packet";
+#endif
+
     m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInputTest, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
     return 0;
@@ -294,7 +298,8 @@ int WorldSocket::HandleInputMissingData()
 
     memset(m_buffer, 0, SOCKET_READ_BUFFER_SIZE);
 
-    m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInput, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), 
+        boost::bind(&WorldSocket::HandleInput, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
     return size == SOCKET_READ_BUFFER_SIZE ? 1 : 2;
 }
@@ -431,16 +436,41 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     // ? add other arguments later
     LOG(INFO)<<"output data size: "<<bytes_transferred;
 
-    // lock in HandleOutput
-    m_outBuffer->reset();
+    // boost::mutex::scoped_lock guard(m_OutBufferLock);
+    m_OutBufferLock.lock();
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete";
+#endif
 
-    /*m_OutBufferLock.unlock();
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"m_OutBufferLock unlock success";
-#endif*/
-    if(iFlushPacketQueue())
+    // lock in HandleOutput
+    if(m_outBuffer->length() == bytes_transferred)
     {
-        HandleOutput();
+        m_outBuffer->reset();
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"m_outBuffer is reset";
+#endif
+        // lock in HandleOutput, if do not unlock, myybe deadlock
+        m_OutBufferLock.unlock();
+
+        if(iFlushPacketQueue())
+        {
+            HandleOutput();
+        }
+    }
+    else
+    {
+        m_outBuffer->crunch();
+        m_OutBufferLock.unlock();
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        char* buffer = new char[m_outBuffer->length() + 1];
+        memset(buffer, 0, m_outBuffer->length());
+        memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
+        buffer[m_outBuffer->length()] = '\0';
+        LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<"in HandleAsyncWriteComplete";
+        SafeDeleteArray(buffer);
+#endif
     }
 }
 
@@ -510,6 +540,15 @@ int WorldSocket::iSendPacket(const WorldPacket& pkt)
             Jovi_ASSERT(false);
         }
     }
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    char* buffer = new char[m_outBuffer->length() + 1];
+    memset(buffer, 0, m_outBuffer->length());
+    memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
+    buffer[m_outBuffer->length()] = '\0';
+    LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<"in iSendPacket";
+    SafeDeleteArray(buffer);
+#endif
 
     return 0;
 }
