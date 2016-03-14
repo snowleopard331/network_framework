@@ -74,7 +74,9 @@ int WorldSocket::HandleAccept()
 
     WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
     packet << m_seed;
-
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"call sendPacket in HandleAccept";
+#endif
     if(sendPacket(packet) == -1)
     {
         return -1;
@@ -159,6 +161,10 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
 
     WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
     packet << "5678";
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"call sendPacket in HandleInputTest";
+#endif
 
     if(sendPacket(packet) == -1)
     {
@@ -601,6 +607,9 @@ int WorldSocket::ProcessIncoming(WorldPacket* pPkt)
             WorldPacket packet;
             packet.initialize(MSG_NULL_ACTION, 1);
             packet<<888;
+#ifdef DEBUG_INFO_SOCKET_WRITE
+            LOG(ERROR)<<"call sendPacket in ProcessIncoming";
+#endif
             sendPacket(packet);
         }
         break;
