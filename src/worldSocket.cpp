@@ -450,10 +450,13 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
 #ifdef DEBUG_INFO_SOCKET_WRITE
         LOG(ERROR)<<"m_outBuffer is reset";
 #endif
+
+        bool isFlush = iFlushPacketQueue();
+
         // lock in HandleOutput, if do not unlock, myybe deadlock
         m_OutBufferLock.unlock();
 
-        if(iFlushPacketQueue())
+        if(isFlush)
         {
             HandleOutput();
         }
@@ -468,7 +471,7 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
         memset(buffer, 0, m_outBuffer->length());
         memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
         buffer[m_outBuffer->length()] = '\0';
-        LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<"in HandleAsyncWriteComplete";
+        LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<" in HandleAsyncWriteComplete";
         SafeDeleteArray(buffer);
 #endif
     }
@@ -546,7 +549,7 @@ int WorldSocket::iSendPacket(const WorldPacket& pkt)
     memset(buffer, 0, m_outBuffer->length());
     memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
     buffer[m_outBuffer->length()] = '\0';
-    LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<"in iSendPacket";
+    LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<" in iSendPacket";
     SafeDeleteArray(buffer);
 #endif
 
