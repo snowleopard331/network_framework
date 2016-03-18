@@ -452,8 +452,8 @@ int WorldSocket::HandleOutput()
 
 void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred)
 {
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"write handler is invoked";
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"write handler is invoked";
 #endif
     if(ec)
     {
