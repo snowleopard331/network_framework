@@ -154,6 +154,9 @@ private:
         boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
 
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"io_service run";
+#endif
         m_Proactor->run();
 
         LOG(INFO)<<"Network Thread Exitting";
