@@ -335,7 +335,7 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
     {
         // start async read data event
 #ifdef DEBUG_INFO_CONCURRENCE_TEST
-        LOG(INFO)<<"socket was added, thread index: "<<m_NetThreadIndexReady<<", practorAddr: "<<m_NetThreads[m_NetThreadIndexReady].proactor();
+        LOG(ERROR)<<"socket was added, thread index: "<<m_NetThreadIndexReady<<", practorAddr: "<<m_NetThreads[m_NetThreadIndexReady].proactor();
         m_SoketReady->bsocket()->async_read_some(boost::asio::buffer(m_SoketReady->m_buffer, SOCKET_READ_BUFFER_SIZE), 
             boost::bind(&WorldSocket::HandleInputTest, m_SoketReady, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 #else
