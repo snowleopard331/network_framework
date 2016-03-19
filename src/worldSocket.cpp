@@ -437,6 +437,7 @@ int WorldSocket::HandleOutput()
         boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"io_service addr: "<<&m_socket->get_io_service();
     m_socket->get_io_service().run();
     m_outBuffer->reset();
 #endif
