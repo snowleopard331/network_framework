@@ -167,6 +167,10 @@ private:
 #ifdef DEBUG_INFO_SOCKET
         LOG(INFO)<<"enter loop, m_NewSockets size: "<<m_NewSockets.size();
 #endif
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"timer, addr: "<<m_Proactor;
+#endif
         if(m_Proactor->stopped())
         {
 #ifdef DEBUG_INFO_SOCKET
