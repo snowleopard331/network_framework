@@ -163,7 +163,7 @@ int main()
         return -1;
     }
 
-    std::cout<<"listen: "<<localEndpoint.address().to_string()<<endl;
+    std::cout<<"listen: "<<localEndpoint.address().to_string()<<std::endl;
 
     boost::asio::ip::tcp::socket *bsocket = new boost::asio::ip::tcp::socket(*(pNetThread[1].proactor()));
 
