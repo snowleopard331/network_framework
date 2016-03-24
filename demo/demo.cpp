@@ -87,7 +87,7 @@ private:
 
     void threadLoop(boost::asio::deadline_timer &timer)
     {
-        std::cout<<"timer"<<std::endl;
+        std::cout<<"timer, "<<"socketListSize: "<<socketList.size()<<std::endl;
         if(m_Proactor->stopped())
         {
             std::cout<<"m_Proactor is stopped"<<std::endl;
