@@ -403,7 +403,7 @@ int WorldSocket::HandleOutput()
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
     LOG(ERROR)<<"io_service addr: "<<&m_socket->get_io_service();
-    m_socket->get_io_service().run();
+    //m_socket->get_io_service().run();
     m_outBuffer->reset();
 #endif
 
