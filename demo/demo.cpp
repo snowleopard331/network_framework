@@ -99,7 +99,7 @@ private:
             memcpy(buf, "abcd", 4);
             for(std::list<boost::asio::ip::tcp::socket*>::iterator iter = socketList.begin(); iter != socketList.end(); ++iter)
             {
-                boost::asio::async_write(*iter, boost::asio::buffer(buf, 4),
+                boost::asio::async_write(**iter, boost::asio::buffer(buf, 4),
                     boost::bind(&OnWriteComplete, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
             }
         }
