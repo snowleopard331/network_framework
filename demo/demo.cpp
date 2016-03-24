@@ -61,7 +61,7 @@ public:
         return m_Proactor;
     }
 
-    std::list<boost::asio::ip::tcp::socket*>& getSocketList() const
+    std::list<boost::asio::ip::tcp::socket*>& getSocketList()
     {
         return socketList;
     }
