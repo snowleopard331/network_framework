@@ -164,32 +164,17 @@ private:
 
     void threadLoop(boost::asio::deadline_timer &timer)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"enter loop, m_NewSockets size: "<<m_NewSockets.size();
-#endif
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"timer, addr: "<<m_Proactor;
-#endif
         if(m_Proactor->stopped())
         {
-#ifdef DEBUG_INFO_SOCKET
-            LOG(ERROR)<<"m_Proactor stopped";
-#endif
             return;
         }
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"before addNewSockets, m_NewSockets size: "<<m_NewSockets.size();
-#endif
+
         addNewSockets();
 
         for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end(); ++iter)
         {
             if((*iter)->Update() == -1)
             {
-#ifdef DEBUG_INFO_SOCKET
-                LOG(ERROR)<<"socket error, cannot update";
-#endif
                 SocketSet::iterator iterTemp = iter;
                 ++iter;
 
@@ -202,14 +187,8 @@ private:
                 ++iter;
             }
         }
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"before new timer";
-#endif
         timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"after new timer";
-#endif
     }
 
 private:
@@ -373,7 +352,8 @@ void WorldSocketMgr::AddAcceptHandler()
     Jovi_ASSERT(m_NetThreadIndexReady);
     Jovi_ASSERT(m_NetThreadIndexReady < m_NetThreadsCount);
 
-    m_Acceptor->async_accept(*(m_SoketReady->bsocket()), boost::bind(&WorldSocketMgr::OnSocketOpen, this, boost::asio::placeholders::error));
+    m_Acceptor->async_accept(*(m_SoketReady->bsocket()), 
+        boost::bind(&WorldSocketMgr::OnSocketOpen, this, boost::asio::placeholders::error));
 }
 
 int WorldSocketMgr::StartIOService(uint16 port, const char* address)

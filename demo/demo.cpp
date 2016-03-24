@@ -2,6 +2,8 @@
 #include <boost/asio.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/bind.hpp>
+#include <boost/thread.hpp>
+#include <list>
 
 typedef boost::asio::io_service                 Proactor;
 typedef boost::asio::ip::tcp::acceptor          Acceptor;
