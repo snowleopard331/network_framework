@@ -49,7 +49,7 @@ public:
 
     void stop()
     {
-        // ? Is safe delete socket first£¿
+        // ? Is safe delete socket first
         if(m_Proactor && !m_Proactor->stopped())
         {
             // stop will cause all unfinished messages and handlers of completed but no processing be discarded immediatelly
@@ -77,9 +77,7 @@ public:
 
         ++m_Connections;
         m_NewSockets.insert(sock);
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"add socket to m_NewSockets";
-#endif
+
         return 0;
     }
 
@@ -109,11 +107,6 @@ private:
             return;
         }
 
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"m_NewSockets size: "<<m_NewSockets.size();
-        LOG(INFO)<<"before adding, m_Sockets size: "<<m_Sockets.size();
-#endif
-
         for(SocketSet::const_iterator iter = m_NewSockets.begin(); iter != m_NewSockets.end(); ++iter)
         {
             WorldSocket* sock = *iter;
@@ -124,18 +117,11 @@ private:
             }
             else
             {
-#ifdef DEBUG_INFO_SOCKET
-                LOG(INFO)<<"socket from m_NewSockets to m_Sockets";
-#endif
                 m_Sockets.insert(sock);
             }
         }
 
         m_NewSockets.clear();
-
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"after adding, m_Sockets size: "<<m_Sockets.size();
-#endif
     }
 
     void threadTask()
@@ -264,10 +250,6 @@ void WorldSocketMgr::Wait()
 
 int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
 {
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"OnSocketOpen  was called, one connector input";
-#endif
-
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();

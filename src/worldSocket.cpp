@@ -118,28 +118,15 @@ void WorldSocket::closeSocket()
 
 int WorldSocket::Update()
 {
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"socket update";
-#endif
     if(m_isClose)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(ERROR)<<"m_isClose is true";
-#endif
         return -1;
     }
 
     if(m_outBuffer->length() == 0)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"m_outBuffer length: "<<m_outBuffer->length();
-#endif
         return 0;
     }
-
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"check success";
-#endif
 
     return HandleOutput();
 }
@@ -390,39 +377,17 @@ int WorldSocket::HandleOutput()
 
     if(m_isClose)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(ERROR)<<"socket is close";
-#endif
         m_OutBufferLock.unlock();
         return -1;
     }
 
     const size_t sendSize = m_outBuffer->length();
 
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"sendSize: "<<sendSize;
-    LOG(INFO)<<"info: "<<m_outBuffer->rd_ptr();
-#endif
-
     if(sendSize == 0)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(INFO)<<"socket send data size is 0";
-#endif
         m_OutBufferLock.unlock();
         return 0;
     }
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    char* buffer = new char[m_outBuffer->length() + 1];
-    memset(buffer, 0, m_outBuffer->length());
-    memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
-    buffer[m_outBuffer->length()] = '\0';
-    LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<" in HandleOutput";
-    SafeDeleteArray(buffer);
-#endif
-#endif
 
     /*
         We are using boost::asio::async_write(), 
@@ -444,14 +409,9 @@ int WorldSocket::HandleOutput()
 
     /*m_socket->async_write_some(boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
         boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));*/
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"send successful";
-#endif
 
+    // ? should not be here
     m_OutBufferLock.unlock();
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"m_OutBufferLock unlock success";
-#endif
 
     return 0;
 }
@@ -467,9 +427,9 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
         return;
     }
 
-    // ? add other arguments later
     LOG(INFO)<<"output data size: "<<bytes_transferred;
 
+    // ? should not be locked here
     // boost::mutex::scoped_lock guard(m_OutBufferLock);
     m_OutBufferLock.lock();
 #ifdef DEBUG_INFO_SOCKET_WRITE
@@ -480,10 +440,6 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     if(m_outBuffer->length() == bytes_transferred)
     {
         m_outBuffer->reset();
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"m_outBuffer is reset";
-#endif
 
         bool isFlush = iFlushPacketQueue();
 
@@ -501,15 +457,6 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
         m_outBuffer->rd_ptr(bytes_transferred);
         m_outBuffer->crunch();
         m_OutBufferLock.unlock();
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        char* buffer = new char[m_outBuffer->length() + 1];
-        memset(buffer, 0, m_outBuffer->length());
-        memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
-        buffer[m_outBuffer->length()] = '\0';
-        LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<" in HandleAsyncWriteComplete";
-        SafeDeleteArray(buffer);
-#endif
     }
 }
 
@@ -596,16 +543,10 @@ int WorldSocket::iSendPacket(const WorldPacket& pkt)
 
 int WorldSocket::sendPacket(const WorldPacket& packet)
 {
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"call sendPacket";
-#endif
     boost::mutex::scoped_lock guard(m_OutBufferLock);
 
     if(m_isClose)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(ERROR)<<"m_isClose is true";
-#endif
         return -1;
     }
 
@@ -613,9 +554,6 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
     
     if(iSendPacket(packet) == -1)
     {
-#ifdef DEBUG_INFO_SOCKET
-        LOG(ERROR)<<"iSendPacket failed";
-#endif
         WorldPacket* pkt = new WorldPacket(packet);
         m_PacketQueue.push_back(pkt);
     }
