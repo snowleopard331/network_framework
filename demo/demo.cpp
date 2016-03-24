@@ -168,5 +168,8 @@ int main()
     acceptor->async_accept(*bsocket, 
         boost::bind(&OnSocketOpen, boost::asio::placeholders::error, bsocket, pNetThread[0].getSocketList()));
 
+    pNetThread[0].wait();
+    pNetThread[1].wait();
+
     return 0;
 }

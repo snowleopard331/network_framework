@@ -10,7 +10,7 @@ SET(BOOST_INCLUDE_DIR ../dep/boost/include)
 
 SET(BOOST_LIB_DIR ../dep/boost/lib)
 
-SET(LIB_LIST boost_thread boost_system glog pthread)
+SET(LIB_LIST boost_thread boost_system pthread)
 
 ADD_DEFINITIONS( -g -W -Wall -std=c++11)
 
