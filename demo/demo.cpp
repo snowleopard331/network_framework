@@ -8,6 +8,8 @@
 typedef boost::asio::io_service                 Proactor;
 typedef boost::asio::ip::tcp::acceptor          Acceptor;
 
+void OnWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred);
+
 class ProactorRunnable
 {
 public:
@@ -141,10 +143,10 @@ int main()
 {
     ProactorRunnable* pNetThread = new ProactorRunnable[2];
 
-    pNetThread[0]->start();
-    pNetThread[1]->start();
+    pNetThread[0].start();
+    pNetThread[1].start();
 
-    Acceptor* acceptor = new Acceptor(*(pNetThread[0]->proactor()));
+    Acceptor* acceptor = new Acceptor(*(pNetThread[0].proactor()));
     
     boost::asio::ip::tcp::endpoint localEndpoint(boost::asio::ip::tcp::v4(), 10302);
 
@@ -161,10 +163,10 @@ int main()
         return -1;
     }
 
-    boost::asio::ip::tcp::socket *bsocket = new boost::asio::ip::tcp::socket(*(pNetThread[1]->proactor()));
+    boost::asio::ip::tcp::socket *bsocket = new boost::asio::ip::tcp::socket(*(pNetThread[1].proactor()));
 
     acceptor->async_accept(*bsocket, 
-        boost::bind(&OnSocketOpen, boost::asio::placeholders::error, bsocket, pNetThread[0]->getSocketList()));
+        boost::bind(&OnSocketOpen, boost::asio::placeholders::error, bsocket, pNetThread[0].getSocketList()));
 
     return 0;
 }
