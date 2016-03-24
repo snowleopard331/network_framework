@@ -152,9 +152,9 @@ int main()
 
     try
     {
-        acceptor->open(endpoint.protocol());
+        acceptor->open(localEndpoint.protocol());
         acceptor->set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
-        acceptor->bind(endpoint);
+        acceptor->bind(localEndpoint);
         acceptor->listen();
     }
     catch(boost::system::system_error& ec)
