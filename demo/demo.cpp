@@ -79,7 +79,7 @@ private:
 
         boost::asio::io_service::work work(*m_Proactor);
 
-        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(10000));
+        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::seconds(1));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
 
         m_Proactor->run();
@@ -87,6 +87,7 @@ private:
 
     void threadLoop(boost::asio::deadline_timer &timer)
     {
+        std::cout<<"timer"<<std::endl;
         if(m_Proactor->stopped())
         {
             std::cout<<"m_Proactor is stopped"<<std::endl;
@@ -105,7 +106,7 @@ private:
             }
         }
 
-        timer.expires_from_now(boost::posix_time::microsec(10000));
+        timer.expires_from_now(boost::posix_time::seconds(1));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
     }
 private:
@@ -172,7 +173,7 @@ int main()
     boost::asio::ip::tcp::socket *bsocket = new boost::asio::ip::tcp::socket(*(pNetThread[1].proactor()));
 
     acceptor->async_accept(*bsocket, 
-        boost::bind(&OnSocketOpen, boost::asio::placeholders::error, bsocket, pNetThread[0].getSocketList()));
+        boost::bind(&OnSocketOpen, boost::asio::placeholders::error, bsocket, pNetThread[1].getSocketList()));
 
     pNetThread[0].wait();
     pNetThread[1].wait();
