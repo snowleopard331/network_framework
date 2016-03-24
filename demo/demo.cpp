@@ -148,7 +148,9 @@ int main()
 
     Acceptor* acceptor = new Acceptor(*(pNetThread[0].proactor()));
     
-    boost::asio::ip::tcp::endpoint localEndpoint(boost::asio::ip::tcp::v4(), 10302);
+    boost::asio::ip::address addr;
+    addr.from_string("192.168.195.134");
+    boost::asio::ip::tcp::endpoint localEndpoint(addr, 10302);
 
     try
     {
