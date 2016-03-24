@@ -173,7 +173,7 @@ int main()
     boost::asio::ip::tcp::socket *bsocket = new boost::asio::ip::tcp::socket(*(pNetThread[1].proactor()));
 
     acceptor->async_accept(*bsocket, 
-        boost::bind(&OnSocketOpen, boost::asio::placeholders::error, bsocket, pNetThread[1].getSocketList()));
+        boost::bind(&OnSocketOpen, boost::asio::placeholders::error, bsocket, boost::ref(pNetThread[1].getSocketList())));
 
     pNetThread[0].wait();
     pNetThread[1].wait();
