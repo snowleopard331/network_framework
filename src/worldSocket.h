@@ -18,7 +18,6 @@ class WorldPacket;
 class WorldSession;
 
 class WorldSocket
-    : public boost::enable_shared_from_this<WorldSocket>
 {
 public:
     friend class WorldSocketMgr;
