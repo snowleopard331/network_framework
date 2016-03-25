@@ -398,14 +398,17 @@ int WorldSocket::HandleOutput()
         linux: data in buffer has copy when async_write return
         windows: data maybe not written when async_write return
     */
-    boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
+   /* boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
+        boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));*/
+
+    m_socket->async_write_some(boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
         boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
     LOG(ERROR)<<"io_service addr: "<<&m_socket->get_io_service();
     LOG(ERROR)<<"async_write, socketAddr: "<<this<<", "
         <<"bsocketAddr: "<<this->bsocket();
-    m_socket->get_io_service().run();
+    //m_socket->get_io_service().run();
     m_outBuffer->reset();
 #endif
 
@@ -414,6 +417,10 @@ int WorldSocket::HandleOutput()
 
     // ? should not be here
     m_OutBufferLock.unlock();
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"m_OutBufferLock.unlock()";
+#endif
 
     return 0;
 }
@@ -433,6 +440,9 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
 
     // ? should not be locked here
     // boost::mutex::scoped_lock guard(m_OutBufferLock);
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete before lock";
+#endif
     m_OutBufferLock.lock();
 #ifdef DEBUG_INFO_SOCKET_WRITE
     LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete";
