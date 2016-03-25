@@ -84,7 +84,7 @@ public:
 
     void wr_ptr(char* new_ptr)
     {
-        if(new_ptr - m_Buffer >= m_BufferSize)
+        if(static_cast<size_t>(new_ptr - m_Buffer) >= m_BufferSize)
         {
             return;
         }
@@ -109,7 +109,7 @@ public:
 
     void rd_ptr(char* new_ptr)
     {
-        if(new_ptr - m_Buffer >= m_BufferSize)
+        if(static_cast<size_t>(new_ptr - m_Buffer) >= m_BufferSize)
         {
             return;
         }
