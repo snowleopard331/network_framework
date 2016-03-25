@@ -371,10 +371,6 @@ int WorldSocket::HandleOutput()
     m_OutBufferLock.lock();
 #endif
 
-#ifdef DEBUG_INFO_SOCKET
-    LOG(INFO)<<"m_OutBufferLock lock success";
-#endif
-
     if(m_isClose)
     {
         m_OutBufferLock.unlock();
@@ -398,11 +394,11 @@ int WorldSocket::HandleOutput()
         linux: data in buffer has copy when async_write return
         windows: data maybe not written when async_write return
     */
-   /* boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
-        boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));*/
-
-    m_socket->async_write_some(boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
+    boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
         boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+    /*m_socket->async_write_some(boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
+        boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));*/
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
     LOG(ERROR)<<"io_service addr: "<<&m_socket->get_io_service();
@@ -410,16 +406,10 @@ int WorldSocket::HandleOutput()
         <<"bsocketAddr: "<<this->bsocket();
     //m_socket->get_io_service().run();
     m_outBuffer->reset();
-#endif
 
-    /*m_socket->async_write_some(boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
-        boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));*/
-
-    // ? should not be here
     m_OutBufferLock.unlock();
+#else
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"m_OutBufferLock.unlock()";
 #endif
 
     return 0;
@@ -427,9 +417,6 @@ int WorldSocket::HandleOutput()
 
 void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred)
 {
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"write handler is invoked";
-#endif
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
@@ -438,17 +425,13 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
 
     LOG(INFO)<<"output data size: "<<bytes_transferred;
 
-    // ? should not be locked here
-    // boost::mutex::scoped_lock guard(m_OutBufferLock);
 #ifdef DEBUG_INFO_SOCKET_WRITE
     LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete before lock";
-#endif
     m_OutBufferLock.lock();
-#ifdef DEBUG_INFO_SOCKET_WRITE
     LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete";
 #endif
 
-    // lock in HandleOutput
+    // locked in HandleOutput
     if(m_outBuffer->length() == bytes_transferred)
     {
         m_outBuffer->reset();
@@ -465,7 +448,6 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     }
     else
     {
-        // ? forget to set rd_ptr
         m_outBuffer->rd_ptr(bytes_transferred);
         m_outBuffer->crunch();
         m_OutBufferLock.unlock();
