@@ -12,11 +12,13 @@
 
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
 class WorldPacket;
 class WorldSession;
 
 class WorldSocket
+    : public boost::enable_shared_from_this<WorldSocket>
 {
 public:
     friend class WorldSocketMgr;
