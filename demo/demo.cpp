@@ -8,7 +8,36 @@
 typedef boost::asio::io_service                 Proactor;
 typedef boost::asio::ip::tcp::acceptor          Acceptor;
 
-void OnWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred);
+class Socket
+{
+public:
+    Socket(boost::asio::io_service& proactor)
+    {
+        m_socket = new boost::asio::ip::tcp::socket(proactor);
+    }
+
+    void OnWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred)
+    {
+        std::cout<<"OnWriteComplete was invoked"<<std::endl;
+
+        char buf[10] = {0};
+        memcpy(buf, "abcd", 4);
+        boost::asio::async_write(*m_socket, boost::asio::buffer(buf, 4),
+            boost::bind(&Socket::OnWriteComplete1, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    }
+
+    void OnWriteComplete1(const boost::system::error_code &ec, size_t bytes_transferred)
+    {
+        std::cout<<"OnWriteComplete1 was invoked"<<std::endl;
+    }
+
+    boost::asio::ip::tcp::socket* getSocket() const
+    {
+        return m_socket;
+    }
+private:
+    boost::asio::ip::tcp::socket * m_socket;
+};
 
 class ProactorRunnable
 {
@@ -63,7 +92,7 @@ public:
         return m_Proactor;
     }
 
-    std::list<boost::asio::ip::tcp::socket*>& getSocketList()
+    std::list<Socket*>& getSocketList()
     {
         return socketList;
     }
@@ -98,11 +127,11 @@ private:
         {
             char buf[10] = {0};
             memcpy(buf, "abcd", 4);
-            for(std::list<boost::asio::ip::tcp::socket*>::iterator iter = socketList.begin(); iter != socketList.end(); ++iter)
+            for(std::list<Socket*>::iterator iter = socketList.begin(); iter != socketList.end(); ++iter)
             {
                 std::cout<<"async_write"<<std::endl;
-                boost::asio::async_write(**iter, boost::asio::buffer(buf, 4),
-                    boost::bind(&OnWriteComplete, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                boost::asio::async_write(*((*iter)->getSocket()), boost::asio::buffer(buf, 4),
+                    boost::bind(&Socket::OnWriteComplete, *iter, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
             }
         }
 
@@ -113,15 +142,10 @@ private:
 
     Proactor*                   m_Proactor;     // wrap boost io_service
     boost::thread*              m_pThread;
-    std::list<boost::asio::ip::tcp::socket*>    socketList;
+    std::list<Socket*>    socketList;
 };
 
-void OnWriteComplete(const boost::system::error_code &ec, size_t bytes_transferred)
-{
-    std::cout<<"OnWriteComplete was invoked"<<std::endl;
-}
-
-void OnSocketOpen(const boost::system::error_code &ec, boost::asio::ip::tcp::socket *bsocket, std::list<boost::asio::ip::tcp::socket*>& socketList)
+void OnSocketOpen(const boost::system::error_code &ec, Socket* bsocket, std::list<Socket*>& socketList)
 {
     if(!bsocket)
     {
@@ -136,7 +160,7 @@ void OnSocketOpen(const boost::system::error_code &ec, boost::asio::ip::tcp::soc
     }
 
     boost::asio::ip::tcp::no_delay option(true);
-    bsocket->set_option(option);
+    bsocket->getSocket()->set_option(option);
 
     socketList.push_back(bsocket);
     std::cout<<"socket push back to socketlist"<<std::endl;
@@ -170,9 +194,9 @@ int main()
 
     std::cout<<"listen: "<<addr.to_string()<<std::endl;
 
-    boost::asio::ip::tcp::socket *bsocket = new boost::asio::ip::tcp::socket(*(pNetThread[1].proactor()));
+    Socket *bsocket = new Socket(*(pNetThread[1].proactor()));
 
-    acceptor->async_accept(*bsocket, 
+    acceptor->async_accept(*(bsocket->getSocket()), 
         boost::bind(&OnSocketOpen, boost::asio::placeholders::error, bsocket, boost::ref(pNetThread[1].getSocketList())));
 
     pNetThread[0].wait();
