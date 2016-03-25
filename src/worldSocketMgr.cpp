@@ -260,6 +260,11 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
     Jovi_ASSERT(m_SoketReady);
     Jovi_ASSERT(m_SoketReady->bsocket());
     
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"OnSocketOpen, socketAddr: "<<m_SoketReady<<", "
+        <<"bsocketAddr: "<<m_SoketReady->bsocket();
+#endif
+
     if(m_SoketReady->HandleAccept() < 0)
     {
         // SafeDelete(m_SoketReady);
