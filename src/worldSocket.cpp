@@ -9,7 +9,6 @@
 #include "worldPacket.h"
 
 #include <boost/bind.hpp>
-#include <boost/smart_ptr/enable_shared_from_this.hpp>
 
 struct PacketHeader
 {
@@ -400,7 +399,7 @@ int WorldSocket::HandleOutput()
         windows: data maybe not written when async_write return
     */
     boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
-        boost::bind(&WorldSocket::HandleAsyncWriteComplete, boost::shared_from_this()/*this*/, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+        boost::bind(&WorldSocket::HandleAsyncWriteComplete, shared_from_this()/*this*/, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
     LOG(ERROR)<<"io_service addr: "<<&m_socket->get_io_service();
