@@ -157,22 +157,22 @@ private:
 
         addNewSockets();
 
-        for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end(); ++iter)
-        {
-            if((*iter)->Update() == -1)
-            {
-                SocketSet::iterator iterTemp = iter;
-                ++iter;
+        //for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end(); ++iter)
+        //{
+        //    if((*iter)->Update() == -1)
+        //    {
+        //        SocketSet::iterator iterTemp = iter;
+        //        ++iter;
 
-                (*iterTemp)->closeSocket();
-                --m_Connections;
-                m_Sockets.erase(iterTemp);
-            }
-            else
-            {
-                ++iter;
-            }
-        }
+        //        (*iterTemp)->closeSocket();
+        //        --m_Connections;
+        //        m_Sockets.erase(iterTemp);
+        //    }
+        //    else
+        //    {
+        //        ++iter;
+        //    }
+        //}
         timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
 
