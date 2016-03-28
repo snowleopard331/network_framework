@@ -163,6 +163,9 @@ private:
 
         for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end(); ++iter)
         {
+#ifdef DEBUG_INFO_SOCKET_WRITE
+            LOG(ERROR)<<"into loop 1";
+#endif
             if((*iter)->Update() == -1)
             {
                 SocketSet::iterator iterTemp = iter;
@@ -171,11 +174,21 @@ private:
                 (*iterTemp)->closeSocket();
                 --m_Connections;
                 m_Sockets.erase(iterTemp);
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+                LOG(ERROR)<<"into loop 2";
+#endif
             }
             else
             {
+#ifdef DEBUG_INFO_SOCKET_WRITE
+                LOG(ERROR)<<"into loop 3";
+#endif
                 ++iter;
             }
+#ifdef DEBUG_INFO_SOCKET_WRITE
+            LOG(ERROR)<<"into loop 4";
+#endif
         }
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
