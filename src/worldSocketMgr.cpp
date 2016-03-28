@@ -13,7 +13,7 @@
 #include <boost/atomic.hpp>
 #include <boost/asio/buffer.hpp>
 
-#define THREAD_LOOP_INTERVAL    10000    // microsec
+#define THREAD_LOOP_INTERVAL    1000000    // microsec 10000
 
 class ProactorRunnable
 {
@@ -175,6 +175,10 @@ private:
         }
         timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"async_wait run, proactorAddr: "<<&timer.get_io_service();
+#endif
     }
 
 private:
