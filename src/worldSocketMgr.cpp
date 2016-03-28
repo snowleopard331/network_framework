@@ -161,7 +161,7 @@ private:
         LOG(ERROR)<<"before loop";
 #endif
 
-        for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end(); ++iter)
+        for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end();)
         {
 #ifdef DEBUG_INFO_SOCKET_WRITE
             LOG(ERROR)<<"into loop 1, socketAddr: "<<*iter;
