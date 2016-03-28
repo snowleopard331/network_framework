@@ -164,7 +164,7 @@ private:
         for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end(); ++iter)
         {
 #ifdef DEBUG_INFO_SOCKET_WRITE
-            LOG(ERROR)<<"into loop 1";
+            LOG(ERROR)<<"into loop 1, socketAddr: "<<*iter;
 #endif
             if((*iter)->Update() == -1)
             {
@@ -176,18 +176,18 @@ private:
                 m_Sockets.erase(iterTemp);
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
-                LOG(ERROR)<<"into loop 2";
+                LOG(ERROR)<<"into loop 2, socketAddr: "<<*iter;
 #endif
             }
             else
             {
 #ifdef DEBUG_INFO_SOCKET_WRITE
-                LOG(ERROR)<<"into loop 3";
+                LOG(ERROR)<<"into loop 3, socketAddr: "<<*iter;
 #endif
                 ++iter;
             }
 #ifdef DEBUG_INFO_SOCKET_WRITE
-            LOG(ERROR)<<"into loop 4";
+            LOG(ERROR)<<"into loop 4, socketAddr: "<<*iter;
 #endif
         }
 
