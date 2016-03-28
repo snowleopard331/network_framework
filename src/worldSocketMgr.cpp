@@ -13,7 +13,7 @@
 #include <boost/atomic.hpp>
 #include <boost/asio/buffer.hpp>
 
-#define THREAD_LOOP_INTERVAL    1000000    // microsec 10000
+#define THREAD_LOOP_INTERVAL    10000       // microsec 10000
 
 class ProactorRunnable
 {
