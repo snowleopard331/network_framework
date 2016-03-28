@@ -435,6 +435,7 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     m_OutBufferLock.lock();
     LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete";
 #endif
+    LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete";
 
     // locked in HandleOutput
     if(m_outBuffer->length() == bytes_transferred)
