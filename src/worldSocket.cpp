@@ -116,15 +116,26 @@ void WorldSocket::closeSocket()
 
 int WorldSocket::Update()
 {
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"update 1";
+#endif
     if(m_isClose)
     {
         return -1;
     }
 
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"update 2";
+#endif
+
     if(m_outBuffer->length() == 0)
     {
         return 0;
     }
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"update 3";
+#endif
 
     return HandleOutput();
 }
@@ -462,9 +473,7 @@ bool WorldSocket::iFlushPacketQueue()
     {
         pkt = *(m_PacketQueue.begin());
         m_PacketQueue.pop_front();
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"call iSendPacket in iFlushPacketQueue";
-#endif
+
         if(iSendPacket(*pkt) == -1)
         {
             m_PacketQueue.push_front(pkt);

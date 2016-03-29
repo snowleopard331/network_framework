@@ -140,9 +140,6 @@ private:
         boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"io_service run, proactorAddr: "<<m_Proactor;
-#endif
         m_Proactor->run();
 
         LOG(INFO)<<"Network Thread Exitting";
@@ -157,15 +154,8 @@ private:
 
         addNewSockets();
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"before loop";
-#endif
-
         for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end();)
         {
-#ifdef DEBUG_INFO_SOCKET_WRITE
-            LOG(ERROR)<<"into loop 1, socketAddr: "<<*iter;
-#endif
             if((*iter)->Update() == -1)
             {
                 SocketSet::iterator iterTemp = iter;
@@ -174,33 +164,15 @@ private:
                 (*iterTemp)->closeSocket();
                 --m_Connections;
                 m_Sockets.erase(iterTemp);
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-                LOG(ERROR)<<"into loop 2, socketAddr: "<<*iter;
-#endif
             }
             else
             {
-#ifdef DEBUG_INFO_SOCKET_WRITE
-                LOG(ERROR)<<"into loop 3, socketAddr: "<<*iter;
-#endif
                 ++iter;
             }
-#ifdef DEBUG_INFO_SOCKET_WRITE
-            LOG(ERROR)<<"into loop 4, socketAddr: "<<*iter;
-#endif
         }
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"after loop";
-#endif
 
         timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"async_wait run, proactorAddr: "<<&timer.get_io_service();
-#endif
     }
 
 private:
