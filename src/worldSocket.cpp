@@ -554,6 +554,10 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
 {
     boost::mutex::scoped_lock guard(m_OutBufferLock);
 
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"sendPacket size: "<<packet.size();
+#endif
+
     if(m_isClose)
     {
         return -1;
