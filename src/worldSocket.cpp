@@ -75,10 +75,16 @@ int WorldSocket::HandleAccept()
     WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
     packet << m_seed;
 
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"sendPacket in HandleAccept";
+#endif
     if(sendPacket(packet) == -1)
     {
         return -1;
     }
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"sendPacket in HandleAccept success";
+#endif
 
     return 0;
 }
@@ -167,10 +173,16 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
     SafeDeleteArray(buffer);
 #endif
 
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"sendPacket in HandleInputTest";
+#endif
     if(sendPacket(packet) == -1)
     {
         LOG(ERROR)<<"sendPacket failed";
     }
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"sendPacket in HandleInputTest success";
+#endif
 
     m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInputTest, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
