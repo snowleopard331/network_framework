@@ -74,9 +74,7 @@ int WorldSocket::HandleAccept()
 
     WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
     packet << m_seed;
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"call sendPacket in HandleAccept";
-#endif
+
     if(sendPacket(packet) == -1)
     {
         return -1;
@@ -150,10 +148,6 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
     packet << "5678";
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"call sendPacket in HandleInputTest";
-#endif
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
     char* buffer = new char[m_outBuffer->length() + 1];
     memset(buffer, 0, m_outBuffer->length());
     memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
@@ -166,10 +160,6 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
     {
         LOG(ERROR)<<"sendPacket failed";
     }
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"write a packet when receiving a packet";
-#endif
 
     m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInputTest, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
@@ -361,19 +351,18 @@ int WorldSocket::HandleInputPayload()
 int WorldSocket::HandleOutput()
 {
     // unlock in callback func
-#ifdef DEBUG_INFO_SOCKET
-    if(!m_OutBufferLock.try_lock())
-    {
-        LOG(ERROR)<<"m_OutBufferLock lock failed";
-        return 0;
-    }
-#else
     m_OutBufferLock.lock();
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"m_OutBufferLock lock";
 #endif
 
     if(m_isClose)
     {
         m_OutBufferLock.unlock();
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"m_OutBufferLock unlock 1";
+#endif
         return -1;
     }
 
@@ -382,8 +371,20 @@ int WorldSocket::HandleOutput()
     if(sendSize == 0)
     {
         m_OutBufferLock.unlock();
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"m_OutBufferLock unlock 2";
+#endif
         return 0;
     }
+
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    char* buffer = new char[m_outBuffer->length() + 1];
+    memset(buffer, 0, m_outBuffer->length());
+    memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
+    buffer[m_outBuffer->length()] = '\0';
+    LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<" in iSendPacket";
+    SafeDeleteArray(buffer);
+#endif
 
     /*
         We are using boost::asio::async_write(), 
@@ -400,23 +401,6 @@ int WorldSocket::HandleOutput()
     /*m_socket->async_write_some(boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
         boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));*/
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    if(m_socket->get_io_service().stopped())
-    {
-        LOG(ERROR)<<"io_service stopped";
-    }
-
-    LOG(ERROR)<<"io_service addr: "<<&m_socket->get_io_service();
-    LOG(ERROR)<<"async_write, socketAddr: "<<this<<", "
-        <<"bsocketAddr: "<<this->bsocket();
-    //m_socket->get_io_service().run();
-    m_outBuffer->reset();
-
-    m_OutBufferLock.unlock();
-#else
-
-#endif
-
     return 0;
 }
 
@@ -431,11 +415,8 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     LOG(INFO)<<"output data size: "<<bytes_transferred;
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete before lock";
-    m_OutBufferLock.lock();
-    LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete";
+    LOG(ERROR)<<"output data size: "<<bytes_transferred;
 #endif
-    LOG(ERROR)<<"m_OutBufferLock lock success in HandleAsyncWriteComplete";
 
     // locked in HandleOutput
     if(m_outBuffer->length() == bytes_transferred)
@@ -447,6 +428,10 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
         // lock in HandleOutput, if do not unlock, myybe deadlock
         m_OutBufferLock.unlock();
 
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"m_OutBufferLock unlock 3";
+#endif
+
         if(isFlush)
         {
             HandleOutput();
@@ -457,6 +442,9 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
         m_outBuffer->rd_ptr(bytes_transferred);
         m_outBuffer->crunch();
         m_OutBufferLock.unlock();
+#ifdef DEBUG_INFO_SOCKET_WRITE
+        LOG(ERROR)<<"m_OutBufferLock unlock 4";
+#endif
     }
 }
 
