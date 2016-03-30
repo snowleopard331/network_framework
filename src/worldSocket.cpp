@@ -71,7 +71,11 @@ int WorldSocket::HandleAccept()
         LOG(ERROR)<<stack.c_str();
         return -1;
     }
-    
+
+#ifdef DEBUG_INFO_STACK
+    StackTrace stack;
+    LOG(ERROR)<<stack.c_str();
+#endif
 
     WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
     packet << m_seed;
