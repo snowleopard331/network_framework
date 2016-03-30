@@ -40,31 +40,31 @@ namespace ByteConverter
 // consider the endian of storage conversion(internal data encryption)
 #if JOVI_ENDIAN == JOVI_LITTLE_ENDIAN
 
-template<typename T>
-inline void EndianConvert(T& val)
-{
-    ByteConverter::apply<T>(&val);
-}
+    template<typename T>
+    inline void EndianConvert(T& val)
+    {
+        ByteConverter::apply<T>(&val);
+    }
 
-template<typename T>
-inline void EndianConvertReverse(T&)
-{
+    template<typename T>
+    inline void EndianConvertReverse(T&)
+    {
 
-}
+    }
 
 #else
 
-template<typename T>
-inline void EndianConvert(T&)
-{
+    template<typename T>
+    inline void EndianConvert(T&)
+    {
     
-}
+    }
 
-template<typename T>
-inline void EndianConvertReverse(T& val)
-{
-    ByteConverter::apply<T>(&val);
-}
+    template<typename T>
+    inline void EndianConvertReverse(T& val)
+    {
+        ByteConverter::apply<T>(&val);
+    }
 
 #endif
 
