@@ -7,6 +7,7 @@
 #include "worldSocket.h"
 #include "worldSocketMgr.h"
 #include "worldPacket.h"
+#include "byteBuffer.h"
 
 #include <boost/bind.hpp>
 
@@ -327,9 +328,9 @@ int WorldSocket::HandleInputHeader()
 
     PacketHeader& header = (*(PacketHeader*)m_header.rd_ptr());
 
-    // ? endian convert
+    // consider the element(size/cmd) of the PacketHeader could be converter(endian) respectively
+    EndianConvert(header);
 
-    // ? 
     if(header.size < 4 || header.size > 10240 || header.cmd > 10240)
     {
         // client sent malformed packet size = %d , cmd = %d
@@ -503,6 +504,10 @@ bool WorldSocket::iFlushPacketQueue()
 
 int WorldSocket::iSendPacket(const WorldPacket& pkt)
 {
+#ifdef DEBUG_INFO_SOCKET_WRITE
+    LOG(ERROR)<<"iSendPacket size: "<<pkt.size();
+#endif
+
     if(m_outBuffer->space() < pkt.size() + sizeof(PacketHeader))
     {
         return -1;
@@ -511,11 +516,9 @@ int WorldSocket::iSendPacket(const WorldPacket& pkt)
     PacketHeader header;
 
     header.cmd = pkt.getOpcode();
+    header.size = static_cast<uint16>(pkt.size() + sizeof(header));
 
-    // ? endian
-    header.size = (uint16) pkt.size() + 4;
-
-    // ? endian
+    EndianConvert(header);
 
     // crypt
 
