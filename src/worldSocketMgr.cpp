@@ -147,32 +147,37 @@ private:
 
     void threadLoop(boost::asio::deadline_timer &timer)
     {
-        if(m_Proactor->stopped())
+        while(true)
         {
-            return;
+            if(m_Proactor->stopped())
+            {
+                return;
+            }
+
+            addNewSockets();
+
+            for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end();)
+            {
+                if((*iter)->Update() == -1)
+                {
+                    SocketSet::iterator iterTemp = iter;
+                    ++iter;
+
+                    (*iterTemp)->closeSocket();
+                    --m_Connections;
+                    m_Sockets.erase(iterTemp);
+                }
+                else
+                {
+                    ++iter;
+                }
+            }
+
+            boost::this_thread::sleep(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         }
 
-        addNewSockets();
-
-        for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end();)
-        {
-            if((*iter)->Update() == -1)
-            {
-                SocketSet::iterator iterTemp = iter;
-                ++iter;
-
-                (*iterTemp)->closeSocket();
-                --m_Connections;
-                m_Sockets.erase(iterTemp);
-            }
-            else
-            {
-                ++iter;
-            }
-        }
-
-        timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
+        //timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        //timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
     }
 
 private:
