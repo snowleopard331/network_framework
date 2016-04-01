@@ -137,92 +137,43 @@ private:
         */
         boost::asio::io_service::work work(*m_Proactor);
 
-        //boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-        //timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
+        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
 
-        //m_Proactor->run();
-        m_Proactor->poll();
-
-        while(true)
-        {
-            if(m_Proactor->stopped())
-            {
-                return;
-            }
-
-            addNewSockets();
-
-            for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end();)
-            {
-                if((*iter)->Update() == -1)
-                {
-                    SocketSet::iterator iterTemp = iter;
-                    ++iter;
-
-                    (*iterTemp)->closeSocket();
-                    --m_Connections;
-                    m_Sockets.erase(iterTemp);
-                }
-                else
-                {
-                    ++iter;
-                }
-            }
-
-#ifdef DEBUG_INFO_SLEEP
-            LOG(ERROR)<<"before sleep: ";
-#endif
-            boost::this_thread::sleep(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-
-#ifdef DEBUG_INFO_SLEEP
-            LOG(ERROR)<<"after sleep: ";
-#endif
-        }
+        m_Proactor->run();
 
         LOG(INFO)<<"Network Thread Exitting";
     }
 
-//    void threadLoop(boost::asio::deadline_timer &timer)
-//    {
-//        while(true)
-//        {
-//            if(m_Proactor->stopped())
-//            {
-//                return;
-//            }
-//
-//            addNewSockets();
-//
-//            for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end();)
-//            {
-//                if((*iter)->Update() == -1)
-//                {
-//                    SocketSet::iterator iterTemp = iter;
-//                    ++iter;
-//
-//                    (*iterTemp)->closeSocket();
-//                    --m_Connections;
-//                    m_Sockets.erase(iterTemp);
-//                }
-//                else
-//                {
-//                    ++iter;
-//                }
-//            }
-//
-//#ifdef DEBUG_INFO_SLEEP
-//            LOG(ERROR)<<"before sleep: ";
-//#endif
-//            boost::this_thread::sleep(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-//
-//#ifdef DEBUG_INFO_SLEEP
-//            LOG(ERROR)<<"after sleep: ";
-//#endif
-//        }
-//
-//        //timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
-//        //timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
-//    }
+    void threadLoop(boost::asio::deadline_timer &timer)
+    {
+        if(m_Proactor->stopped())
+        {
+            return;
+        }
+
+        addNewSockets();
+
+        for(SocketSet::iterator iter = m_Sockets.begin(); iter != m_Sockets.end();)
+        {
+            if((*iter)->Update() == -1)
+            {
+                SocketSet::iterator iterTemp = iter;
+                ++iter;
+
+                (*iterTemp)->closeSocket();
+                --m_Connections;
+                m_Sockets.erase(iterTemp);
+            }
+            else
+            {
+                ++iter;
+            }
+        }
+
+        timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
+    }
 
 private:
     typedef std::set<WorldSocket*> SocketSet;
