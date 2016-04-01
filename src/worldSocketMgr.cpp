@@ -173,7 +173,14 @@ private:
                 }
             }
 
+#ifdef DEBUG_INFO_SLEEP
+            LOG(ERROR)<<"before sleep: ";
+#endif
             boost::this_thread::sleep(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+
+#ifdef DEBUG_INFO_SLEEP
+            LOG(ERROR)<<"after sleep: ";
+#endif
         }
 
         //timer.expires_from_now(boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
