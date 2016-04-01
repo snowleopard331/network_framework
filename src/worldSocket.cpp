@@ -7,7 +7,6 @@
 #include "worldSocket.h"
 #include "worldSocketMgr.h"
 #include "worldPacket.h"
-#include "byteBuffer.h"
 
 #include <boost/bind.hpp>
 
