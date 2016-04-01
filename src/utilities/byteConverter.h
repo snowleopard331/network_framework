@@ -69,25 +69,25 @@ namespace ByteConverter
 #endif
 
 
-inline void EndianConvert(uint&)
-{
-
-}
-
-inline void EndianConvert(int&)
-{
-
-}
-
-inline void EndianConvertReverse(uint&)
-{
-
-}
-
-inline void EndianConvertReverse(int&)
-{
-
-}
+//inline void EndianConvert(uint&)
+//{
+//
+//}
+//
+//inline void EndianConvert(int&)
+//{
+//
+//}
+//
+//inline void EndianConvertReverse(uint&)
+//{
+//
+//}
+//
+//inline void EndianConvertReverse(int&)
+//{
+//
+//}
 
 
 #endif//_BYTE_CONVERTER_H_
