@@ -342,7 +342,7 @@ public:
             throw ByteBufferException(false, pos, sizeof(T), _storage.size());
         }
         T val = *((T const*)&_storage[pos]);
-        // EndianConvert(val);
+        EndianConvert(val);
         return val;
     }
 
@@ -409,7 +409,7 @@ private:
     template<typename T>
     void append(T value)
     {
-        // EndianConvert(value);
+        EndianConvert(value);
         append((uint8*)&value, sizeof(value));
     }
 
