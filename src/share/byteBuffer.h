@@ -8,7 +8,7 @@
 #define _BYTE_BUFFER_H_
 
 #include "Common.h"
-//#include "byteConverter.h"
+#include "byteConverter.h"
 
 class ByteBufferException
 {
@@ -83,7 +83,7 @@ public:
     template<typename T>
     void put(size_t pos, T value)
     {
-        // EndianConvert(value);
+        EndianConvert(value);
         put(pos, (uint8*)&value, sizeof(value));
     }
 
