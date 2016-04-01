@@ -14,9 +14,9 @@
 //#   define DEBUG_INFO_SOCKET_WRITE
 #   define DEBUG_INFO_CONCURRENCE_TEST
 #   define DEBUG_INFO_WRITE_AND_READ
-#   define DEBUG_INFO_STACK
+//#   define DEBUG_INFO_STACK
 #   define DEBUG_INFO_ENDIAN
-#   define DEBUG_INFO_SLEEP
+//#   define DEBUG_INFO_SLEEP
 //#define DEBUG_INFO_CALLGRIND
 #endif
 
