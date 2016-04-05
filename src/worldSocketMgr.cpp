@@ -90,17 +90,7 @@ private:
 
     void addNewSockets()
     {
-        // mutex or recursive mutex, is deadlock ?
-#ifdef DEBUG_INFO_SOCKET
-        boost::try_mutex::scoped_try_lock guard(m_NewSocketsLock);
-        if(!guard.owns_lock())
-        {
-            LOG(ERROR)<<"m_NewSocketsLock lock failed";
-            return;
-        }
-#else
         boost::mutex::scoped_lock guard(m_NewSocketsLock);
-#endif
 
         if(m_NewSockets.empty())
         {
