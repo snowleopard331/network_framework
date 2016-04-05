@@ -14,7 +14,7 @@ void fun2()
 
 int main()
 {
-    fun2()
+    fun2();
 
     return 0;
 }
