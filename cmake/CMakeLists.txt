@@ -23,7 +23,7 @@ SET(BOOST_LIB_DIR ../dep/boost/lib)
 SET(LIB_LIST boost_thread boost_system glog pthread)
 
 # -rdynamic for stack
-ADD_DEFINITIONS( -g -W -Wall -std=c++11 -rdynamic)
+ADD_DEFINITIONS(-rdynamic -g -W -Wall -std=c++11)
 
 INCLUDE_DIRECTORIES(${MY_INCLUDE_DIR}  ${GLOG_INCLUDE_DIR} ${BOOST_INCLUDE_DIR})
 
