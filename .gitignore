@@ -22,8 +22,12 @@ CMakeCache.txt
 log
 server
 
+# dep folder
 boost_1_60_0
 glog-0.3.3
+cryptopp-master
+
 dep/boost/lib
 dep/glog/lib
+dep/cryptopp/lib
 callgrind.out.*
