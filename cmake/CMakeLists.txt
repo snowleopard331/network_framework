@@ -13,21 +13,19 @@ AUX_SOURCE_DIRECTORY(../src/utilities SRC_LIST)
 
 # MESSAGE(${SRC_LIST})
 
-SET(GLOG_INCLUDE_DIR ../dep/glog/include)
-SET(BOOST_INCLUDE_DIR ../dep/boost/include)
+SET(DEP_INCLUDE_DIR ../dep/glog/include ../dep/boost/include ../dep/cryptopp/include)
 SET(MY_INCLUDE_DIR ../src/share ../src/platform ../src/utilities)
 
-SET(GLOG_LIB_DIR ../dep/glog/lib)
-SET(BOOST_LIB_DIR ../dep/boost/lib)
+SET(DEP_LIB_DIR ../dep/glog/lib ../dep/boost/lib ../dep/cryptopp/lib)
 
-SET(LIB_LIST boost_thread boost_system glog pthread)
+SET(LIB_LIST boost_thread boost_system glog pthread cryptopp)
 
 # -rdynamic for stack
-ADD_DEFINITIONS(-rdynamic -g -W -Wall -std=c++11)
+ADD_DEFINITIONS(-g -W -Wall -std=c++11)
 
-INCLUDE_DIRECTORIES(${MY_INCLUDE_DIR}  ${GLOG_INCLUDE_DIR} ${BOOST_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${MY_INCLUDE_DIR}  ${DEP_INCLUDE_DIR})
 
-LINK_DIRECTORIES(${GLOG_LIB_DIR} ${BOOST_LIB_DIR})
+LINK_DIRECTORIES(${DEP_LIB_DIR})
 
 ADD_EXECUTABLE(server ${SRC_LIST})
 
