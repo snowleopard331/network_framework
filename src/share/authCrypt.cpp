@@ -93,7 +93,7 @@ void CryptRSA::EncryptSend(std::string& plainText, std::string& cipherText)
         cipherText += cipherTextPart;
     }
 #ifdef DEBUG_INFO_CRYPT
-    std::cout<<"cipherText : "<<cipherText.size()<<std::endl;
+    std::cout<<"cipherTextSize : "<<cipherText.size()<<std::endl;
 #endif
 }
 
@@ -111,7 +111,7 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
 
 #ifdef DEBUG_INFO_CRYPT
     std::cout<<"m_keyPri.FixedCiphertextLength() : "<<cipherTextLength<<std::endl;
-    std::cout<<"cipherText : "<<cipherText.size()<<std::endl;
+    std::cout<<"cipherTextSize : "<<cipherText.size()<<std::endl;
 #endif
 
     for(int i = cipherText.size(), j = 0; i > 0; i -= cipherTextLength, j += cipherTextLength)
@@ -122,7 +122,7 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
         plainText += plainTextPart;
     }
 #ifdef DEBUG_INFO_CRYPT
-    std::cout<<"plainText : "<<plainText.size()<<std::endl;
+    std::cout<<"plainTextSize : "<<plainText.size()<<std::endl;
 #endif
 }
 
