@@ -220,17 +220,17 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
     //std::cout<<"plainText : "<<plainText<<std::endl;
     for(int i = 0; i < 5000; ++i)
     {
-        std::cout<<"Index : "<<i<<std::endl;
+        LOG(ERROR)<<"Index : "<<i;
         plainText += (rand()%26 + 'a');
-        std::cout<<"plainText : "<<plainText<<std::endl;
+        LOG(ERROR)<<"plainText : "<<plainText;
         crypt.EncryptSend(plainText, cipherText);
         plainText.clear();
-        std::cout<<"cipherText : "<<cipherText<<std::endl;
+        LOG(ERROR)<<"cipherText : "<<cipherText;
         crypt.DecryptRecv(plainText, cipherText);
         cipherText.clear();
-        std::cout<<"plainText : "<<plainText<<std::endl;
+        LOG(ERROR)<<"plainText : "<<plainText;
 
-        std::cout<<std::endl;
+        LOG(ERROR)<<"\n";
     }
 
 #endif

@@ -81,8 +81,8 @@ void CryptRSA::EncryptSend(std::string& plainText, std::string& cipherText)
     Jovi_ASSERT(0 != msgLengthMax);
 
 #ifdef DEBUG_INFO_CRYPT
-    std::cout<<"plainTextSize : "<<plainText.size()<<std::endl;
-    std::cout<<"m_keyPub.FixedMaxPlaintextLength() : "<<msgLengthMax<<std::endl;
+    LOG(ERROR)<<"plainTextSize : "<<plainText.size();
+    LOG(ERROR)<<"m_keyPub.FixedMaxPlaintextLength() : "<<msgLengthMax;
 #endif
 
     for(int i = plainText.size(), j = 0; i > 0; i -= msgLengthMax, j += msgLengthMax)
@@ -93,7 +93,7 @@ void CryptRSA::EncryptSend(std::string& plainText, std::string& cipherText)
         cipherText += cipherTextPart;
     }
 #ifdef DEBUG_INFO_CRYPT
-    std::cout<<"cipherTextSize : "<<cipherText.size()<<std::endl;
+    LOG(ERROR)<<"cipherTextSize : "<<cipherText.size();
 #endif
 }
 
@@ -110,8 +110,8 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
     Jovi_ASSERT(0 != cipherTextLength);
 
 #ifdef DEBUG_INFO_CRYPT
-    std::cout<<"m_keyPri.FixedCiphertextLength() : "<<cipherTextLength<<std::endl;
-    std::cout<<"cipherTextSize : "<<cipherText.size()<<std::endl;
+    LOG(ERROR)<<"m_keyPri.FixedCiphertextLength() : "<<cipherTextLength;
+    LOG(ERROR)<<"cipherTextSize : "<<cipherText.size();
 #endif
 
     for(int i = cipherText.size(), j = 0; i > 0; i -= cipherTextLength, j += cipherTextLength)
@@ -122,7 +122,7 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
         plainText += plainTextPart;
     }
 #ifdef DEBUG_INFO_CRYPT
-    std::cout<<"plainTextSize : "<<plainText.size()<<std::endl;
+    LOG(ERROR)<<"plainTextSize : "<<plainText.size();
 #endif
 }
 
