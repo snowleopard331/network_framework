@@ -109,7 +109,7 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
     }
 }
 
-void CryptRSA::EncryptSend(uchar* data, size_t len)
+void CryptRSA::EncryptSend(char* data, size_t len)
 {
 //    CryptoPP::FileSource pubFile(m_strKeyPub.c_str(), true, new CryptoPP::HexDecoder);
 //    CryptoPP::RSAES_OAEP_SHA_Encryptor pub(pubFile);
@@ -123,7 +123,7 @@ void CryptRSA::EncryptSend(uchar* data, size_t len)
 //    // result, no handle ?
 }
 
-void CryptRSA::DecryptRecv(uchar* data, size_t len)
+void CryptRSA::DecryptRecv(char* data, size_t len)
 {
 //    CryptoPP::FileSource privFile(m_strKeyPri.c_str(), true, new CryptoPP::HexDecoder);
 //    CryptoPP::RSAES_OAEP_SHA_Decryptor  priv(privFile);
