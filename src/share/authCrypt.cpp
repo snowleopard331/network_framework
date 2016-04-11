@@ -47,21 +47,12 @@ void CryptRSA::init()
         Definition at line 26 of file randpool.cpp.
     */
     randPool.IncorporateEntropy((byte*)m_seed.c_str(), m_seed.length());
-    // randPool.Put((byte*)m_seed.c_str(), m_seed.length());
 
     // generate private key
     m_keyPri = CryptoPP::RSAES_OAEP_SHA_Decryptor(randPool, KEY_LENGTH);
-    //CryptoPP::RSAES_OAEP_SHA_Decryptor  priv(randPool, KEY_LENGTH);
-    //CryptoPP::HexEncoder    privEncoder(new CryptoPP::StringSink(m_strKeyPri));
-    //priv.DEREncode(privEncoder);
-    //privEncoder.MessageEnd();
 
     // generate public key by using private key
     m_keyPub = CryptoPP::RSAES_OAEP_SHA_Encryptor(m_keyPri);
-    //CryptoPP::RSAES_OAEP_SHA_Encryptor  pub(priv);
-    //CryptoPP::HexEncoder    pubEncoder(new CryptoPP::StringSink(m_strKeyPub));
-    //pub.DEREncode(pubEncoder);
-    //pubEncoder.MessageEnd();
 
     return;
 }
@@ -89,6 +80,7 @@ void CryptRSA::EncryptSend(std::string& plainText, std::string& cipherText)
     {
         std::string plainTextPart = plainText.substr(j, msgLengthMax);
         std::string cipherTextPart;
+        // is memery leak ???
         CryptoPP::StringSource(plainTextPart, true, new CryptoPP::PK_EncryptorFilter(randPool, m_keyPub, new CryptoPP::HexEncoder(new CryptoPP::StringSink(cipherTextPart))));
         cipherText += cipherTextPart;
     }
@@ -118,6 +110,7 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
     {
         std::string cipherTextPart = cipherText.substr(j, cipherTextLength);
         std::string plainTextPart;
+        // is memery leak ???
         CryptoPP::StringSource(cipherTextPart, true, new CryptoPP::HexDecoder(new CryptoPP::PK_DecryptorFilter(getRandomPool(), m_keyPri, new CryptoPP::StringSink(plainTextPart))));
         plainText += plainTextPart;
     }
@@ -126,29 +119,14 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
 #endif
 }
 
-void CryptRSA::EncryptSend(char* data, size_t len)
+void CryptRSA::EncryptSend(char* , size_t)
 {
-//    CryptoPP::FileSource pubFile(m_strKeyPub.c_str(), true, new CryptoPP::HexDecoder);
-//    CryptoPP::RSAES_OAEP_SHA_Encryptor pub(pubFile);
-//
-//    CryptoPP::RandomPool randPool;
-//    randPool.Put((byte*)m_seed.c_str(), m_seed.length());
-//
-//    std::string result;
-//    CryptoPP::StringSource(data, true, new CryptoPP::PK_EncryptorFilter(randPool, pub, new CryptoPP::HexEncoder(new CryptoPP::StringSink(result))));
-//
-//    // result, no handle ?
+    
 }
 
-void CryptRSA::DecryptRecv(char* data, size_t len)
+void CryptRSA::DecryptRecv(char* , size_t)
 {
-//    CryptoPP::FileSource privFile(m_strKeyPri.c_str(), true, new CryptoPP::HexDecoder);
-//    CryptoPP::RSAES_OAEP_SHA_Decryptor  priv(privFile);
-//
-//    std::string result;
-//    CryptoPP::StringSource(data, true, new CryptoPP::HexDecoder(new CryptoPP::PK_DecryptorFilter(sRandomPool, priv, new CryptoPP::StringSink(result))));
-//
-//    // result, no handle ?
+    
 }
 
 CryptoPP::RandomPool& CryptRSA::getRandomPool()
