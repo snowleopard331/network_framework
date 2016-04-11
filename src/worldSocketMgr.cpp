@@ -218,7 +218,7 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
     //plainText.clear();
     //crypt.DecryptRecv(plainText, cipherText);
     //std::cout<<"plainText : "<<plainText<<std::endl;
-    for(int i = 0; i < 10; ++i)
+    for(int i = 0; i < 500; ++i)
     {
         std::cout<<"Index : "<<i<<std::endl;
         plainText += (rand()%26 + 'a');
