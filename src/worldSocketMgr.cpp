@@ -222,7 +222,7 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
     for(int i = 0; i < 1; ++i)
     {
         std::cout<<"Index : "<<i<<std::endl;
-        plainText += rand()%26 + 'a';
+        plainText += (rand()%26 + 'a');
         std::cout<<"plainText : "<<plainText<<std::endl;
         crypt.EncryptSend(plainText, cipherText);
         std::cout<<"cipherText : "<<cipherText<<std::endl;
