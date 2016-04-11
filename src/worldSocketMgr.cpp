@@ -7,6 +7,10 @@
 #include "worldSocketMgr.h"
 #include "config.h"
 
+#ifdef DEBUG_INFO_CRYPT
+#include "authCrypt.h"
+#endif
+
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
@@ -205,7 +209,6 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
     }
 
 #ifdef DEBUG_INFO_CRYPT
-#include "authCrypt.h"
     std::string plainText = "hello cryptopp";
     std::string cipherText;
     CryptRSA crypt;
