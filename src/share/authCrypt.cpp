@@ -16,9 +16,9 @@ CryptoPP::RandomPool    CryptRSA::sRandomPool;
 CryptRSA::CryptRSA()
     : m_strKeyPub("")
     , m_strKeyPri("")
-    , m_seed("")
+    , m_seed("zhongzi")
 {
-
+    init();
 }
 
 CryptRSA::~CryptRSA()

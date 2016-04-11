@@ -38,7 +38,7 @@ class CryptRSA
 {
 public:
     CryptRSA();
-    ~CryptRSA() override;
+    ~CryptRSA();
 
 public:
     // void EncryptSend(char* data, size_t len) override;
