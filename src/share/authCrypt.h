@@ -41,10 +41,10 @@ public:
     ~CryptRSA();
 
 public:
-    // void EncryptSend(char* data, size_t len) override;
+    void EncryptSend(char* data, size_t len) override;
     void EncryptSend(std::string& plainText, std::string& cipherText) override;
 
-    // void DecryptRecv(char* data, size_t len) override;
+    void DecryptRecv(char* data, size_t len) override;
     void DecryptRecv(std::string& plainText, std::string& cipherText) override;
     
 
