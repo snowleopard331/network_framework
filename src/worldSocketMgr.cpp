@@ -211,7 +211,7 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
 #ifdef DEBUG_INFO_CRYPT
     std::string plainText = "hello cryptopp";
     std::string cipherText;
-    //CryptRSA crypt;
+    CryptRSA crypt;
     //std::cout<<"plainText : "<<plainText<<std::endl;
     //crypt.EncryptSend(plainText, cipherText);
     //std::cout<<"cipherText : "<<cipherText<<std::endl;
