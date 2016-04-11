@@ -81,6 +81,7 @@ void CryptRSA::EncryptSend(std::string& plainText, std::string& cipherText)
     Jovi_ASSERT(0 != msgLengthMax);
 
 #ifdef DEBUG_INFO_CRYPT
+    std::cout<<"plainTextSize : "<<plainText.size()<<std::endl;
     std::cout<<"m_keyPub.FixedMaxPlaintextLength() : "<<msgLengthMax<<std::endl;
 #endif
 
@@ -91,6 +92,9 @@ void CryptRSA::EncryptSend(std::string& plainText, std::string& cipherText)
         CryptoPP::StringSource(plainTextPart, true, new CryptoPP::PK_EncryptorFilter(randPool, m_keyPub, new CryptoPP::HexEncoder(new CryptoPP::StringSink(cipherTextPart))));
         cipherText += cipherTextPart;
     }
+#ifdef DEBUG_INFO_CRYPT
+    std::cout<<"cipherText : "<<cipherText.size()<<std::endl;
+#endif
 }
 
 void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
@@ -101,11 +105,13 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
         return;
     }
 
+    //indicate the ciphertext in hexcode ????
     int cipherTextLength = m_keyPri.FixedCiphertextLength() * 2;
     Jovi_ASSERT(0 != cipherTextLength);
 
 #ifdef DEBUG_INFO_CRYPT
     std::cout<<"m_keyPri.FixedCiphertextLength() : "<<cipherTextLength<<std::endl;
+    std::cout<<"cipherText : "<<cipherText.size()<<std::endl;
 #endif
 
     for(int i = cipherText.size(), j = 0; i > 0; i -= cipherTextLength, j += cipherTextLength)
@@ -115,6 +121,9 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
         CryptoPP::StringSource(cipherTextPart, true, new CryptoPP::HexDecoder(new CryptoPP::PK_DecryptorFilter(getRandomPool(), m_keyPri, new CryptoPP::StringSink(plainTextPart))));
         plainText += plainTextPart;
     }
+#ifdef DEBUG_INFO_CRYPT
+    std::cout<<"plainText : "<<plainText.size()<<std::endl;
+#endif
 }
 
 void CryptRSA::EncryptSend(char* data, size_t len)
