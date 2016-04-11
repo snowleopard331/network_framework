@@ -80,6 +80,10 @@ void CryptRSA::EncryptSend(std::string& plainText, std::string& cipherText)
     int msgLengthMax = m_keyPub.FixedMaxPlaintextLength();
     Jovi_ASSERT(0 != msgLengthMax);
 
+#ifdef DEBUG_INFO_CRYPT
+    std::cout<<"m_keyPub.FixedMaxPlaintextLength() : "<<msgLengthMax<<std::endl;
+#endif
+
     for(int i = plainText.size(), j = 0; i > 0; i -= msgLengthMax, j += msgLengthMax)
     {
         std::string plainTextPart = plainText.substr(j, msgLengthMax);
@@ -97,8 +101,12 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
         return;
     }
 
-    int cipherTextLength = m_keyPri.FixedCiphertextLength();
+    int cipherTextLength = m_keyPri.FixedCiphertextLength() * 2;
     Jovi_ASSERT(0 != cipherTextLength);
+
+#ifdef DEBUG_INFO_CRYPT
+    std::cout<<"m_keyPri.FixedCiphertextLength() : "<<cipherTextLength<<std::endl;
+#endif
 
     for(int i = cipherText.size(), j = 0; i > 0; i -= cipherTextLength, j += cipherTextLength)
     {
