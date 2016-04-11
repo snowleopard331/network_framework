@@ -207,7 +207,7 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
     {
         return -1;
     }
-
+    srand(time(0));
 #ifdef DEBUG_INFO_CRYPT
     std::string plainText = "hello cryptopp";
     std::string cipherText;
@@ -218,6 +218,21 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
     plainText.clear();
     crypt.DecryptRecv(plainText, cipherText);
     std::cout<<"plainText : "<<plainText<<std::endl;
+
+    for(int i = 0; i < 500; ++i)
+    {
+        std::cout<<"Index : "<<i<<std::endl;
+        plainText += rand()%26 + 'a';
+        std::cout<<"plainText : "<<plainText<<std::endl;
+        crypt.EncryptSend(plainText, cipherText);
+        std::cout<<"cipherText : "<<cipherText<<std::endl;
+        plainText.clear();
+        crypt.DecryptRecv(plainText, cipherText);
+        std::cout<<"plainText : "<<plainText<<std::endl;
+
+        std::cout<<std::endl;
+    }
+
 #endif
 
     return 0;
