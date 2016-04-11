@@ -258,6 +258,33 @@ home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.s:
 	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.s
 
+home/yunfei/myworld/network_ramework/src/share/authCrypt.o: home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/authCrypt.i: home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/authCrypt.s: home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s
+
 home/yunfei/myworld/network_ramework/src/share/buffer.o: home/yunfei/myworld/network_ramework/src/share/buffer.cpp.o
 
 .PHONY : home/yunfei/myworld/network_ramework/src/share/buffer.o
@@ -525,6 +552,9 @@ help:
 	@echo "... home/yunfei/myworld/network_ramework/src/share/StackTrace.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/StackTrace.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/StackTrace.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/authCrypt.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/authCrypt.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/authCrypt.s"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/buffer.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/buffer.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/buffer.s"
