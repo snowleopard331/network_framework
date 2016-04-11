@@ -20,7 +20,10 @@ public:
 
     }
 
-    virtual ~Crypt() = 0;
+    virtual ~Crypt()
+    {
+
+    }
 
 public:
     virtual void EncryptSend(char* data, size_t len) = 0;
