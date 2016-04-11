@@ -211,14 +211,13 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
 #ifdef DEBUG_INFO_CRYPT
     std::string plainText = "hello cryptopp";
     std::string cipherText;
-    CryptRSA crypt;
-    std::cout<<"plainText : "<<plainText<<std::endl;
-    crypt.EncryptSend(plainText, cipherText);
-    std::cout<<"cipherText : "<<cipherText<<std::endl;
-    plainText.clear();
-    crypt.DecryptRecv(plainText, cipherText);
-    std::cout<<"plainText : "<<plainText<<std::endl;
-
+    //CryptRSA crypt;
+    //std::cout<<"plainText : "<<plainText<<std::endl;
+    //crypt.EncryptSend(plainText, cipherText);
+    //std::cout<<"cipherText : "<<cipherText<<std::endl;
+    //plainText.clear();
+    //crypt.DecryptRecv(plainText, cipherText);
+    //std::cout<<"plainText : "<<plainText<<std::endl;
     for(int i = 0; i < 1; ++i)
     {
         std::cout<<"Index : "<<i<<std::endl;
