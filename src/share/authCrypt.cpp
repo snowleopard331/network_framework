@@ -6,7 +6,6 @@
 
 #include "authCrypt.h"
 
-#include <cryptopp/rsa.h>
 #include <cryptopp/hex.h>
 #include <cryptopp/files.h>
 

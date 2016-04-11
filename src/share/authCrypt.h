@@ -9,6 +9,7 @@
 
 #include "Common.h"
 
+#include <cryptopp/rsa.h>
 #include <cryptopp/randpool.h>
 
 class Crypt
