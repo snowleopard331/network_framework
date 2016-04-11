@@ -204,6 +204,19 @@ int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
         return -1;
     }
 
+#ifdef DEBUG_INFO_CRYPT
+#include "authCrypt.h"
+    std::string plainText = "hello cryptopp";
+    std::string cipherText;
+    CryptRSA crypt;
+    std::cout<<"plainText : "<<plainText<<std::endl;
+    crypt.EncryptSend(plainText, cipherText);
+    std::cout<<"cipherText : "<<cipherText<<std::endl;
+    plainText.clear();
+    crypt.DecryptRecv(plainText, cipherText);
+    std::cout<<"plainText : "<<plainText<<std::endl;
+#endif
+
     return 0;
 }
 
