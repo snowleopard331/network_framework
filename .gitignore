@@ -30,4 +30,5 @@ cryptopp-master
 dep/boost/lib
 dep/glog/lib
 dep/cryptopp/lib
+dep/mysql/lib
 callgrind.out.*
