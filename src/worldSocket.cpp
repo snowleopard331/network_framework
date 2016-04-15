@@ -8,6 +8,10 @@
 #include "worldSocketMgr.h"
 #include "worldPacket.h"
 
+#ifdef DEBUG_INFO_DB
+#include "database/DatabaseEnv.h"
+#endif
+
 #include <boost/bind.hpp>
 
 struct PacketHeader
@@ -71,9 +75,62 @@ int WorldSocket::HandleAccept()
         return -1;
     }
 
-#ifdef DEBUG_INFO_STACK
-    StackTrace stack;
-    LOG(ERROR)<<stack.c_str();
+//#ifdef DEBUG_INFO_STACK
+//    StackTrace stack;
+//    LOG(ERROR)<<stack.c_str();
+//#endif
+
+#ifdef DEBUG_INFO_DB
+    DatabaseType  TestDataBase;
+    do 
+    {
+        std::string dbstring = "192.168.195.134;3306;root;root;accessTest";
+        int connectionNum = 16;
+
+        if(!TestDataBase.Initialize(dbstring.c_str(), connectionNum))
+        {
+            LOG(ERROR)<<"Can not connect to world database "<<dbstring;
+            break;
+        }
+
+        if (!TestDataBase.CheckRequiredField("DataTest", "Id"))
+        {
+            LOG(ERROR)<<"Can not connect DataTest";
+        }
+
+        TestDataBase.ThreadStart();
+
+        // insert
+        uint64 idIndex = 10000001;
+        int iData = 0;
+        do 
+        {
+            uint32 testField = idIndex;
+            std::string str = "yunfei";
+            str += (idIndex % 26) + 'A';
+            TestDataBase.PExecute("INSERT INTO DataTest VALUE('%llu', '%u', '%s')", idIndex, iData++, str.c_str());
+        } while (idIndex++ != 10020000);
+
+        // fetch
+        int count = 16;
+        while(count--)
+        {
+            if(QueryResult* result = TestDataBase.Query("SELECT Data FROM DataTest LIMIT 1"))
+            {
+                do 
+                {
+                    Field* fields = result->Fetch();
+                    uint32 data = fields[0].GetUInt32();
+                    LOG(ERROR)<<"Data:"<<data;
+                } while (result->NextRow());
+                SafeDelete(result);
+            }
+        }
+
+        TestDataBase.ThreadEnd();
+    } while (0);
+    
+
 #endif
 
     WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
