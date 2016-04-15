@@ -10,6 +10,7 @@
 #include <ctime>
 #include <fstream>
 #include <stdarg.h>
+#include <memory>
 
 #define MIN_CONNECTION_POOL_SIZE    1
 #define MAX_CONNECTION_POOL_SIZE    16
@@ -560,7 +561,7 @@ bool Database::DirectExecuteStmt(const SqlStatementID& id, SqlStmtParameters* pa
 {
     Jovi_ASSERT(params);
     // QUESTION
-    std::auto_ptr<SqlStmtParameters> p(params);     // what to do ????????????????
+    std::unique_ptr<SqlStmtParameters> p(params);
     // execute statement
     SqlConnection::Lock guard(getAsyncConnection());
     return guard->ExecuteStmt(id.ID(), *params);
