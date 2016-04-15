@@ -116,7 +116,7 @@ private:
 
     void threadTask()
     {
-        ELOG(INFO)<<"Network Thread Starting";
+        LOG(INFO)<<"Network Thread Starting";
 
         Jovi_ASSERT(m_Proactor);
 
