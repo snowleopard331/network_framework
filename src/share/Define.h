@@ -111,7 +111,7 @@ typedef boost::asio::ip::tcp::endpoint          EndPoint;
     #define Jovi_ASSERT
 #endif
 
-#define ELOG(SEVERITY)  LOG(SEVERITY)<<__FUNCTION__
+#define ELOG(SEVERITY)  LOG(SEVERITY)<<'['<<__FUNCTION__<<']'
 
 #ifndef SOCKET_READ_BUFFER_SIZE
 #define SOCKET_READ_BUFFER_SIZE  4096
