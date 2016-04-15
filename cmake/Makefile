@@ -393,6 +393,168 @@ home/yunfei/myworld/network_ramework/src/share/config.cpp.s:
 	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/config.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/config.cpp.s
 
+home/yunfei/myworld/network_ramework/src/share/database/Database.o: home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/database/Database.i: home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/database/Database.s: home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s
+
+home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.o: home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.i: home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.s: home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s
+
+home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.o: home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.i: home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.s: home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.o: home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.i: home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.s: home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.o: home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.i: home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.s: home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.o: home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.i: home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.s: home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
+
 home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o: home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.o
 
 .PHONY : home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o
@@ -446,168 +608,6 @@ home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.s: home/yun
 home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.s:
 	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.s
-
-home/yunfei/myworld/network_ramework/src/share/sql/Database.o: home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/Database.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.o
-
-home/yunfei/myworld/network_ramework/src/share/sql/Database.i: home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/Database.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.i
-
-home/yunfei/myworld/network_ramework/src/share/sql/Database.s: home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/Database.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/Database.cpp.s
-
-home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.o: home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.o
-
-home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.i: home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.i
-
-home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.s: home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.cpp.s
-
-home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.o: home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.o
-
-home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.i: home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.i
-
-home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.s: home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.cpp.s
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.o: home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.o
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.i: home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.i
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.s: home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.cpp.s
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.o: home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.o
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.i: home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.i
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.s: home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.cpp.s
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.o: home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.o
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.i: home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.i
-
-home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.s: home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.cpp.s
 
 home/yunfei/myworld/network_ramework/src/utilities/Util.o: home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.o
 
@@ -783,30 +783,30 @@ help:
 	@echo "... home/yunfei/myworld/network_ramework/src/share/config.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/config.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/config.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/Database.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/Database.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/Database.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.s"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.s"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/Database.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/Database.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/Database.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/DatabaseMysql.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/QueryResultMysql.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlDelayThread.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlOperations.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/share/sql/SqlPreparedStatement.s"
 	@echo "... home/yunfei/myworld/network_ramework/src/utilities/Util.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/utilities/Util.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/utilities/Util.s"
