@@ -127,7 +127,7 @@ int WorldSocket::HandleAccept()
         //    }
         //}
 
-        if(QueryResult* result = TestDataBase.Query("SELECT Data FROM DataTest LIMIT 10"))
+        if(QueryResult* result = TestDataBase.Query("SELECT * FROM DataTest LIMIT 10"))
         {
             do 
             {
