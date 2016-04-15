@@ -8,8 +8,8 @@
 #define _DATABASE_H_
 
 #include "Common.h"
-#include "sql/SqlPreparedStatement.h"
-#include "sql/SqlDelayThread.h"
+#include "SqlPreparedStatement.h"
+#include "SqlDelayThread.h"
 #include "Threading.h"
 
 #include <boost/thread/mutex.hpp>

@@ -10,7 +10,7 @@
 #include <boost/thread/mutex.hpp>
 
 #include "Common.h"
-#include "sql/LockedQueue.h"
+#include "LockedQueue.h"
 #include "Callback.h"
 
 

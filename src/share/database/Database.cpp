@@ -4,8 +4,8 @@
 * date      :   2015/09/09
 */
 
-#include "sql/DatabaseEnv.h"
-#include "sql/SqlOperations.h"
+#include "DatabaseEnv.h"
+#include "SqlOperations.h"
 
 #include <ctime>
 #include <fstream>

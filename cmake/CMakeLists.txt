@@ -10,7 +10,7 @@ AUX_SOURCE_DIRECTORY(../src/share/log SRC_LIST)
 AUX_SOURCE_DIRECTORY(../src/share/policy SRC_LIST)
 AUX_SOURCE_DIRECTORY(../src/platform SRC_LIST)
 AUX_SOURCE_DIRECTORY(../src/utilities SRC_LIST)
-AUX_SOURCE_DIRECTORY(../src/share/sql SRC_LIST)
+AUX_SOURCE_DIRECTORY(../src/share/database SRC_LIST)
 
 # MESSAGE(${SRC_LIST})
 
