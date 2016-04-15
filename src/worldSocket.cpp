@@ -101,15 +101,15 @@ int WorldSocket::HandleAccept()
         TestDataBase.ThreadStart();
 
         // insert
-        uint64 idIndex = 10000001;
-        int iData = 0;
-        do 
-        {
-            uint32 testField = idIndex;
-            std::string str = "yunfei";
-            str += (idIndex % 26) + 'A';
-            TestDataBase.PExecute("INSERT INTO DataTest VALUE('%llu', '%u', '%s')", idIndex, iData++, str.c_str());
-        } while (idIndex++ != 10020000);
+        //uint64 idIndex = 10000001;
+        //int iData = 0;
+        //do 
+        //{
+        //    uint32 testField = idIndex;
+        //    std::string str = "yunfei";
+        //    str += (idIndex % 26) + 'A';
+        //    TestDataBase.PExecute("INSERT INTO DataTest VALUE('%llu', '%u', '%s')", idIndex, iData++, str.c_str());
+        //} while (idIndex++ != 10020000);
 
         // fetch
         int count = 16;
