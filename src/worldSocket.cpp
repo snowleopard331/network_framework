@@ -112,19 +112,32 @@ int WorldSocket::HandleAccept()
         //} while (idIndex++ != 10020000);
 
         // fetch
-        int count = 16;
-        while(count--)
+        //int count = 16, selectNum = 10;
+        //while(count--)
+        //{
+        //    if(QueryResult* result = TestDataBase.Query("SELECT Data FROM DataTest LIMIT 10"))
+        //    {
+        //        do 
+        //        {
+        //            Field* fields = result->Fetch();
+        //            uint32 data = fields[0].GetUInt64();
+        //            LOG(ERROR)<<"Data:"<<data;
+        //        } while (result->NextRow());
+        //        SafeDelete(result);
+        //    }
+        //}
+
+        if(QueryResult* result = TestDataBase.Query("SELECT Data FROM DataTest LIMIT 10"))
         {
-            if(QueryResult* result = TestDataBase.Query("SELECT Data FROM DataTest LIMIT 1"))
+            do 
             {
-                do 
-                {
-                    Field* fields = result->Fetch();
-                    uint32 data = fields[0].GetUInt32();
-                    LOG(ERROR)<<"Data:"<<data;
-                } while (result->NextRow());
-                SafeDelete(result);
-            }
+                Field* fields = result->Fetch();
+                uint64 Id = fields[0].GetUInt64();
+                uint32 Data = fields[1].GetUInt32();
+                const char* strData = fields[2].GetString();
+                LOG(ERROR)<<"Id : "<<Id<<", Data : "<<Data<<", strData : "<<strData;
+            } while (result->NextRow());
+            SafeDelete(result);
         }
 
         TestDataBase.ThreadEnd();
