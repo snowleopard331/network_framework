@@ -24,7 +24,7 @@ cd boost_1_60_0/
 
 ./bootstrap.sh --prefix=$BOOST_PATH
 
-./bjam install
+./bjam install --with-thread --with-system
 
 cd -
 
