@@ -7,7 +7,7 @@
 #ifndef _CREATION_POLICY_H_
 #define _CREATION_POLICY_H_
 
-namespace Jovi
+namespace Evil
 {
     // OperatorNew policy creates an object on the heap using new
     // using this with Singleton

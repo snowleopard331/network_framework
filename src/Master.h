@@ -23,6 +23,6 @@ public:
 
 };
 
-#define sMaster Jovi::Singleton<Master>::Instance()
+#define sMaster Evil::Singleton<Master>::Instance()
 
 #endif//_MASTER_H_

@@ -38,7 +38,7 @@ namespace ByteConverter
 }
 
 // consider the endian of storage conversion(internal data encryption)
-#if JOVI_ENDIAN == JOVI_LITTLE_ENDIAN
+#if EVIL_ENDIAN == EVIL_LITTLE_ENDIAN
 
     template<typename T>
     inline void EndianConvert(T& val)

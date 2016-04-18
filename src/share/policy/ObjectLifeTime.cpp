@@ -7,7 +7,7 @@
 #include "ObjectLifeTime.h"
 #include <cstdlib>
 
-namespace Jovi
+namespace Evil
 {
     extern "C" void external_wrapper(void* p)
     {

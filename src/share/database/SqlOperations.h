@@ -111,7 +111,7 @@ class SqlQueryHolderEx;
 
 
 class SqlResultQueue
-    : public Boost_Based::LockedQueue<Jovi::IQueryCallback*, boost::mutex>
+    : public Boost_Based::LockedQueue<Evil::IQueryCallback*, boost::mutex>
 {
 public:
     SqlResultQueue()    
@@ -128,11 +128,11 @@ class SqlQuery
 {
 private:
     const char*             m_sql;
-    Jovi::IQueryCallback*   m_callback;
+    Evil::IQueryCallback*   m_callback;
     SqlResultQueue*         m_queue;
 
 public:
-    SqlQuery(const char* sql, Jovi::IQueryCallback* callback, SqlResultQueue* queue)
+    SqlQuery(const char* sql, Evil::IQueryCallback* callback, SqlResultQueue* queue)
         : m_sql(sql)
         , m_callback(callback)
         , m_queue(queue)    
@@ -178,7 +178,7 @@ public:
 
     void SetResult(uint32 index, QueryResult* result);
 
-    bool Execute(Jovi::IQueryCallback* callback, SqlDelayThread* thread, SqlResultQueue* queue);
+    bool Execute(Evil::IQueryCallback* callback, SqlDelayThread* thread, SqlResultQueue* queue);
 };
 
 
@@ -187,11 +187,11 @@ class SqlQueryHolderEx
 {
 private:
     SqlQueryHolder*         m_holder;
-    Jovi::IQueryCallback*   m_callback;
+    Evil::IQueryCallback*   m_callback;
     SqlResultQueue*         m_queue;
 
 public:
-    SqlQueryHolderEx(SqlQueryHolder* holder, Jovi::IQueryCallback* callback, SqlResultQueue* queue)
+    SqlQueryHolderEx(SqlQueryHolder* holder, Evil::IQueryCallback* callback, SqlResultQueue* queue)
         : m_holder(holder)
         , m_callback(callback)
         , m_queue(queue)    

@@ -4,6 +4,8 @@ PROJECT_PATH=/home/yunfei/myworld
 
 CTYPTOPP_PATH=$PROJECT_PATH/network_ramework/dep/cryptopp
 
+cd $PROJECT_PATH/network_ramework/dep
+
 
 #####################################
 # check folder

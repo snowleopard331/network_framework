@@ -1,13 +1,15 @@
 #!/bin/bash
 
-cd /home/yunfei/myworld/network_ramework/
+PROJECT_PATH=/home/yunfei/myworld
+
+cd $PROJECT_PATH/network_ramework/
 
 pwd
 
 git pull
 
-cd /home/yunfei/myworld/network_ramework/cmake
+cd $PROJECT_PATH/network_ramework/cmake
 
 make clean;make
 
-cd /home/yunfei/myworld/network_ramework/bin
+cd $PROJECT_PATH/network_ramework/bin

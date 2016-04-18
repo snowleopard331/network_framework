@@ -18,7 +18,7 @@ class WorldSocketMgr
 {
 public:
     friend class WorldSocket;
-    friend class Jovi::OperatorNew<WorldSocketMgr>;
+    friend class Evil::OperatorNew<WorldSocketMgr>;
 
     // Start network, listen at address:port .
     int     StartNetwork(uint16 port, std::string& address);
@@ -62,6 +62,6 @@ private:
     size_t                  m_NetThreadIndexReady;
 };
 
-#define sWorldSocketMgr Jovi::Singleton<WorldSocketMgr>::Instance()
+#define sWorldSocketMgr Evil::Singleton<WorldSocketMgr>::Instance()
 
 #endif//_WORLD_SOCKET_MGR_H_

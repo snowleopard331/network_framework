@@ -93,7 +93,7 @@ bool SqlQuery::Execute(SqlConnection* pConn)
 void SqlResultQueue::Update()
 {
     // execute the callbacks waiting in the synchronization queue
-    Jovi::IQueryCallback* pCallback = NULL;
+    Evil::IQueryCallback* pCallback = NULL;
 
     while(next(pCallback))
     {
@@ -102,7 +102,7 @@ void SqlResultQueue::Update()
     }
 }
 
-bool SqlQueryHolder::Execute(Jovi::IQueryCallback* callback, SqlDelayThread* thread, SqlResultQueue* queue)
+bool SqlQueryHolder::Execute(Evil::IQueryCallback* callback, SqlDelayThread* thread, SqlResultQueue* queue)
 {
     if(!callback || !thread || !queue)
     {

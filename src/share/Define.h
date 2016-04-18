@@ -31,13 +31,16 @@ typedef boost::asio::ip::tcp::socket            BSocket;
 typedef boost::asio::ip::tcp::endpoint          EndPoint;
 
 
+/// LOG with function name, used for business logic layer
+#define ELOG(SEVERITY)  LOG(SEVERITY)<<"("<<__FUNCTION__<<") "
+
 /// ---- RETURN ----
 
 #ifndef IF_NOT_RETURN
 #   define IF_NOT_RETURN(CONDITION) \
     if(!(CONDITION))    \
     {   \
-        LOG(ERROR)<<#CONDITION; \
+        ELOG(ERROR)<<#CONDITION; \
         return; \
     }
     // TODO, log
@@ -47,7 +50,7 @@ typedef boost::asio::ip::tcp::endpoint          EndPoint;
 #   define IF_NOT_RETURN_FALSE(CONDITION) \
     if(!(CONDITION))    \
     {   \
-        LOG(ERROR)<<#CONDITION; \
+        ELOG(ERROR)<<#CONDITION; \
         return false; \
     }
     // TODO, log
@@ -57,7 +60,7 @@ typedef boost::asio::ip::tcp::endpoint          EndPoint;
 #   define IF_NOT_RETURN_VALUE(CONDITION, VALUE) \
     if(!(CONDITION))    \
     {   \
-        LOG(ERROR)<<#CONDITION; \
+        ELOG(ERROR)<<#CONDITION; \
         return (VALUE); \
     }
     // TODO, log
@@ -111,7 +114,6 @@ typedef boost::asio::ip::tcp::endpoint          EndPoint;
     #define Jovi_ASSERT
 #endif
 
-#define ELOG(SEVERITY)  LOG(SEVERITY)<<"("<<__FUNCTION__<<") "
 
 #ifndef SOCKET_READ_BUFFER_SIZE
 #define SOCKET_READ_BUFFER_SIZE  4096
