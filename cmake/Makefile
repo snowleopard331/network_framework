@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/yunfei/myworld/network_ramework/cmake
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -77,6 +66,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,98 +111,206 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named server
+# Target rules for targets named evil
 
 # Build rule for target.
-server: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 server
-.PHONY : server
+evil: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 evil
+.PHONY : evil
 
 # fast build rule for target.
-server/fast:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
-.PHONY : server/fast
+evil/fast:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/build
+.PHONY : evil/fast
 
-home/yunfei/myworld/network_ramework/src/Main.o: home/yunfei/myworld/network_ramework/src/Main.cpp.o
+home/yunfei/myworld/network_ramework/src/evil/Main.o: home/yunfei/myworld/network_ramework/src/evil/Main.cpp.o
 
-.PHONY : home/yunfei/myworld/network_ramework/src/Main.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/Main.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/Main.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/Main.cpp.o
-
-home/yunfei/myworld/network_ramework/src/Main.i: home/yunfei/myworld/network_ramework/src/Main.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/Main.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/Main.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/Main.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/Main.cpp.i
-
-home/yunfei/myworld/network_ramework/src/Main.s: home/yunfei/myworld/network_ramework/src/Main.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/Main.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/Main.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/Main.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/Main.cpp.s
-
-home/yunfei/myworld/network_ramework/src/Master.o: home/yunfei/myworld/network_ramework/src/Master.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/Master.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Main.o
 
 # target to build an object file
-home/yunfei/myworld/network_ramework/src/Master.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/Master.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/Master.cpp.o
+home/yunfei/myworld/network_ramework/src/evil/Main.cpp.o:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/Main.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Main.cpp.o
 
-home/yunfei/myworld/network_ramework/src/Master.i: home/yunfei/myworld/network_ramework/src/Master.cpp.i
+home/yunfei/myworld/network_ramework/src/evil/Main.i: home/yunfei/myworld/network_ramework/src/evil/Main.cpp.i
 
-.PHONY : home/yunfei/myworld/network_ramework/src/Master.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Main.i
 
 # target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/Master.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/Master.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/Master.cpp.i
+home/yunfei/myworld/network_ramework/src/evil/Main.cpp.i:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/Main.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Main.cpp.i
 
-home/yunfei/myworld/network_ramework/src/Master.s: home/yunfei/myworld/network_ramework/src/Master.cpp.s
+home/yunfei/myworld/network_ramework/src/evil/Main.s: home/yunfei/myworld/network_ramework/src/evil/Main.cpp.s
 
-.PHONY : home/yunfei/myworld/network_ramework/src/Master.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Main.s
 
 # target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/Master.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/Master.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/Master.cpp.s
+home/yunfei/myworld/network_ramework/src/evil/Main.cpp.s:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/Main.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Main.cpp.s
 
-home/yunfei/myworld/network_ramework/src/opCodes.o: home/yunfei/myworld/network_ramework/src/opCodes.cpp.o
+home/yunfei/myworld/network_ramework/src/evil/Master.o: home/yunfei/myworld/network_ramework/src/evil/Master.cpp.o
 
-.PHONY : home/yunfei/myworld/network_ramework/src/opCodes.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Master.o
 
 # target to build an object file
-home/yunfei/myworld/network_ramework/src/opCodes.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/opCodes.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/opCodes.cpp.o
+home/yunfei/myworld/network_ramework/src/evil/Master.cpp.o:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/Master.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Master.cpp.o
 
-home/yunfei/myworld/network_ramework/src/opCodes.i: home/yunfei/myworld/network_ramework/src/opCodes.cpp.i
+home/yunfei/myworld/network_ramework/src/evil/Master.i: home/yunfei/myworld/network_ramework/src/evil/Master.cpp.i
 
-.PHONY : home/yunfei/myworld/network_ramework/src/opCodes.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Master.i
 
 # target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/opCodes.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/opCodes.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/opCodes.cpp.i
+home/yunfei/myworld/network_ramework/src/evil/Master.cpp.i:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/Master.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Master.cpp.i
 
-home/yunfei/myworld/network_ramework/src/opCodes.s: home/yunfei/myworld/network_ramework/src/opCodes.cpp.s
+home/yunfei/myworld/network_ramework/src/evil/Master.s: home/yunfei/myworld/network_ramework/src/evil/Master.cpp.s
 
-.PHONY : home/yunfei/myworld/network_ramework/src/opCodes.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Master.s
 
 # target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/opCodes.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/opCodes.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/opCodes.cpp.s
+home/yunfei/myworld/network_ramework/src/evil/Master.cpp.s:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/Master.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/Master.cpp.s
+
+home/yunfei/myworld/network_ramework/src/evil/network/opCodes.o: home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/opCodes.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.o:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.o
+
+home/yunfei/myworld/network_ramework/src/evil/network/opCodes.i: home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/opCodes.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.i:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.i
+
+home/yunfei/myworld/network_ramework/src/evil/network/opCodes.s: home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/opCodes.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.s:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/opCodes.cpp.s
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.o: home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.o:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.o
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.i: home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.i:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.i
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.s: home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.s:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.cpp.s
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSession.o: home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSession.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.o:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.o
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSession.i: home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSession.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.i:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.i
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSession.s: home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSession.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.s:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSession.cpp.s
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.o: home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.o:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.o
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.i: home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.i:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.i
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.s: home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.s:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.cpp.s
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.o: home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.o:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.o
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.i: home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.i:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.i
+
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.s: home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.s:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/PosixDaemon.o: home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.o
 
@@ -210,7 +318,7 @@ home/yunfei/myworld/network_ramework/src/share/PosixDaemon.o: home/yunfei/myworl
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/PosixDaemon.i: home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.i
@@ -219,7 +327,7 @@ home/yunfei/myworld/network_ramework/src/share/PosixDaemon.i: home/yunfei/myworl
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/PosixDaemon.s: home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.s
@@ -228,7 +336,7 @@ home/yunfei/myworld/network_ramework/src/share/PosixDaemon.s: home/yunfei/myworl
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/PosixDaemon.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/StackTrace.o: home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.o
@@ -237,7 +345,7 @@ home/yunfei/myworld/network_ramework/src/share/StackTrace.o: home/yunfei/myworld
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/StackTrace.i: home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.i
@@ -246,7 +354,7 @@ home/yunfei/myworld/network_ramework/src/share/StackTrace.i: home/yunfei/myworld
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/StackTrace.s: home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.s
@@ -255,7 +363,7 @@ home/yunfei/myworld/network_ramework/src/share/StackTrace.s: home/yunfei/myworld
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/StackTrace.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/Threading.o: home/yunfei/myworld/network_ramework/src/share/Threading.cpp.o
@@ -264,7 +372,7 @@ home/yunfei/myworld/network_ramework/src/share/Threading.o: home/yunfei/myworld/
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/Threading.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/Threading.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/Threading.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/Threading.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/Threading.i: home/yunfei/myworld/network_ramework/src/share/Threading.cpp.i
@@ -273,7 +381,7 @@ home/yunfei/myworld/network_ramework/src/share/Threading.i: home/yunfei/myworld/
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/Threading.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/Threading.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/Threading.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/Threading.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/Threading.s: home/yunfei/myworld/network_ramework/src/share/Threading.cpp.s
@@ -282,7 +390,7 @@ home/yunfei/myworld/network_ramework/src/share/Threading.s: home/yunfei/myworld/
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/Threading.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/Threading.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/Threading.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/Threading.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/authCrypt.o: home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o
@@ -291,7 +399,7 @@ home/yunfei/myworld/network_ramework/src/share/authCrypt.o: home/yunfei/myworld/
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/authCrypt.i: home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i
@@ -300,7 +408,7 @@ home/yunfei/myworld/network_ramework/src/share/authCrypt.i: home/yunfei/myworld/
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/authCrypt.s: home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s
@@ -309,7 +417,7 @@ home/yunfei/myworld/network_ramework/src/share/authCrypt.s: home/yunfei/myworld/
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/authCrypt.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/buffer.o: home/yunfei/myworld/network_ramework/src/share/buffer.cpp.o
@@ -318,7 +426,7 @@ home/yunfei/myworld/network_ramework/src/share/buffer.o: home/yunfei/myworld/net
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/buffer.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/buffer.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/buffer.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/buffer.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/buffer.i: home/yunfei/myworld/network_ramework/src/share/buffer.cpp.i
@@ -327,7 +435,7 @@ home/yunfei/myworld/network_ramework/src/share/buffer.i: home/yunfei/myworld/net
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/buffer.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/buffer.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/buffer.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/buffer.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/buffer.s: home/yunfei/myworld/network_ramework/src/share/buffer.cpp.s
@@ -336,7 +444,7 @@ home/yunfei/myworld/network_ramework/src/share/buffer.s: home/yunfei/myworld/net
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/buffer.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/buffer.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/buffer.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/buffer.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/byteBuffer.o: home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.o
@@ -345,7 +453,7 @@ home/yunfei/myworld/network_ramework/src/share/byteBuffer.o: home/yunfei/myworld
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/byteBuffer.i: home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.i
@@ -354,7 +462,7 @@ home/yunfei/myworld/network_ramework/src/share/byteBuffer.i: home/yunfei/myworld
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/byteBuffer.s: home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.s
@@ -363,7 +471,7 @@ home/yunfei/myworld/network_ramework/src/share/byteBuffer.s: home/yunfei/myworld
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/byteBuffer.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/config.o: home/yunfei/myworld/network_ramework/src/share/config.cpp.o
@@ -372,7 +480,7 @@ home/yunfei/myworld/network_ramework/src/share/config.o: home/yunfei/myworld/net
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/config.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/config.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/config.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/config.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/config.i: home/yunfei/myworld/network_ramework/src/share/config.cpp.i
@@ -381,7 +489,7 @@ home/yunfei/myworld/network_ramework/src/share/config.i: home/yunfei/myworld/net
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/config.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/config.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/config.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/config.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/config.s: home/yunfei/myworld/network_ramework/src/share/config.cpp.s
@@ -390,7 +498,7 @@ home/yunfei/myworld/network_ramework/src/share/config.s: home/yunfei/myworld/net
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/config.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/config.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/config.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/config.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/database/Database.o: home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o
@@ -399,7 +507,7 @@ home/yunfei/myworld/network_ramework/src/share/database/Database.o: home/yunfei/
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/database/Database.i: home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i
@@ -408,7 +516,7 @@ home/yunfei/myworld/network_ramework/src/share/database/Database.i: home/yunfei/
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/database/Database.s: home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s
@@ -417,7 +525,7 @@ home/yunfei/myworld/network_ramework/src/share/database/Database.s: home/yunfei/
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.o: home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o
@@ -426,7 +534,7 @@ home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.o: home/yu
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.i: home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i
@@ -435,7 +543,7 @@ home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.i: home/yu
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.s: home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s
@@ -444,7 +552,7 @@ home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.s: home/yu
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/DatabaseMysql.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.o: home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o
@@ -453,7 +561,7 @@ home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.o: home
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.i: home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i
@@ -462,7 +570,7 @@ home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.i: home
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.s: home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s
@@ -471,7 +579,7 @@ home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.s: home
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/QueryResultMysql.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.o: home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o
@@ -480,7 +588,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.o: home/y
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.i: home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i
@@ -489,7 +597,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.i: home/y
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.s: home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s
@@ -498,7 +606,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.s: home/y
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlDelayThread.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.o: home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o
@@ -507,7 +615,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.o: home/yu
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.i: home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i
@@ -516,7 +624,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.i: home/yu
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.s: home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s
@@ -525,7 +633,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.s: home/yu
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlOperations.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.o: home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o
@@ -534,7 +642,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.o: 
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.i: home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i
@@ -543,7 +651,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.i: 
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.s: home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
@@ -552,7 +660,7 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.s: 
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o: home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.o
@@ -561,7 +669,7 @@ home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o: home/yunfei/myw
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/log/glogHelper.i: home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.i
@@ -570,7 +678,7 @@ home/yunfei/myworld/network_ramework/src/share/log/glogHelper.i: home/yunfei/myw
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/log/glogHelper.s: home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.s
@@ -579,7 +687,7 @@ home/yunfei/myworld/network_ramework/src/share/log/glogHelper.s: home/yunfei/myw
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.s
 
 home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.o: home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.o
@@ -588,7 +696,7 @@ home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.o: home/yun
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.o
 
 home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.i: home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.i
@@ -597,7 +705,7 @@ home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.i: home/yun
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.i
 
 home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.s: home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.s
@@ -606,7 +714,7 @@ home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.s: home/yun
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.s
 
 home/yunfei/myworld/network_ramework/src/utilities/Util.o: home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.o
@@ -615,7 +723,7 @@ home/yunfei/myworld/network_ramework/src/utilities/Util.o: home/yunfei/myworld/n
 
 # target to build an object file
 home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.o
 .PHONY : home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.o
 
 home/yunfei/myworld/network_ramework/src/utilities/Util.i: home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.i
@@ -624,7 +732,7 @@ home/yunfei/myworld/network_ramework/src/utilities/Util.i: home/yunfei/myworld/n
 
 # target to preprocess a source file
 home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.i
 .PHONY : home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.i
 
 home/yunfei/myworld/network_ramework/src/utilities/Util.s: home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.s
@@ -633,116 +741,8 @@ home/yunfei/myworld/network_ramework/src/utilities/Util.s: home/yunfei/myworld/n
 
 # target to generate assembly for a file
 home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/utilities/Util.cpp.s
-
-home/yunfei/myworld/network_ramework/src/worldPacket.o: home/yunfei/myworld/network_ramework/src/worldPacket.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldPacket.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/worldPacket.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldPacket.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/worldPacket.cpp.o
-
-home/yunfei/myworld/network_ramework/src/worldPacket.i: home/yunfei/myworld/network_ramework/src/worldPacket.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldPacket.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/worldPacket.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldPacket.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/worldPacket.cpp.i
-
-home/yunfei/myworld/network_ramework/src/worldPacket.s: home/yunfei/myworld/network_ramework/src/worldPacket.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldPacket.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/worldPacket.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldPacket.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/worldPacket.cpp.s
-
-home/yunfei/myworld/network_ramework/src/worldSession.o: home/yunfei/myworld/network_ramework/src/worldSession.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSession.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/worldSession.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSession.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSession.cpp.o
-
-home/yunfei/myworld/network_ramework/src/worldSession.i: home/yunfei/myworld/network_ramework/src/worldSession.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSession.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/worldSession.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSession.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSession.cpp.i
-
-home/yunfei/myworld/network_ramework/src/worldSession.s: home/yunfei/myworld/network_ramework/src/worldSession.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSession.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/worldSession.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSession.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSession.cpp.s
-
-home/yunfei/myworld/network_ramework/src/worldSocket.o: home/yunfei/myworld/network_ramework/src/worldSocket.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocket.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/worldSocket.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSocket.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocket.cpp.o
-
-home/yunfei/myworld/network_ramework/src/worldSocket.i: home/yunfei/myworld/network_ramework/src/worldSocket.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocket.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/worldSocket.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSocket.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocket.cpp.i
-
-home/yunfei/myworld/network_ramework/src/worldSocket.s: home/yunfei/myworld/network_ramework/src/worldSocket.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocket.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/worldSocket.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSocket.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocket.cpp.s
-
-home/yunfei/myworld/network_ramework/src/worldSocketMgr.o: home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.o
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocketMgr.o
-
-# target to build an object file
-home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.o:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.o
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.o
-
-home/yunfei/myworld/network_ramework/src/worldSocketMgr.i: home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.i
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocketMgr.i
-
-# target to preprocess a source file
-home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.i:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.i
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.i
-
-home/yunfei/myworld/network_ramework/src/worldSocketMgr.s: home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.s
-
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocketMgr.s
-
-# target to generate assembly for a file
-home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.s:
-	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.s
-.PHONY : home/yunfei/myworld/network_ramework/src/worldSocketMgr.cpp.s
 
 # Help Target
 help:
@@ -750,18 +750,30 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... server"
-	@echo "... home/yunfei/myworld/network_ramework/src/Main.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/Main.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/Main.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/Master.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/Master.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/Master.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/opCodes.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/opCodes.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/opCodes.s"
+	@echo "... edit_cache"
+	@echo "... evil"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/Main.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/Main.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/Main.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/Master.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/Master.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/Master.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/opCodes.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/opCodes.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/opCodes.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldPacket.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSession.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSession.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSession.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSocket.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/evil/network/worldSocketMgr.s"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/PosixDaemon.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/PosixDaemon.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/PosixDaemon.s"
@@ -810,18 +822,6 @@ help:
 	@echo "... home/yunfei/myworld/network_ramework/src/utilities/Util.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/utilities/Util.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/utilities/Util.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldPacket.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldPacket.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldPacket.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSession.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSession.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSession.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSocket.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSocket.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSocket.s"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSocketMgr.o"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSocketMgr.i"
-	@echo "... home/yunfei/myworld/network_ramework/src/worldSocketMgr.s"
 .PHONY : help
 
 
