@@ -30,6 +30,6 @@ public:
     void initialize(char* programName);
 };
 
-#define sLog Jovi::Singleton<GLogHelper>::Instance()
+#define sLog Evil::Singleton<GLogHelper>::Instance()
 
 #endif//_GLOG_HELPER_H_

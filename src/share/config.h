@@ -53,6 +53,6 @@ public:
     }
 };
 
-#define sConfig Jovi::Singleton<Config>::Instance()
+#define sConfig Evil::Singleton<Config>::Instance()
 
 #endif//_CONFIG_H_

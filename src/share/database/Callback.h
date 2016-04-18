@@ -9,7 +9,7 @@
 
 /// ---------- BASE CLASSES -----------
 
-namespace Jovi
+namespace Evil
 {
     template<class Class, typename ParamType1 = void, typename ParamType2 = void, typename ParamType3 = void, typename ParamType4 = void>
 
@@ -284,7 +284,7 @@ namespace Jovi
 
 class QueryResult;
 
-namespace Jovi
+namespace Evil
 {
     class IQueryCallback
     {

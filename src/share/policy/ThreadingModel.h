@@ -7,7 +7,7 @@
 #ifndef _THREADING_MODEL_H_
 #define _THREADING_MODEL_H_
 
-namespace Jovi
+namespace Evil
 {
     template<class T>
     class SingleThreaded
@@ -16,11 +16,21 @@ namespace Jovi
         // empty object
         struct Lock
         {
-            Lock()  {}
-            Lock(const T&)  {}
+            Lock()  
+            {
+
+            }
+
+            Lock(const T&)  
+            {
+
+            }
 
             // for single threaded we ignore this
-            Lock(const SingleThreaded<T>&)  {}
+            Lock(const SingleThreaded<T>&)  
+            {
+
+            }
         };
     };
 
@@ -32,7 +42,10 @@ namespace Jovi
         static MUTEX _mutex;
 
     public:
-        ClassLevelLockable()    {}
+        ClassLevelLockable()
+        {
+
+        }
 
         friend class Lock;
 

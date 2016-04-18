@@ -4,6 +4,8 @@ PROJECT_PATH=/home/yunfei/myworld
 
 BOOST_PATH=$PROJECT_PATH/network_ramework/dep/boost
 
+cd $PROJECT_PATH/network_ramework/dep
+
 
 #####################################
 # check folder

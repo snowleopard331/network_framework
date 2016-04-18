@@ -11,14 +11,14 @@
 #include "policy/CreationPolicy.h"
 #include "policy/ObjectLifeTime.h"
 
-namespace Jovi
+namespace Evil
 {
     template
     <
         typename T,
-        class ThreadingModel = Jovi::SingleThreaded<T>,
-        class CreatePolicy = Jovi::OperatorNew<T>,
-        class LifeTimePolicy = Jovi::ObjectLifeTime<T>
+        class ThreadingModel = Evil::SingleThreaded<T>,
+        class CreatePolicy = Evil::OperatorNew<T>,
+        class LifeTimePolicy = Evil::ObjectLifeTime<T>
     >
 
     class Singleton
@@ -48,7 +48,7 @@ namespace Jovi
     bool Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::_destroyed = false;
 
     template<typename T, class ThreadingModel, class CreatePolicy, class LifeTimePolicy>
-    T& Jovi::Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::Instance()
+    T& Evil::Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::Instance()
     {
         if(!_instance)
         {
@@ -72,7 +72,7 @@ namespace Jovi
     }
 
     template<typename T, class ThreadingModel, class CreatePolicy, class LifeTimePolicy>
-    void Jovi::Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::DestroySingleton()
+    void Evil::Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::DestroySingleton()
     {
         CreatePolicy::Destroy(_instance);
         _instance = NULL;
@@ -81,6 +81,6 @@ namespace Jovi
 }
 
 #define  INSTANTIATE_SINGLETON_1(TYPE) \
-    template class Jovi::Singleton<TYPE, Jovi::SingleThreaded<TYPE>, Jovi::OperatorNew<TYPE>, Jovi::ObjectLifeTime<TYPE> >
+    template class Evil::Singleton<TYPE, Evil::SingleThreaded<TYPE>, Evil::OperatorNew<TYPE>, Evil::ObjectLifeTime<TYPE> >
 
 #endif//_SINGLETON_H_

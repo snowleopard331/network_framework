@@ -4,6 +4,8 @@ PROJECT_PATH=/home/yunfei/myworld
 
 GLOG_PATH=$PROJECT_PATH/network_ramework/dep/glog
 
+cd $PROJECT_PATH/network_ramework/dep
+
 
 #####################################
 # check folder

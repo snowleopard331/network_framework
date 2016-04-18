@@ -9,7 +9,7 @@
 
 typedef void (* Destroy)(void);
 
-namespace Jovi
+namespace Evil
 {
     void at_exit(void (*func)());
 
