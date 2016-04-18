@@ -2,4 +2,4 @@
 
 killall -9 server
 
-./server
+./evil
