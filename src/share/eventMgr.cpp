@@ -83,7 +83,7 @@ void EventMgr::fireEvent(uint eventId, void* pData)
             itTemp->second->reduceCount();
             if(0 == itTemp->second->getCount())
             {
-                m_eventList.erase(itTemp);
+                m_eventList.erase(itTemp); 
                 continue;
             }
         }
