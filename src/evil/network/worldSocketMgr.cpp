@@ -189,7 +189,7 @@ WorldSocketMgr::WorldSocketMgr()
     , m_SoketReady(NULL)
     , m_NetThreadIndexReady(0)
 {
-
+    
 }
 
 WorldSocketMgr::~WorldSocketMgr()
@@ -409,4 +409,3 @@ void WorldSocketMgr::OnAcceptReady()
     m_SoketReady = sock;
     m_NetThreadIndexReady = min;
 }
-

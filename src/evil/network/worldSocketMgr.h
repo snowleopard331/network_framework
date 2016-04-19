@@ -11,6 +11,7 @@
 #include "worldSocket.h"
 #include "policy/Singleton.h"
 
+
 class ProactorRunnable;
 
 // manages all sockets connected to peers and network threads
@@ -60,6 +61,7 @@ private:
 
     WorldSocket*            m_SoketReady;
     size_t                  m_NetThreadIndexReady;
+
 };
 
 #define sWorldSocketMgr Evil::Singleton<WorldSocketMgr>::Instance()
