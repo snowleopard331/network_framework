@@ -20,6 +20,7 @@
 //#   define DEBUG_INFO_SLEEP
 //#   define DEBUG_INFO_CALLGRIND
 //#   define DEBUG_INFO_DB  
+//#   define DEBUG_INFO_UNIQUE_PTR
 #endif
 
 #endif//_GAME_DEF_H_

@@ -663,6 +663,33 @@ home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp
 	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.cpp.s
 
+home/yunfei/myworld/network_ramework/src/share/eventMgr.o: home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/eventMgr.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.o:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/eventMgr.i: home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/eventMgr.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.i:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/eventMgr.s: home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/eventMgr.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.s:
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/eventMgr.cpp.s
+
 home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o: home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.o
 
 .PHONY : home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o
@@ -813,6 +840,9 @@ help:
 	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/database/SqlPreparedStatement.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/eventMgr.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/eventMgr.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/eventMgr.s"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.s"
