@@ -30,9 +30,11 @@ typedef boost::asio::io_service                 Proactor;
 typedef boost::asio::ip::tcp::socket            BSocket;
 typedef boost::asio::ip::tcp::endpoint          EndPoint;
 
-
-/// LOG with function name, used for business logic layer
-#define ELOG(SEVERITY)  LOG(SEVERITY)<<"("<<__FUNCTION__<<") "
+/*
+    LOG with function name, used for business logic layer
+    __FUNCTION__ / __func__ have no class name, only function name in linux
+*/
+#define ELOG(SEVERITY)  LOG(SEVERITY)<<"("<<BOOST_CURRENT_FUNCTION<<") "
 
 /// ---- RETURN ----
 
