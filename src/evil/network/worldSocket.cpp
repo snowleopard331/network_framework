@@ -226,6 +226,7 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
+        this->close(true);
         return -1;
     }
 
@@ -258,7 +259,8 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
     LOG(ERROR)<<"sendPacket in HandleInputTest success";
 #endif
 
-    m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), boost::bind(&WorldSocket::HandleInputTest, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), 
+        boost::bind(&WorldSocket::HandleInputTest, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
     return 0;
 }
@@ -269,6 +271,7 @@ int WorldSocket::HandleInput(const boost::system::error_code &ec, size_t bytes_t
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
+        this->close(true);
         return -1;
     }
 
