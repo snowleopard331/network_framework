@@ -13,13 +13,17 @@
 class Master
 {
 public:
+    friend Evil::OperatorNew<Master>;
+
+private:
     Master();
 
     ~Master();
 
+public:
     int Run();
 
-    static volatile uint32 m_MasterLoopCounter;
+    // static volatile uint32 m_MasterLoopCounter;
 
 };
 

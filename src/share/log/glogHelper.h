@@ -20,6 +20,9 @@ void signalHandle(const char* data, int size);
 class GLogHelper
 {
 public:
+    friend Evil::OperatorNew<GLogHelper>;
+
+private:
     // glog config
     GLogHelper();
 
