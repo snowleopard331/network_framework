@@ -1,5 +1,5 @@
 #!/bin/bash
 
-killall -9 server
+killall -9 evil
 
 ./evil

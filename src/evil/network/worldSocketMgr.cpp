@@ -189,7 +189,7 @@ WorldSocketMgr::WorldSocketMgr()
     , m_SoketReady(NULL)
     , m_NetThreadIndexReady(0)
 {
-
+    
 }
 
 WorldSocketMgr::~WorldSocketMgr()
@@ -197,9 +197,9 @@ WorldSocketMgr::~WorldSocketMgr()
 
 }
 
-int WorldSocketMgr::StartNetwork(uint16 port, std::string& address)
+int WorldSocketMgr::StartNetwork(uint16 port)
 {
-    if(StartIOService(port, address.c_str()) == -1)
+    if(StartIOService(port) == -1)
     {
         return -1;
     }
@@ -331,7 +331,7 @@ void WorldSocketMgr::AddAcceptHandler()
         boost::bind(&WorldSocketMgr::OnSocketOpen, this, boost::asio::placeholders::error));
 }
 
-int WorldSocketMgr::StartIOService(uint16 port, const char* address)
+int WorldSocketMgr::StartIOService(uint16 port)
 {
     m_UseNoDelay = sConfig.getBoolDefault("Network", "TcpNoDelay", true);
 
@@ -358,10 +358,8 @@ int WorldSocketMgr::StartIOService(uint16 port, const char* address)
 
     m_Acceptor = new WorldSocket::Acceptor(*(m_NetThreads[0].proactor()));
 
-    // boost::asio::ip::tcp::v4();
     boost::asio::ip::address addr;
-    addr.from_string(address);
-    EndPoint endpoint(addr, port);
+    EndPoint endpoint(boost::asio::ip::tcp::v4(), port);
 
     // set acceptor
     try
@@ -373,7 +371,7 @@ int WorldSocketMgr::StartIOService(uint16 port, const char* address)
     }
     catch(boost::system::system_error& ec)
     {
-        LOG(ERROR)<<"local ip: "<<address<<", port: "<<port;
+        LOG(ERROR)<<"acceptor open failed port: "<<port;
         LOG(ERROR)<<ec.what();
         return -1;
     }
@@ -409,4 +407,3 @@ void WorldSocketMgr::OnAcceptReady()
     m_SoketReady = sock;
     m_NetThreadIndexReady = min;
 }
-

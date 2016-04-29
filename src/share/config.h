@@ -19,14 +19,14 @@ des:    read config file
 
 class Config
 {
-    std::string                     m_FileName;
-    boost::property_tree::ptree*    m_Config;
-
 public:
-    Config();
+    friend Evil::OperatorNew<Config>;
 
+private:
+    Config();
     ~Config();
 
+public:
     bool setSource(const char* file);
 
     bool reload();
@@ -51,6 +51,11 @@ public:
     {
         return m_FileName;
     }
+
+private:
+
+    std::string                     m_FileName;
+    boost::property_tree::ptree*    m_Config;
 };
 
 #define sConfig Evil::Singleton<Config>::Instance()
