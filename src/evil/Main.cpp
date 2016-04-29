@@ -6,7 +6,6 @@
 
 #include "Common.h"
 #include "Master.h"
-#include "config.h"
 #include "PosixDaemon.h"
 
 #ifdef DEBUG_INFO_CALLGRIND
@@ -17,6 +16,7 @@
     }
 #endif
 
+// extern int return value is used for judging the statu of this process by other program 
 extern int main(int argc, char** argv)
 {
     /// initialize log
