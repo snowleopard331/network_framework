@@ -21,8 +21,8 @@ public:
     friend class WorldSocket;
     friend class Evil::OperatorNew<WorldSocketMgr>;
 
-    // Start network, listen at address:port .
-    int     StartNetwork(uint16 port);
+    // start network
+    int     StartNetwork();
 
     // stop all network threads, it will wait for running threads
     void    StopNetwork();
@@ -34,7 +34,7 @@ private:
     WorldSocketMgr();
     virtual ~WorldSocketMgr();
 
-    int     StartIOService(uint16 port);
+    int     StartIOService();
 
     // handle socket accept
     int     OnSocketOpen(const boost::system::error_code &ec);

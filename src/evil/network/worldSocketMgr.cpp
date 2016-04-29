@@ -7,7 +7,6 @@
 #include "worldSocketMgr.h"
 #include "config.h"
 
-#include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/atomic.hpp>
@@ -118,7 +117,7 @@ private:
     {
         LOG(INFO)<<"Network Thread Starting";
 
-        Jovi_ASSERT(m_Proactor);
+        Evil_ASSERT(m_Proactor);
 
         /*
             io_service::run() is blocking, if there is no handlers in io_service, 
@@ -197,9 +196,9 @@ WorldSocketMgr::~WorldSocketMgr()
 
 }
 
-int WorldSocketMgr::StartNetwork(uint16 port)
+int WorldSocketMgr::StartNetwork()
 {
-    if(StartIOService(port) == -1)
+    if(StartIOService() == -1)
     {
         return -1;
     }
@@ -245,8 +244,8 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
         return -1;
     }
     
-    Jovi_ASSERT(m_SoketReady);
-    Jovi_ASSERT(m_SoketReady->bsocket());
+    Evil_ASSERT(m_SoketReady);
+    Evil_ASSERT(m_SoketReady->bsocket());
     
 #ifdef DEBUG_INFO_SOCKET_WRITE
     LOG(ERROR)<<"OnSocketOpen, socketAddr: "<<m_SoketReady<<", "
@@ -324,15 +323,17 @@ void WorldSocketMgr::AddAcceptHandler()
 {
     OnAcceptReady();
 
-    Jovi_ASSERT(m_NetThreadIndexReady);
-    Jovi_ASSERT(m_NetThreadIndexReady < m_NetThreadsCount);
+    Evil_ASSERT(m_NetThreadIndexReady);
+    Evil_ASSERT(m_NetThreadIndexReady < m_NetThreadsCount);
 
     m_Acceptor->async_accept(*(m_SoketReady->bsocket()), 
         boost::bind(&WorldSocketMgr::OnSocketOpen, this, boost::asio::placeholders::error));
 }
 
-int WorldSocketMgr::StartIOService(uint16 port)
+int WorldSocketMgr::StartIOService()
 {
+    uint16 port = sConfig.getIntDefault("Network", "Port", 10301);
+
     m_UseNoDelay = sConfig.getBoolDefault("Network", "TcpNoDelay", true);
 
     int threadNums = sConfig.getIntDefault("Network", "Threads", 1);
@@ -356,14 +357,11 @@ int WorldSocketMgr::StartIOService(uint16 port)
         return -1;
     }
 
-    m_Acceptor = new WorldSocket::Acceptor(*(m_NetThreads[0].proactor()));
-
-    boost::asio::ip::address addr;
-    EndPoint endpoint(boost::asio::ip::tcp::v4(), port);
-
     // set acceptor
     try
     {
+        m_Acceptor = new WorldSocket::Acceptor(*(m_NetThreads[0].proactor()));
+        EndPoint endpoint(boost::asio::ip::tcp::v4(), port);
         m_Acceptor->open(endpoint.protocol());
         m_Acceptor->set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
         m_Acceptor->bind(endpoint);
@@ -390,7 +388,7 @@ void WorldSocketMgr::OnAcceptReady()
 {
     size_t min = 1;
 
-    Jovi_ASSERT(m_NetThreadsCount > 1);
+    Evil_ASSERT(m_NetThreadsCount > 1);
     // skip the Acceptor Thread
     for(size_t i = 1; i < m_NetThreadsCount; ++i)
     {

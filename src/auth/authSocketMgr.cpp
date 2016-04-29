@@ -28,7 +28,7 @@ AuthSocketMgr::~AuthSocketMgr()
             SafeDelete(pDel);
         }
 
-        m_socketList.clear();
+        m_socketList.clear(); 
     }
 
     SafeDelete(m_sockReady);

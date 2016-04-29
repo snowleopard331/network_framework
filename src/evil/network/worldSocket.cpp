@@ -341,7 +341,7 @@ int WorldSocket::HandleInputMissingData()
         if(m_header.space() > 0)
         {
             // Couldn't receive the whole header this time
-            Jovi_ASSERT(message_block.length() == 0);
+            Evil_ASSERT(message_block.length() == 0);
             errno = EWOULDBLOCK;
             return -1;// EWOULDBLOCK
         }
@@ -349,7 +349,7 @@ int WorldSocket::HandleInputMissingData()
         // received a nice new header
         if(HandleInputHeader() == -1)
         {
-            Jovi_ASSERT(errno != EWOULDBLOCK && errno != EAGAIN)
+            Evil_ASSERT(errno != EWOULDBLOCK && errno != EAGAIN)
             return -1;
         }
 
@@ -374,7 +374,7 @@ int WorldSocket::HandleInputMissingData()
             if(m_recvBuffer.space() > 0)
             {
                 // Couldn't receive the whole data this time.
-                Jovi_ASSERT(message_block.length() == 0);
+                Evil_ASSERT(message_block.length() == 0);
                 errno = EWOULDBLOCK;
                 return -1;
             }
@@ -383,7 +383,7 @@ int WorldSocket::HandleInputMissingData()
         // just received fresh new payload
         if(HandleInputPayload() == -1)
         {
-            Jovi_ASSERT((errno != EWOULDBLOCK) && (errno != EAGAIN));
+            Evil_ASSERT((errno != EWOULDBLOCK) && (errno != EAGAIN));
             return -1;
         }
     }
@@ -398,9 +398,9 @@ int WorldSocket::HandleInputMissingData()
 
 int WorldSocket::HandleInputHeader()
 {
-    Jovi_ASSERT(m_pRecvWorldPacket == NULL);
+    Evil_ASSERT(m_pRecvWorldPacket == NULL);
 
-    Jovi_ASSERT(m_header.length() == sizeof(PacketHeader));
+    Evil_ASSERT(m_header.length() == sizeof(PacketHeader));
 
     PacketHeader& header = (*(PacketHeader*)m_header.rd_ptr());
 
@@ -425,7 +425,7 @@ int WorldSocket::HandleInputHeader()
     }
     else
     {
-        Jovi_ASSERT(m_recvBuffer.space() == 0);
+        Evil_ASSERT(m_recvBuffer.space() == 0);
     }
 
     return 0;
@@ -433,9 +433,9 @@ int WorldSocket::HandleInputHeader()
 
 int WorldSocket::HandleInputPayload()
 {
-    Jovi_ASSERT(m_recvBuffer.space() == 0);
-    Jovi_ASSERT(m_header.space() == 0);
-    Jovi_ASSERT(m_pRecvWorldPacket != NULL);
+    Evil_ASSERT(m_recvBuffer.space() == 0);
+    Evil_ASSERT(m_header.space() == 0);
+    Evil_ASSERT(m_pRecvWorldPacket != NULL);
 
     const int ret = ProcessIncoming(m_pRecvWorldPacket);
 
@@ -509,14 +509,11 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
+        m_OutBufferLock.unlock();
         return;
     }
 
     LOG(INFO)<<"output data size: "<<bytes_transferred;
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"output data size: "<<bytes_transferred;
-#endif
 
     // locked in HandleOutput
     if(m_outBuffer->length() == bytes_transferred)
@@ -528,10 +525,6 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
         // lock in HandleOutput, if do not unlock, myybe deadlock
         m_OutBufferLock.unlock();
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"m_OutBufferLock unlock 3";
-#endif
-
         if(isFlush)
         {
             HandleOutput();
@@ -542,9 +535,6 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
         m_outBuffer->rd_ptr(bytes_transferred);
         m_outBuffer->crunch();
         m_OutBufferLock.unlock();
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"m_OutBufferLock unlock 4";
-#endif
     }
 }
 
@@ -603,7 +593,7 @@ int WorldSocket::iSendPacket(const WorldPacket& pkt)
         /*LOG(ERROR)<<"packet header copy failed, cmd: "<<header.cmd
         <<", header size: "<<sizeof(header)
         <<", m_outBuffer space: "<<m_outBuffer.space();*/
-        Jovi_ASSERT(false);
+        Evil_ASSERT(false);
     }
 
     if(!pkt.empty())
@@ -613,7 +603,7 @@ int WorldSocket::iSendPacket(const WorldPacket& pkt)
             /*LOG(ERROR)<<"packet copy failed, cmd: "<<pkt.getOpcode()
             <<", packet size: "<<pkt.size()
             <<", m_outBuffer space: "<<m_outBuffer.space();*/
-            Jovi_ASSERT(false);
+            Evil_ASSERT(false);
         }
     }
 
@@ -655,7 +645,7 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
 
 int WorldSocket::ProcessIncoming(WorldPacket* pPkt)
 {
-    Jovi_ASSERT(pPkt);
+    Evil_ASSERT(pPkt);
     
    // test code begin
 

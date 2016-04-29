@@ -11,7 +11,7 @@ QueryResultMysql::QueryResultMysql(MYSQL_RES* result, MYSQL_FIELD* fields, uint6
     , m_result(result)
 {
     m_pCurrentRow = new Field[m_FieldCount];
-    Jovi_ASSERT(m_pCurrentRow);
+    Evil_ASSERT(m_pCurrentRow);
 
     for(uint32 i = 0; i < m_FieldCount; ++i)
     {
