@@ -55,7 +55,7 @@ bool SqlStatement::Execute()
         LOG(ERROR)<<"SQL ERROR: wrong amount of parameters ("<<args->boundParams()<<" instead of "<<arguments()<<")";
         // TODO, "SQL ERROR: statement: %s", m_pDB->GetStmtString(ID()).c_str()
         LOG(ERROR)<<"SQL ERROR: statement: "<<m_pDB->GetStmtString(ID()).c_str();
-        Jovi_ASSERT(false);
+        Evil_ASSERT(false);
         return false;
     }
 
@@ -72,7 +72,7 @@ bool SqlStatement::DirectExecute()
         LOG(ERROR)<<"SQL ERROR: wrong amount of parameters ("<<args->boundParams()<<" instead of "<<arguments()<<")";
         // TODO, "SQL ERROR: statement: %s", m_pDB->GetStmtString(ID()).c_str()
         LOG(ERROR)<<"SQL ERROR: statement: "<<m_pDB->GetStmtString(ID()).c_str();
-        Jovi_ASSERT(false);
+        Evil_ASSERT(false);
         return false;
     }
 
@@ -94,7 +94,7 @@ void SqlPlainPreparedStatement::bind(const SqlStmtParameters& holder)
 {
     if(m_params != holder.boundParams())
     {
-        Jovi_ASSERT(false);
+        Evil_ASSERT(false);
         return;
     }
 

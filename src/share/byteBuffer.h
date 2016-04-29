@@ -291,7 +291,7 @@ public:
             return;
         }
 
-        Jovi_ASSERT(_storage.size() < 100000000);
+        Evil_ASSERT(_storage.size() < 100000000);
 
         if(_storage.size() < _wpos + cnt)
         {

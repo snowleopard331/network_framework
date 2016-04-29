@@ -48,7 +48,7 @@ SqlPreparedStatement* SqlConnection::GetStmt(uint32 nIndex)
     {
         // obtain SQL request string
         std::string fmt = m_db.GetStmtString(nIndex);
-        Jovi_ASSERT(fmt.length());
+        Evil_ASSERT(fmt.length());
 
         // allocate SQlPreparedStatement object
         pStmt = CreateStatement(fmt);
@@ -172,13 +172,13 @@ void Database::StopServer()
 
 SqlDelayThread* Database::CreateDelayThread()
 {
-    Jovi_ASSERT(m_pAsyncConn);
+    Evil_ASSERT(m_pAsyncConn);
     return new SqlDelayThread(this, m_pAsyncConn);
 }
 
 void Database::InitDelayThread()
 {
-    Jovi_ASSERT(!m_delayThread);
+    Evil_ASSERT(!m_delayThread);
 
     // New delay thread for delay execute, will deleted at m_delayThread delete
     m_threadBody = CreateDelayThread();
@@ -559,7 +559,7 @@ bool Database::ExecuteStmt(const SqlStatementID& id, SqlStmtParameters* params)
 
 bool Database::DirectExecuteStmt(const SqlStatementID& id, SqlStmtParameters* params)
 {
-    Jovi_ASSERT(params);
+    Evil_ASSERT(params);
     // QUESTION
     std::unique_ptr<SqlStmtParameters> p(params);
     // execute statement
@@ -624,7 +624,7 @@ Database::TransHelper::~TransHelper()
 SqlTransaction* Database::TransHelper::init()
 {
     // if we will get a nested transaction request - we MUST fix code!!!
-    Jovi_ASSERT(!m_pTrans);
+    Evil_ASSERT(!m_pTrans);
     m_pTrans = new SqlTransaction;
     return m_pTrans;
 }

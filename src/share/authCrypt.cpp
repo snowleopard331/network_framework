@@ -69,7 +69,7 @@ void CryptRSA::EncryptSend(std::string& plainText, std::string& cipherText)
     randPool.IncorporateEntropy((byte*)m_seed.c_str(), m_seed.length());
 
     int msgLengthMax = m_keyPub.FixedMaxPlaintextLength();
-    Jovi_ASSERT(0 != msgLengthMax);
+    Evil_ASSERT(0 != msgLengthMax);
 
 #ifdef DEBUG_INFO_CRYPT
     LOG(ERROR)<<"plainTextSize : "<<plainText.size();
@@ -99,7 +99,7 @@ void CryptRSA::DecryptRecv(std::string& plainText, std::string& cipherText)
 
     //indicate the ciphertext in hexcode ????
     int cipherTextLength = m_keyPri.FixedCiphertextLength() * 2;
-    Jovi_ASSERT(0 != cipherTextLength);
+    Evil_ASSERT(0 != cipherTextLength);
 
 #ifdef DEBUG_INFO_CRYPT
     LOG(ERROR)<<"m_keyPri.FixedCiphertextLength() : "<<cipherTextLength;

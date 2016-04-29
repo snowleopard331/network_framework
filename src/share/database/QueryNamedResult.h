@@ -75,7 +75,7 @@ public:
         }
 
         // TODO, 日志, 退出程序
-        Jovi_ASSERT(false && "unknown field name");
+        Evil_ASSERT(false && "unknown field name");
         return uint32(-1);
     }
 

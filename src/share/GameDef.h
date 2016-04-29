@@ -23,4 +23,9 @@
 //#   define DEBUG_INFO_UNIQUE_PTR
 #endif
 
+// use in LOG
+#define SEPARATOR_COMMA     ", "
+#define SEPARATOR_SPACE     " "
+
+
 #endif//_GAME_DEF_H_

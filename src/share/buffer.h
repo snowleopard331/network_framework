@@ -69,7 +69,7 @@ public:
 
     void wr_ptr(size_t len)
     {
-        if(len >= m_BufferSize - m_wPtr)
+        if(len >= this->space())
         {
             return;
         }
@@ -155,7 +155,7 @@ public:
         n. Free space can be checked by calling space().  
 
     */
-    int copy(char* buf, size_t len)
+    int copy(const char* buf, size_t len)
     {
         if(space() < len)
         {

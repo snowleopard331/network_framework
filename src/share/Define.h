@@ -29,6 +29,8 @@ typedef unsigned long long  uint64;
 typedef boost::asio::io_service                 Proactor;
 typedef boost::asio::ip::tcp::socket            BSocket;
 typedef boost::asio::ip::tcp::endpoint          EndPoint;
+typedef boost::asio::ip::tcp::acceptor          Acceptor;
+
 
 /*
     LOG with function name, used for business logic layer
@@ -111,14 +113,18 @@ typedef boost::asio::ip::tcp::endpoint          EndPoint;
     }
     // TODO, 日志, 打印文件名, 行号, 函数名, CONDITION, 堆栈
 #ifdef DEBUG_INFO
-    #define Jovi_ASSERT     WPErrorAssert
+    #define Evil_ASSERT     WPErrorAssert
 #else
-    #define Jovi_ASSERT
+    #define Evil_ASSERT
 #endif
 
 
 #ifndef SOCKET_READ_BUFFER_SIZE
-#define SOCKET_READ_BUFFER_SIZE  4096
+#define SOCKET_READ_BUFFER_SIZE     4096
+#endif
+
+#ifndef SOCKET_WRITE_BUFFER_SIZE
+#define SOCKET_WRITE_BUFFER_SIZE    4096
 #endif
 
 

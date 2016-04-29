@@ -25,7 +25,7 @@ Thread::Thread(Runnable* instance)
     }
 
     bool isThreadStart = start();
-    Jovi_ASSERT(isThreadStart);
+    Evil_ASSERT(isThreadStart);
 }
 
 Thread::~Thread()

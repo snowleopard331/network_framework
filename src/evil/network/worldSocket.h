@@ -34,9 +34,10 @@ public:
     typedef boost::mutex                            LockType;
     typedef boost::unique_lock<LockType>            GuardType;
 
+    // packet queue
     typedef std::list<WorldPacket*>                 PacketQueue;
 
-    // packet queue
+    
 
     // check if socket is closed
     bool close(void) const;
@@ -49,7 +50,10 @@ public:
     void closeSocket(void);
 
     // get address of connected peer
-    const std::string& getRemoteAddress(void) const;
+    const std::string& getRemoteAddress(void) const
+    {
+        return m_address;
+    }
 
     // send a packet on the socket
     int sendPacket(const WorldPacket& packet);

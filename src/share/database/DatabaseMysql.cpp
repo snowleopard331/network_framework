@@ -407,7 +407,7 @@ void MySqlPreparedStatement::bind(const SqlStmtParameters& holder)
 {
     if(!isPrepared())
     {
-        Jovi_ASSERT(false);
+        Evil_ASSERT(false);
         return;
     }
 
@@ -420,7 +420,7 @@ void MySqlPreparedStatement::bind(const SqlStmtParameters& holder)
     // verify if we bound all needed input parameters
     if(m_params != holder.boundParams())
     {
-        Jovi_ASSERT(false);
+        Evil_ASSERT(false);
         return;
     }
 
@@ -446,8 +446,8 @@ void MySqlPreparedStatement::bind(const SqlStmtParameters& holder)
 
 void MySqlPreparedStatement::addParam(unsigned int nIndex, const SqlStmtFieldData& data)
 {
-    Jovi_ASSERT(m_pInputArgs);
-    Jovi_ASSERT(nIndex < m_params);
+    Evil_ASSERT(m_pInputArgs);
+    Evil_ASSERT(nIndex < m_params);
 
     MYSQL_BIND& pData = m_pInputArgs[nIndex];
 
