@@ -21,6 +21,7 @@ CMakeCache.txt
 *.swp
 log
 evil
+auth
 
 # dep folder
 boost_1_60_0
