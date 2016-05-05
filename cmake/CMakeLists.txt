@@ -1,8 +1,6 @@
-### 生成多个应用程序没有把头文件 编译选项 执行文件 链接库 完全分开，待优化
-
 CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
 
-PROJECT(evil)
+PROJECT(server)
 
 ## set project path
 SET(PROJECT_PATH /home/yunfei/myworld/network_ramework)
@@ -10,7 +8,10 @@ SET(PROJECT_PATH /home/yunfei/myworld/network_ramework)
 ## set executable path
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_PATH}/bin)
 
-### find *.cpp
+
+
+#################################### find *.cpp #############################################
+
 ## common
 AUX_SOURCE_DIRECTORY(${PROJECT_PATH}/src/share             COMMON_SRC_LIST)
 AUX_SOURCE_DIRECTORY(${PROJECT_PATH}/src/share/log         COMMON_SRC_LIST)
@@ -24,8 +25,6 @@ AUX_SOURCE_DIRECTORY(${PROJECT_PATH}/src/share/database    EVIL_SRC_LIST)
 ## auth
 AUX_SOURCE_DIRECTORY(${PROJECT_PATH}/src/auth              AUTH_SRC_LIST)
 AUX_SOURCE_DIRECTORY(${PROJECT_PATH}/src/share/database    AUTH_SRC_LIST)
-
-
 
 
 
@@ -43,8 +42,6 @@ SET(MY_INCLUDE_DIR  ${PROJECT_PATH}/src/share
                     ${PROJECT_PATH}/src/auth)
 
 
-
-
 ## all dependent library directorys
 SET(DEP_LIB_DIR ${PROJECT_PATH}/dep/glog/lib 
                 ${PROJECT_PATH}/dep/boost/lib 
@@ -55,12 +52,8 @@ SET(DEP_LIB_DIR ${PROJECT_PATH}/dep/glog/lib
 SET(LIB_LIST boost_thread boost_system glog pthread cryptopp mysqlclient_r)
 
 
-
-
 ## compile options,  -rdynamic for stack, -fdiagnostics-color=auto need gcc--version more than 4.9.0
 ADD_DEFINITIONS(-g -W -Wall -std=c++11 -fdiagnostics-color=auto)
-
-
 
 
 ## include all header files directory
@@ -69,6 +62,7 @@ LINK_DIRECTORIES(${DEP_LIB_DIR})
 
 
 
+############################### excute bin file #######################################
 
 ## evil
 ADD_EXECUTABLE(evil ${COMMON_SRC_LIST} ${EVIL_SRC_LIST})
@@ -78,7 +72,17 @@ TARGET_LINK_LIBRARIES(evil ${LIB_LIST})
 ADD_EXECUTABLE(auth ${COMMON_SRC_LIST} ${AUTH_SRC_LIST})
 TARGET_LINK_LIBRARIES(auth ${LIB_LIST})
 
+## add new server
 
+
+############################## install ######################################
+
+SET(CMAKE_INSTALL_PREFIX ${PROJECT_PATH}/bin)
+INSTALL(TARGETS   evil
+	DESTINATION evilServer)
+
+INSTALL(TARGETS   auth
+        DESTINATION authServer)
 
 
 

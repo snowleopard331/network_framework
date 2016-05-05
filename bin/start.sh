@@ -1,5 +1,11 @@
 #!/bin/bash
 
-killall -9 evil
+PROJECT_PATH=/home/yunfei/myworld
 
-./evil
+cd $PROJECT_PATH/network_ramework/bin/authServer
+./start.sh
+
+sleep 1
+
+cd $PROJECT_PATH/network_ramework/bin/evilServer
+./start.sh

@@ -1,0 +1,11 @@
+[Network]
+;	Ip = 192.168.195.131
+	Port = 10300
+	TcpNoDelay = true
+
+[SQL]
+	LogSQL = false
+;	LogDir = 
+	MaxPingTime = 30
+	;;;;;;;;;;;;;;;;;;;;host;port;user;password;database
+	LoginDatabaseInfo = 192.168.195.134;3306;root;root;auth
