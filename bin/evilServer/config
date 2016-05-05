@@ -1,0 +1,12 @@
+[Network]
+;	Ip = 192.168.195.131
+	Port = 10301
+	TcpNoDelay = true
+	Threads = 4
+;	OutKBuff = -1
+;	OutUBuff = 65536
+
+[SQL]
+	LogSQL = false
+;	LogDir = 
+	MaxPingTime = 30
