@@ -26,16 +26,24 @@ private:
 
 public:
 
-    int run();
+    int     run();
+
+    void    stop();
+
 
 private:
 
-    bool _startDB();
+    bool    _startDB();
+
+    void    _masterLoop(boost::asio::deadline_timer &timer);
 
 private:
 
     DatabaseType    m_loginDatabase;
     bool            m_stopEvent;
+
+    uint            m_loopCounter;
+    uint            m_numLoops;             // maximum counter for next ping
 };
 
 #define sMaster Evil::Singleton<Master>::Instance()

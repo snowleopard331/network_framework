@@ -26,7 +26,13 @@ private:
 
 public:
 
-    int startNetwork();
+    int     startNetwork();
+    void    stopNetwork();
+
+    inline Proactor* getProactor() const
+    {
+        return m_proactor;
+    }
 
 public:
 

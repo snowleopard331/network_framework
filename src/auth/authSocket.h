@@ -9,6 +9,7 @@
 
 #include "Common.h"
 #include "buffer.h"
+#include "serverList.h"
 #include <boost/thread/mutex.hpp>
 
 class AuthSocket
@@ -25,15 +26,18 @@ public:
 
 
 public:
-
-    // check if socket is closed£¬´ý¶¨
-    bool close() const;
-
-    // set close flag£¬ ´ý¶¨
-    void close(bool flag);
-
-    // 
-    void closeSocket();
+ 
+    void closeSocket()
+    {
+        try
+        {
+            m_socket->close();
+        }
+        catch(boost::system::system_error& ec)
+        {
+            LOG(ERROR)<<ec.what();
+        }
+    }
 
     const std::string& getRemoteAddress() const
     {
@@ -78,6 +82,8 @@ public:
 public:
 
     bool HandleNull();
+    bool HandleEvilRegist();
+    bool HandleEvilUnregist();
 
 private:
 
@@ -88,6 +94,7 @@ private:
     LockType        m_outBufferLock;
     Buffer          m_outBuffer;
     bool            m_authed;
+    ServerList      m_serverList;
 };
 
 #endif//_AUTH_SOCKET_H_

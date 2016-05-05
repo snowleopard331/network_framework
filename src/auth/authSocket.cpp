@@ -23,7 +23,9 @@ enum SocketStatus
 // register authCode
 const AuthHandler table[] = 
 {
-    {CMD_AUTH_NULL,                 STATUS_CONNECTED,           &AuthSocket::HandleNull}
+    {CMD_AUTH_NULL,                 STATUS_CONNECTED,           &AuthSocket::HandleNull},
+    {CMD_AUTH_EVIL_REGIST,          STATUS_CONNECTED,           &AuthSocket::HandleEvilRegist},
+    {CMD_AUTH_EVIL_UNREGIST,        STATUS_CONNECTED,           &AuthSocket::HandleEvilUnregist}
 };
 
 #define AUTH_TOTAL_REGISTED_COMMANDS    sizeof(table)/sizeof(AuthHandler)
@@ -210,5 +212,19 @@ void AuthSocket::OnAsyncWirte(const boost::system::error_code &ec, size_t bytes_
 
 bool AuthSocket::HandleNull()
 {
+    return true;
+}
+
+bool AuthSocket::HandleEvilRegist()
+{
+    m_serverList.add(m_remoteAddress, m_socket->remote_endpoint().port());
+
+    return true;
+}
+
+bool AuthSocket::HandleEvilUnregist()
+{
+    m_serverList.erase(m_remoteAddress, m_socket->remote_endpoint().port());
+
     return true;
 }

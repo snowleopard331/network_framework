@@ -19,7 +19,6 @@ AuthSocketMgr::AuthSocketMgr()
 
 AuthSocketMgr::~AuthSocketMgr()
 {
-    // todo: clear socketList
     if(!m_socketList.empty())
     {
         for(SocketList::iterator iter = m_socketList.begin(); iter != m_socketList.end(); ++iter)
@@ -38,7 +37,7 @@ AuthSocketMgr::~AuthSocketMgr()
 
 int AuthSocketMgr::startNetwork()
 {
-    uint16 port = sConfig.getIntDefault("Auth", "port", 10300);
+    uint16 port = sConfig.getIntDefault("Network", "Port", 10300);
 
     try
     {
@@ -57,12 +56,33 @@ int AuthSocketMgr::startNetwork()
         return -1;
     }
 
-    Proactor::work word(*m_proactor);
-    m_proactor->run();
-
     LOG(INFO)<<"Auth Network starting";
 
     return 0;    
+}
+
+// heap memory will be free in destructor
+void AuthSocketMgr::stopNetwork()
+{
+    if(!m_socketList.empty())
+    {
+        for(SocketList::iterator iter = m_socketList.begin(); iter != m_socketList.end(); ++iter)
+        {
+            (*iter)->closeSocket();
+        }
+    }
+
+    boost::system::error_code ec;
+
+    m_acceptor->close(ec);
+    if(ec)
+    {
+        LOG(ERROR)<<boost::system::system_error(ec).what();
+    }
+
+    m_proactor->stop();    
+
+    LOG(INFO)<<"Auth Network stopped";
 }
 
 void AuthSocketMgr::addAcceptorHandler()
