@@ -184,7 +184,15 @@ void WorldSocket::closeSocket()
         }
 
         m_isClose = true;
-        m_socket->close();
+
+        try
+        {
+            m_socket->close();
+        }
+        catch(boost::system::system_error& ec)
+        {
+            LOG(ERROR)<<ec.what();
+        }
     }
 
     {
