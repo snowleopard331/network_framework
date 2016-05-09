@@ -9,15 +9,7 @@
 
 #include "Common.h"
 #include "worldSession.h"
-
-enum OpCodes
-{
-    MSG_NULL_ACTION                 = 0,
-
-    MSG_AUTH_SOCKET_STARTUP,                // socket startup
-
-    MSG_MAX,
-};
+#include "code.h"
 
 class WorldPacket;
 

@@ -146,7 +146,7 @@ int WorldSocket::HandleAccept()
 
 #endif
 
-    WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
+    WorldPacket packet(MSG_EVIL_AUTH_SOCKET_STARTUP, 4);
     packet << m_seed;
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
@@ -244,7 +244,7 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
 
     memset(&m_buffer, 0, SOCKET_READ_BUFFER_SIZE);
 
-    WorldPacket packet(MSG_AUTH_SOCKET_STARTUP, 4);
+    WorldPacket packet(MSG_EVIL_AUTH_SOCKET_STARTUP, 4);
     packet << "5678";
 
 #ifdef DEBUG_INFO_SOCKET_WRITE

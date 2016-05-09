@@ -5,11 +5,11 @@
 */
 
 #include "authSocket.h"
-#include "authCode.h"
+#include "code.h"
 
 struct AuthHandler
 {
-    AuthCmd     cmd;
+    OpCodes     cmd;
     uint        status;
     bool(AuthSocket::*handler)(void);
 };
@@ -23,9 +23,9 @@ enum SocketStatus
 // register authCode
 const AuthHandler table[] = 
 {
-    {CMD_AUTH_NULL,                 STATUS_CONNECTED,           &AuthSocket::HandleNull},
-    {CMD_AUTH_EVIL_REGIST,          STATUS_CONNECTED,           &AuthSocket::HandleEvilRegist},
-    {CMD_AUTH_EVIL_UNREGIST,        STATUS_CONNECTED,           &AuthSocket::HandleEvilUnregist}
+    {MSG_NULL_ACTION,                   STATUS_CONNECTED,           &AuthSocket::HandleNull         },
+    {MSG_AUTH_EVIL_REGIST,              STATUS_CONNECTED,           &AuthSocket::HandleEvilRegist   },
+    {MSG_AUTH_EVIL_UNREGIST,            STATUS_CONNECTED,           &AuthSocket::HandleEvilUnregist },
 };
 
 #define AUTH_TOTAL_REGISTED_COMMANDS    sizeof(table)/sizeof(AuthHandler)
