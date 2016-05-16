@@ -714,6 +714,36 @@ home/yunfei/myworld/network_ramework/src/share/config.cpp.s:
 	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/config.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/config.cpp.s
 
+home/yunfei/myworld/network_ramework/src/share/connector.o: home/yunfei/myworld/network_ramework/src/share/connector.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/connector.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/connector.cpp.o:
+	$(MAKE) -f CMakeFiles/auth.dir/build.make CMakeFiles/auth.dir/home/yunfei/myworld/network_ramework/src/share/connector.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/connector.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/connector.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/connector.i: home/yunfei/myworld/network_ramework/src/share/connector.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/connector.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/connector.cpp.i:
+	$(MAKE) -f CMakeFiles/auth.dir/build.make CMakeFiles/auth.dir/home/yunfei/myworld/network_ramework/src/share/connector.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/connector.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/connector.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/connector.s: home/yunfei/myworld/network_ramework/src/share/connector.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/connector.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/connector.cpp.s:
+	$(MAKE) -f CMakeFiles/auth.dir/build.make CMakeFiles/auth.dir/home/yunfei/myworld/network_ramework/src/share/connector.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/connector.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/connector.cpp.s
+
 home/yunfei/myworld/network_ramework/src/share/database/Database.o: home/yunfei/myworld/network_ramework/src/share/database/Database.cpp.o
 
 .PHONY : home/yunfei/myworld/network_ramework/src/share/database/Database.o
@@ -1085,6 +1115,9 @@ help:
 	@echo "... home/yunfei/myworld/network_ramework/src/share/config.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/config.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/config.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/connector.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/connector.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/connector.s"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/database/Database.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/database/Database.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/database/Database.s"

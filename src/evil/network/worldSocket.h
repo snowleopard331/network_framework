@@ -63,8 +63,10 @@ public:
 
     int Update();
 
+    int HandleConnect();
+
 private:
-    int HandleInput(const boost::system::error_code &ec, size_t bytes_transferred);
+    void HandleInput(const boost::system::error_code &ec, size_t bytes_transferred);
 
 #ifdef DEBUG_INFO_CONCURRENCE_TEST
     int HandleInputTest(const boost::system::error_code &ec, size_t bytes_transferred);
@@ -76,9 +78,11 @@ private:
 
     int HandleClose();
 
+    int HandleAuthRegisterAck();
+
 private:
     // helper functions for processing incoming data
-    int HandleInputMissingData();
+    int HandleInputMissingData(size_t len);
     int HandleInputHeader();
     int HandleInputPayload();
 

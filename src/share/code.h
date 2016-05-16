@@ -13,10 +13,12 @@ enum OpCodes
 
     // s -> s
     MSG_AUTH_EVIL_REGIST            = 1,
+    MSG_AUTH_EVIL_REGIST_ACK,
+
     MSG_AUTH_EVIL_UNREGIST,
 
     
-    MSG_EVIL_AUTH_SOCKET_STARTUP,   // s -> c
+    MSG_EVIL_SOCKET_STARTUP,   // s -> c
 
     MSG_MAX,
 };

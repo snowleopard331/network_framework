@@ -12,7 +12,8 @@
 #include <boost/atomic.hpp>
 #include <boost/asio/buffer.hpp>
 
-#define THREAD_LOOP_INTERVAL    10000       // microsec 10000
+#define THREAD_LOOP_INTERVAL                10000       // microsec 10000
+#define CONNECTOR_SELECT_THREAD_NUM         1
 
 class ProactorRunnable
 {
@@ -153,6 +154,9 @@ private:
                 (*iterTemp)->closeSocket();
                 --m_Connections;
                 m_Sockets.erase(iterTemp);
+
+				// ??? instead of unique_ptr
+				delete (*iterTemp);
             }
             else
             {
@@ -187,6 +191,7 @@ WorldSocketMgr::WorldSocketMgr()
     , m_Acceptor(NULL)
     , m_SoketReady(NULL)
     , m_NetThreadIndexReady(0)
+    , m_pAuthConnector(NULL)
 {
     
 }
@@ -220,7 +225,7 @@ void WorldSocketMgr::StopNetwork()
             m_NetThreads[i].stop();
         }
     }
-    // ？ 可能没有意义 stop执行时候run就已经退出了
+    // ?? 可能没有意义 stop执行时候run就已经退出了
     Wait();
 }
 
@@ -240,22 +245,17 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
-        ReadyReset();
+        readyReset();
         return -1;
     }
     
     Evil_ASSERT(m_SoketReady);
     Evil_ASSERT(m_SoketReady->bsocket());
-    
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"OnSocketOpen, socketAddr: "<<m_SoketReady<<", "
-        <<"bsocketAddr: "<<m_SoketReady->bsocket();
-#endif
 
     if(m_SoketReady->HandleAccept() < 0)
     {
         // SafeDelete(m_SoketReady);
-        ReadyReset();
+        readyReset();
         return -1;
     }
 
@@ -279,7 +279,7 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
 
     if(0 == m_NetThreadIndexReady && m_NetThreadIndexReady >= m_NetThreadsCount)
     {
-        ReadyReset();
+        readyReset();
         return -1;
     }
 
@@ -305,21 +305,21 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
     m_SoketReady = NULL;
 
     // new handler to acceptor
-    AddAcceptHandler();
+    addAcceptHandler();
 
     return 0;
 }
 
-void WorldSocketMgr::ReadyReset()
+void WorldSocketMgr::readyReset()
 {
     m_NetThreadIndexReady = 0;
     SafeDelete(m_SoketReady);
 
     // new handler to acceptor
-    AddAcceptHandler();
+    addAcceptHandler();
 }
 
-void WorldSocketMgr::AddAcceptHandler()
+void WorldSocketMgr::addAcceptHandler()
 {
     OnAcceptReady();
 
@@ -347,7 +347,7 @@ int WorldSocketMgr::StartIOService()
     m_NetThreadsCount = static_cast<size_t>(threadNums + 1);
     m_NetThreads = new ProactorRunnable[m_NetThreadsCount];
 
-    // -1 mean use default
+    /// -1 mean use default
     m_SockOutKBuff = sConfig.getIntDefault("Network", "OutKBuff", -1);
     m_SockOutUBuff = sConfig.getIntDefault("Network", "OutUBuff", 65536);
 
@@ -357,9 +357,9 @@ int WorldSocketMgr::StartIOService()
         return -1;
     }
 
-    // set acceptor
+    /// set acceptor
     try
-    {
+    { 
         m_Acceptor = new WorldSocket::Acceptor(*(m_NetThreads[0].proactor()));
         EndPoint endpoint(boost::asio::ip::tcp::v4(), port);
         m_Acceptor->open(endpoint.protocol());
@@ -379,9 +379,49 @@ int WorldSocketMgr::StartIOService()
         m_NetThreads[i].start();
     }
 
-    AddAcceptHandler();
+    addAcceptHandler();
+
+    /// connect auth
+	registToAuth();
 
     return 0;
+}
+
+void WorldSocketMgr::registToAuth()
+{
+	if(m_pAuthConnector == nullptr)
+	{
+		std::string authHostName = sConfig.getStringDefault("AuthInfo", "Host", "");
+		Evil_ASSERT(!authHostName.empty());
+
+		uint16 authPort = sConfig.getIntDefault("AuthInfo", "Port", 0);
+		Evil_ASSERT(authPort != 0);
+
+		m_pAuthConnector = new Connector(m_NetThreads[CONNECTOR_SELECT_THREAD_NUM].proactor(), authHostName, authPort);
+	}
+	else
+	{
+		detachAuthSocket();
+	}
+
+    // block
+    if(m_pAuthConnector->syncConnect())
+    {
+        Evil_ASSERT(m_pAuthConnector->getSocket() != nullptr);
+
+        WorldSocket* pConnSock = new WorldSocket();
+        pConnSock->bsocket(const_cast<BSocket*>(m_pAuthConnector->getSocket()));
+        Evil_ASSERT(pConnSock->HandleConnect() == 0);
+
+        m_NetThreads[CONNECTOR_SELECT_THREAD_NUM].addSocket(pConnSock);
+        LOG(INFO) << "add auth connector socket successfully";
+    }
+    else
+    {
+        // ??? 定时器不对，时间总是设置不上，待修改
+        boost::asio::deadline_timer timer(*(m_pAuthConnector->proactor()), boost::posix_time::seconds(CONNECTOR_RECONNECT_INTERNAL_SEC));
+        timer.async_wait(boost::bind(&WorldSocketMgr::registToAuth, this));
+    }
 }
 
 void WorldSocketMgr::OnAcceptReady()
@@ -404,4 +444,15 @@ void WorldSocketMgr::OnAcceptReady()
 
     m_SoketReady = sock;
     m_NetThreadIndexReady = min;
+}
+
+void WorldSocketMgr::detachAuthSocket()
+{
+	if (m_pAuthConnector == nullptr)
+	{
+		LOG(ERROR) << "connector member pointer is null";
+		return;
+	}
+
+	m_pAuthConnector->detachSocket();
 }

@@ -8,6 +8,7 @@
 #define _BUFFER_H_
 
 #include "Common.h"
+#include "buffer.h"
 
 class Buffer
 {
@@ -69,7 +70,7 @@ public:
 
     void wr_ptr(size_t len)
     {
-        if(len >= this->space())
+        if(len > this->space())
         {
             return;
         }

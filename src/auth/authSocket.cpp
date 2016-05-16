@@ -6,6 +6,8 @@
 
 #include "authSocket.h"
 #include "code.h"
+#include "byteConverter.h"
+#include "authSocketMgr.h"
 
 struct AuthHandler
 {
@@ -33,17 +35,20 @@ const AuthHandler table[] =
 ///////////////////////////////////////////////////////////////////////////////
 
 AuthSocket::AuthSocket()
-    : m_socket(nullptr)
+    : m_port(0)
+    , m_socket(nullptr)
     , m_inputBuffer(m_buffer, SOCKET_READ_BUFFER_SIZE)
     , m_outBuffer(SOCKET_WRITE_BUFFER_SIZE)
     , m_authed(false)
+	, m_close(false)
+    , m_isEvil(false)
 {
 
 }
 
 AuthSocket::~AuthSocket()
 {
-
+	
 }
 
 void AuthSocket::OnAccept()
@@ -51,6 +56,7 @@ void AuthSocket::OnAccept()
     LOG(INFO)<<"accepting connection from "<<getRemoteAddress();
 
     m_remoteAddress = m_socket->remote_endpoint().address().to_string();
+    m_port = m_socket->remote_endpoint().port();
 
     // TCP_NODELAY
     boost::asio::ip::tcp::no_delay option(true);
@@ -64,7 +70,15 @@ void AuthSocket::OnRead(const boost::system::error_code &ec, size_t bytes_transf
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
-        // ? handle error
+        
+        if(isEvil())
+        {
+            sAuthSockMgr.eraseServer(m_remoteAddress, m_port);
+        }
+        this->close(true);
+     
+        // ?? socket的销毁工作还没有写， 不在这里
+
         return;
     }
 
@@ -80,27 +94,29 @@ void AuthSocket::OnRead(const boost::system::error_code &ec, size_t bytes_transf
     this->m_inputBuffer.wr_ptr(bytes_transferred);
 
     /// handle message
-    uint8 cmd = 0;
+    PacketHeader header;
     while(1)
     {
-        if(!recv_soft((char*)&cmd, 1))
+        if(!recv_soft((char*)&header, sizeof(PacketHeader)))
         {
             break;
         }
+        
+        EndianConvert(header);
 
         size_t i = 0;
         for(i = 0; i < AUTH_TOTAL_REGISTED_COMMANDS; ++i)
         {
-            if((uint8)table[i].cmd == cmd && 
+            if((uint8)table[i].cmd == header.cmd && 
                 (table[i].status == STATUS_CONNECTED ||
                 (m_authed && table[i].status == STATUS_AUTHED)))
             {
-                LOG(INFO)<<"[Auth] got data for cmd "<<cmd<<SEPARATOR_SPACE
+                LOG(INFO)<<"[Auth] got data for cmd "<<header.cmd<<SEPARATOR_SPACE
                     <<"length "<<recv_len();
 
                 if(!(*this.*table[i].handler)())
                 {
-                    LOG(ERROR)<<"Command handler failed for cmd "<<cmd<<SEPARATOR_SPACE
+                    LOG(ERROR)<<"Command handler failed for cmd "<<header.cmd<<SEPARATOR_SPACE
                         <<"length "<<recv_len();
                 }
                 break;
@@ -110,13 +126,14 @@ void AuthSocket::OnRead(const boost::system::error_code &ec, size_t bytes_transf
         /// report unknown commands in log
         if(i == AUTH_TOTAL_REGISTED_COMMANDS)
         {
-            LOG(ERROR)<<"[Auth] get unknown packet "<<cmd;
+            LOG(ERROR)<<"[Auth] get unknown packet "<<header.cmd;
             break;
         }
     }
 
-
     m_inputBuffer.crunch();
+
+	asyncRead();
 }
 
 void AuthSocket::asyncRead()
@@ -132,6 +149,10 @@ bool AuthSocket::recv_soft(char* buf, size_t len)
         LOG(ERROR)<<"input buf is NULL";
         return false;
     }
+
+#ifdef DEBUG_INFO_CONNECT
+    ELOG(ERROR) << "m_inputBuffer length : " << m_inputBuffer.length() << SEPARATOR_COMMA << "input len : " << len;
+#endif
 
     if(this->m_inputBuffer.length() < len)
     {
@@ -169,10 +190,15 @@ bool AuthSocket::send(const char* buf, size_t len)
 {
     if(buf == nullptr || len == 0)
     {
-        return true;
+        return false;
     }
 
     m_outBufferLock.lock();
+
+#ifdef DEBUG_INFO_WRITE_AND_READ
+	PacketHeader* header = (PacketHeader*)buf;
+	ELOG(ERROR) << "cmd : " << header->cmd << SEPARATOR_COMMA << "size : " << header->size;
+#endif
 
     if(m_outBuffer.copy(buf, len) == -1)
     {
@@ -208,6 +234,8 @@ void AuthSocket::OnAsyncWirte(const boost::system::error_code &ec, size_t bytes_
     }
 
     m_outBufferLock.unlock();
+
+    return;
 }
 
 bool AuthSocket::HandleNull()
@@ -217,14 +245,35 @@ bool AuthSocket::HandleNull()
 
 bool AuthSocket::HandleEvilRegist()
 {
-    m_serverList.add(m_remoteAddress, m_socket->remote_endpoint().port());
+    recv_skip(sizeof(PacketHeader));
+
+    PacketHeader header;
+    
+    // to evil
+    header.size = sizeof(header);
+    header.cmd = MSG_AUTH_EVIL_REGIST_ACK;
+
+    EndianConvert(header);
+
+    Buffer outbuf(sizeof(header));
+    outbuf.copy((char*)&header, sizeof(header));
+
+    send(outbuf.rd_ptr(), outbuf.length());
+
+    sAuthSockMgr.addServer(m_remoteAddress, m_port);
+    m_isEvil = true;
 
     return true;
 }
 
 bool AuthSocket::HandleEvilUnregist()
 {
-    m_serverList.erase(m_remoteAddress, m_socket->remote_endpoint().port());
+	sAuthSockMgr.eraseServer(m_remoteAddress, m_port);
 
     return true;
+}
+
+void AuthSocket::close(bool isClose)
+{
+	m_close = isClose;
 }

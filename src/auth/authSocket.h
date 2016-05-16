@@ -9,7 +9,6 @@
 
 #include "Common.h"
 #include "buffer.h"
-#include "serverList.h"
 #include <boost/thread/mutex.hpp>
 
 class AuthSocket
@@ -29,14 +28,12 @@ public:
  
     void closeSocket()
     {
-        try
-        {
-            m_socket->close();
-        }
-        catch(boost::system::system_error& ec)
-        {
-            LOG(ERROR)<<ec.what();
-        }
+		boost::system::error_code ec;
+		m_socket->close(ec);
+		if (ec)
+		{
+			LOG(ERROR) << boost::system::system_error(ec).what();
+		}
     }
 
     const std::string& getRemoteAddress() const
@@ -45,15 +42,27 @@ public:
     }
 
     // get bsocket
-    BSocket* bsocket () const
+    inline BSocket* bsocket () const
     {
         return m_socket;
     }
 
     // set bsocket
-    void bsocket(BSocket* sock)
+    inline void bsocket(BSocket* sock)
     {
         m_socket = sock;
+    }
+
+	void close(bool isClose);
+
+	inline bool close() const
+	{
+		return m_close;
+	}
+
+    inline bool isEvil() const
+    {
+        return m_isEvil;
     }
 
 public:
@@ -88,13 +97,15 @@ public:
 private:
 
     std::string     m_remoteAddress;
+    uint16          m_port;
     BSocket*        m_socket;
     char            m_buffer[SOCKET_READ_BUFFER_SIZE];
     Buffer          m_inputBuffer;
     LockType        m_outBufferLock;
     Buffer          m_outBuffer;
     bool            m_authed;
-    ServerList      m_serverList;
+	bool			m_close;
+    bool            m_isEvil;
 };
 
 #endif//_AUTH_SOCKET_H_
