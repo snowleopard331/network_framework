@@ -77,7 +77,7 @@ typedef boost::asio::ip::tcp::acceptor          Acceptor;
     if((p)) \
     {   \
         delete (p); \
-        (p) = 0;    \
+        (p) = nullptr;    \
     }
 #endif//SafeDelete
 #ifndef SafeDeleteArray
@@ -85,7 +85,7 @@ typedef boost::asio::ip::tcp::acceptor          Acceptor;
     if((p)) \
     {   \
         delete [] (p);  \
-        (p) = 0;    \
+        (p) = nullptr;    \
     }
 #endif//SafeDeleteArray
 
@@ -96,7 +96,7 @@ typedef boost::asio::ip::tcp::acceptor          Acceptor;
     if(!(CONDITION))  \
     {   \
         StackTrace  stack;  \
-        LOG(FATAL)<<__FILE__<<": "<<__LINE__<<": Error: Assertion in "<<__FUNCTION__<<" failed: "<<#CONDITION;  \
+        LOG(FATAL)<<__FILE__<<": "<<__LINE__<<": Error: Assertion in "<<"("<<BOOST_CURRENT_FUNCTION<<") "<<" failed: "<<#CONDITION;  \
         LOG(FATAL)<<"Stack Trace: ";    \
         LOG(FATAL)<<stack.c_str();  \
         assert(0);   \
@@ -106,7 +106,7 @@ typedef boost::asio::ip::tcp::acceptor          Acceptor;
     if(!(CONDITION))  \
     {   \
         StackTrace  stack;  \
-        LOG(FATAL)<<__FILE__<<": "<<__LINE__<<": Error: Assertion in "<<__FUNCTION__<<" failed: "<<#CONDITION;  \
+        LOG(FATAL)<<__FILE__<<": "<<__LINE__<<": Error: Assertion in "<<"("<<BOOST_CURRENT_FUNCTION<<") "<<" failed: "<<#CONDITION;  \
         LOG(FATAL)<<"Stack Trace: ";    \
         LOG(FATAL)<<stack.c_str();  \
         exit(-1);   \

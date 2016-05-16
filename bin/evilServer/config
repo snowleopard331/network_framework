@@ -10,3 +10,7 @@
 	LogSQL = false
 ;	LogDir = 
 	MaxPingTime = 30
+
+[AuthInfo]
+	Host = 192.168.195.131
+	Port = 10300

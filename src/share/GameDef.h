@@ -12,8 +12,8 @@
 #ifdef DEBUG_INFO
 #   define DEBUG_INFO_SOCKET
 //#   define DEBUG_INFO_SOCKET_WRITE
-#   define DEBUG_INFO_CONCURRENCE_TEST
-#   define DEBUG_INFO_WRITE_AND_READ
+//#   define DEBUG_INFO_CONCURRENCE_TEST
+//#   define DEBUG_INFO_WRITE_AND_READ
 //#   define DEBUG_INFO_STACK
 #   define DEBUG_INFO_ENDIAN
 //#   define DEBUG_INFO_CRYPT
@@ -21,11 +21,22 @@
 //#   define DEBUG_INFO_CALLGRIND
 //#   define DEBUG_INFO_DB  
 //#   define DEBUG_INFO_UNIQUE_PTR
-#endif
+//#   define DEBUG_INFO_CONNECT
+#endif//DEBUG_INFO
 
 // use in LOG
 #define SEPARATOR_COMMA     ", "
 #define SEPARATOR_SPACE     " "
 
+struct PacketHeader
+{
+    uint16  size;
+    uint16  cmd;
+};
+
+enum MiscDef
+{
+    CONNECTOR_RECONNECT_INTERNAL_SEC        = 5,
+};
 
 #endif//_GAME_DEF_H_

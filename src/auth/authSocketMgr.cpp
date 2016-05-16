@@ -56,6 +56,8 @@ int AuthSocketMgr::startNetwork()
         return -1;
     }
 
+    addAcceptorHandler();
+
     LOG(INFO)<<"Auth Network starting";
 
     return 0;    
@@ -111,6 +113,7 @@ void AuthSocketMgr::OnSocketAccept(const boost::system::error_code &ec)
 
     m_sockReady->OnAccept();
 
+	// ?? where delete, instead of unique_ptr, memory leak now
     m_socketList.insert(m_sockReady);
     m_sockReady = nullptr;
 

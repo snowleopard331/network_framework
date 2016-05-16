@@ -9,6 +9,7 @@
 
 #include "policy/Singleton.h"
 #include "Common.h"
+#include "serverList.h"
 
 class AuthSocket;
 
@@ -29,10 +30,20 @@ public:
     int     startNetwork();
     void    stopNetwork();
 
-    inline Proactor* getProactor() const
+    inline Proactor* proactor() const
     {
         return m_proactor;
     }
+
+	void addServer(std::string& addr, uint16 port)
+	{
+		m_serverList.add(addr, port);
+	}
+
+	void eraseServer(std::string& addr, uint16 port)
+	{
+		m_serverList.erase(addr, port);
+	}
 
 public:
 
@@ -50,6 +61,7 @@ private:
     Acceptor*       m_acceptor;
     AuthSocket*     m_sockReady;
     SocketList      m_socketList;
+	ServerList		m_serverList;
 };
 
 #define sAuthSockMgr Evil::Singleton<AuthSocketMgr>::Instance()

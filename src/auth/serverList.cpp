@@ -25,6 +25,9 @@ void ServerList::add(std::string& addr, uint16 port)
     pInfo->registTime = time(0);
 
     m_serverList.push_back(pInfo);
+
+    LOG(INFO) << "add server host " << addr<<SEPARATOR_SPACE << "port " <<port;
+	LOG(INFO) << "server list size " << m_serverList.size();
 }
 
 void ServerList::erase(std::string& addr, uint16 port)
@@ -47,6 +50,8 @@ void ServerList::erase(std::string& addr, uint16 port)
             break;
         }
     }
+
+	LOG(INFO) << "server list size " << m_serverList.size();
 }
 
 void ServerList::clear()

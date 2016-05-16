@@ -7,18 +7,8 @@
 #include "worldSocket.h"
 #include "worldSocketMgr.h"
 #include "worldPacket.h"
-
-#ifdef DEBUG_INFO_DB
-#include "database/DatabaseEnv.h"
-#endif
-
 #include <boost/bind.hpp>
 
-struct PacketHeader
-{
-    uint16  size;
-    uint16  cmd;
-};
 
 WorldSocket::WorldSocket()
     : m_lastPingTime(0)
@@ -75,90 +65,13 @@ int WorldSocket::HandleAccept()
         return -1;
     }
 
-//#ifdef DEBUG_INFO_STACK
-//    StackTrace stack;
-//    LOG(ERROR)<<stack.c_str();
-//#endif
-
-#ifdef DEBUG_INFO_DB
-    DatabaseType  TestDataBase;
-    do 
-    {
-        std::string dbstring = "192.168.195.134;3306;root;root;accessTest";
-        int connectionNum = 16;
-
-        if(!TestDataBase.Initialize(dbstring.c_str(), connectionNum))
-        {
-            LOG(ERROR)<<"Can not connect to world database "<<dbstring;
-            break;
-        }
-
-        if (!TestDataBase.CheckRequiredField("DataTest", "Id"))
-        {
-            LOG(ERROR)<<"Can not connect DataTest";
-        }
-
-        TestDataBase.ThreadStart();
-
-        // insert
-        //uint64 idIndex = 10000001;
-        //int iData = 0;
-        //do 
-        //{
-        //    uint32 testField = idIndex;
-        //    std::string str = "yunfei";
-        //    str += (idIndex % 26) + 'A';
-        //    TestDataBase.PExecute("INSERT INTO DataTest VALUE('%llu', '%u', '%s')", idIndex, iData++, str.c_str());
-        //} while (idIndex++ != 10020000);
-
-        // fetch
-        //int count = 16, selectNum = 10;
-        //while(count--)
-        //{
-        //    if(QueryResult* result = TestDataBase.Query("SELECT Data FROM DataTest LIMIT 10"))
-        //    {
-        //        do 
-        //        {
-        //            Field* fields = result->Fetch();
-        //            uint32 data = fields[0].GetUInt64();
-        //            LOG(ERROR)<<"Data:"<<data;
-        //        } while (result->NextRow());
-        //        SafeDelete(result);
-        //    }
-        //}
-
-        if(QueryResult* result = TestDataBase.Query("SELECT * FROM DataTest LIMIT 10"))
-        {
-            do 
-            {
-                Field* fields = result->Fetch();
-                uint64 Id = fields[0].GetUInt64();
-                uint32 Data = fields[1].GetUInt32();
-                const char* strData = fields[2].GetString();
-                LOG(ERROR)<<"Id : "<<Id<<", Data : "<<Data<<", strData : "<<strData;
-            } while (result->NextRow());
-            SafeDelete(result);
-        }
-
-        TestDataBase.ThreadEnd();
-    } while (0);
-    
-
-#endif
-
-    WorldPacket packet(MSG_EVIL_AUTH_SOCKET_STARTUP, 4);
+    WorldPacket packet(MSG_EVIL_SOCKET_STARTUP, 4);
     packet << m_seed;
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"sendPacket in HandleAccept";
-#endif
     if(sendPacket(packet) == -1)
     {
         return -1;
     }
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"sendPacket in HandleAccept success";
-#endif
 
     return 0;
 }
@@ -184,15 +97,13 @@ void WorldSocket::closeSocket()
         }
 
         m_isClose = true;
-
-        try
-        {
-            m_socket->close();
-        }
-        catch(boost::system::system_error& ec)
-        {
-            LOG(ERROR)<<ec.what();
-        }
+		        
+		boost::system::error_code ec;
+        m_socket->close(ec);
+		if (ec)
+		{
+			LOG(ERROR) << boost::system::system_error(ec).what();
+		}
     }
 
     {
@@ -204,26 +115,15 @@ void WorldSocket::closeSocket()
 
 int WorldSocket::Update()
 {
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"update 1";
-#endif
     if(m_isClose)
     {
         return -1;
     }
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"update 2";
-#endif
-
     if(m_outBuffer->length() == 0)
     {
         return 0;
     }
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"update 3";
-#endif
 
     return HandleOutput();
 }
@@ -244,7 +144,7 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
 
     memset(&m_buffer, 0, SOCKET_READ_BUFFER_SIZE);
 
-    WorldPacket packet(MSG_EVIL_AUTH_SOCKET_STARTUP, 4);
+    WorldPacket packet(MSG_EVIL_SOCKET_STARTUP, 4);
     packet << "5678";
 
 #ifdef DEBUG_INFO_SOCKET_WRITE
@@ -274,69 +174,96 @@ int WorldSocket::HandleInputTest(const boost::system::error_code &ec, size_t byt
 }
 #endif
 
-int WorldSocket::HandleInput(const boost::system::error_code &ec, size_t bytes_transferred)
+void WorldSocket::HandleInput(const boost::system::error_code &ec, size_t bytes_transferred)
 {
     if(ec)
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
-        this->close(true);
-        return -1;
+
+		if (this->bsocket() == sWorldSocketMgr.getAuthBSocket())
+		{
+			this->closeSocket();
+			sWorldSocketMgr.registToAuth();
+		}
+
+        return;
     }
 
-    // ? add other arguments later
     LOG(INFO)<<"input data size: "<<bytes_transferred;
+	if (bytes_transferred == 0)
+	{
+		return;
+	}
 
     if(m_isClose)
     {
-        return -1;
+        return;
     }
 
-    switch(HandleInputMissingData())
+#ifdef DEBUG_INFO_WRITE_AND_READ
+    PacketHeader header;
+    memcpy(&header, m_buffer, bytes_transferred);
+    ELOG(ERROR) << "cmd : " << header.cmd << SEPARATOR_COMMA << "size : " << header.size;
+
+    EndianConvert(header);
+
+	char t;
+	memcpy(&t, m_buffer, 1);
+    ELOG(ERROR) << "cmd : " << header.cmd << SEPARATOR_COMMA << "size : " << header.size;
+	ELOG(ERROR) << "strlen buf size : " << strlen(m_buffer) << " sizeof "<< sizeof(m_buffer) << " t " <<(int)t;
+#endif
+
+    switch(HandleInputMissingData(bytes_transferred))
     {
     case -1:
         {
             if(errno == EWOULDBLOCK || errno == EAGAIN)
             {
                 // ? why do this
-                return Update();
+				Update();
+				return;
             }
 
             LOG(INFO)<<"WorldSocket::handle_input: Peer error closing connection errno = "<<errno;
         
             errno = ECONNRESET;
-            return -1;
         }
+		break;
     case 0:
         {
-            LOG(ERROR)<<"WorldSocket::handle_input: Peer has closed connection";
+            // LOG(ERROR)<<"WorldSocket::handle_input: Peer has closed connection";
+			LOG(ERROR) << "recv data size is zero";
 
             errno = ECONNRESET;
-            return -1;
         }
+		break;
     case 1:
-        {
-            return 1;
-        }
+        break;
     default:
-        return Update();
+        {
+			Update();
+		}
+		break;
     }
 
-    return  -1;
+    return;
 }
 
-int WorldSocket::HandleInputMissingData()
+int WorldSocket::HandleInputMissingData(size_t len)
 {
-    uint size = strlen(m_buffer);
-
-    if(0 == size)
+    if(0 == len)
     {
         return 0;
     }
-    
-    Buffer message_block(m_buffer, size);
 
-    message_block.wr_ptr(size);
+    Buffer message_block(m_buffer, len);
 
+    message_block.wr_ptr(len);
+
+#ifdef DEBUG_INFO_WRITE_AND_READ
+    ELOG(ERROR) << "message_block.length() : "<<message_block.length();
+#endif 
+	
     while(message_block.length() > 0)
     {
         if(m_header.space() > 0)
@@ -364,7 +291,7 @@ int WorldSocket::HandleInputMissingData()
         // Its possible on some error situations that this happens
         // for example on closing when epoll receives more chunked data and stuff
         // hope this is not hack ,as proper m_pRecvWorldPacket is asserted around
-        if(!m_pRecvWorldPacket)
+        if(m_pRecvWorldPacket == nullptr)
         {
             LOG(ERROR)<<"Forcing close on input m_pRecvWorldPacket = NULL";
             errno = EAGAIN;
@@ -388,6 +315,10 @@ int WorldSocket::HandleInputMissingData()
             }
         }
 
+#ifdef DEBUG_INFO_WRITE_AND_READ
+        ELOG(ERROR) << "4";
+#endif
+
         // just received fresh new payload
         if(HandleInputPayload() == -1)
         {
@@ -401,7 +332,7 @@ int WorldSocket::HandleInputMissingData()
     m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE), 
         boost::bind(&WorldSocket::HandleInput, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
-    return size == SOCKET_READ_BUFFER_SIZE ? 1 : 2;
+    return len == SOCKET_READ_BUFFER_SIZE ? 1 : 2;
 }
 
 int WorldSocket::HandleInputHeader()
@@ -412,17 +343,26 @@ int WorldSocket::HandleInputHeader()
 
     PacketHeader& header = (*(PacketHeader*)m_header.rd_ptr());
 
+#ifdef DEBUG_INFO_WRITE_AND_READ
+    ELOG(ERROR) << "cmd : " << header.cmd << SEPARATOR_COMMA << "size : " << header.size;
+#endif
+
     // consider the element(size/cmd) of the PacketHeader could be converter(endian) respectively
     EndianConvert(header);
 
-    if(header.size < 4 || header.size > 10240 || header.cmd > 10240)
+#ifdef DEBUG_INFO_WRITE_AND_READ
+    ELOG(ERROR) << "cmd : " << header.cmd << SEPARATOR_COMMA << "size : " << header.size;
+#endif
+
+    // ?? the max message length have no define
+    if(header.size < sizeof(PacketHeader) || header.size > 10240 || header.cmd >= MSG_MAX)
     {
         // client sent malformed packet size = %d , cmd = %d
-        LOG(ERROR)<<"client sent malformed packet size = "<<header.size<<" , cmd = "<<header.cmd;
+        LOG(ERROR)<<"client sent malformed packet size = "<<header.size<<SEPARATOR_COMMA<<"cmd = "<<header.cmd;
         return -1;
     }
 
-    header.size -= 4;
+    header.size -= sizeof(PacketHeader);
 
     m_pRecvWorldPacket = new WorldPacket(OpCodes(header.cmd), header.size);
 
@@ -443,7 +383,7 @@ int WorldSocket::HandleInputPayload()
 {
     Evil_ASSERT(m_recvBuffer.space() == 0);
     Evil_ASSERT(m_header.space() == 0);
-    Evil_ASSERT(m_pRecvWorldPacket != NULL);
+    Evil_ASSERT(m_pRecvWorldPacket != nullptr);
 
     const int ret = ProcessIncoming(m_pRecvWorldPacket);
 
@@ -461,16 +401,9 @@ int WorldSocket::HandleOutput()
     // unlock in callback func
     m_OutBufferLock.lock();
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"m_OutBufferLock lock";
-#endif
-
     if(m_isClose)
     {
         m_OutBufferLock.unlock();
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"m_OutBufferLock unlock 1";
-#endif
         return -1;
     }
 
@@ -479,20 +412,8 @@ int WorldSocket::HandleOutput()
     if(sendSize == 0)
     {
         m_OutBufferLock.unlock();
-#ifdef DEBUG_INFO_SOCKET_WRITE
-        LOG(ERROR)<<"m_OutBufferLock unlock 2";
-#endif
         return 0;
     }
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    char* buffer = new char[m_outBuffer->length() + 1];
-    memset(buffer, 0, m_outBuffer->length());
-    memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
-    buffer[m_outBuffer->length()] = '\0';
-    LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<" in iSendPacket";
-    SafeDeleteArray(buffer);
-#endif
 
     /*
         We are using boost::asio::async_write(), 
@@ -631,10 +552,6 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
 {
     boost::mutex::scoped_lock guard(m_OutBufferLock);
 
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"sendPacket size: "<<packet.size();
-#endif
-
     if(m_isClose)
     {
         return -1;
@@ -654,26 +571,63 @@ int WorldSocket::sendPacket(const WorldPacket& packet)
 int WorldSocket::ProcessIncoming(WorldPacket* pPkt)
 {
     Evil_ASSERT(pPkt);
-    
-   // test code begin
 
+    int ret = 0;
     uint16 opcode = pPkt->getOpcode();
     switch(opcode)
     {
+    case MSG_AUTH_EVIL_REGIST_ACK:
+        {
+            ret = HandleAuthRegisterAck();
+        }
+        break;
     default:
         {
-            WorldPacket packet;
-            packet.initialize(MSG_NULL_ACTION, 1);
-            packet<<888;
-#ifdef DEBUG_INFO_SOCKET_WRITE
-            LOG(ERROR)<<"call sendPacket in ProcessIncoming";
-#endif
-            sendPacket(packet);
+
         }
         break;
     }
 
-    // test code end
+    return ret;
+}
+
+int WorldSocket::HandleConnect()
+{
+    // prevent double call to this func
+    if(m_outBuffer)
+    {
+        return -1;
+    }
+
+    close(false);
+
+    if (m_socket == nullptr)
+    {
+        ELOG(ERROR) << "connector socket point is nullptr";
+        return -1;
+    }
+
+    //  new buffer
+    m_outBuffer = new Buffer(m_outBufferSize);
+    
+    m_address = m_socket->remote_endpoint().address().to_string();
+
+    WorldPacket packet(MSG_AUTH_EVIL_REGIST, 0);
+
+    if(sendPacket(packet) == -1)
+    {
+        return -1;
+    }
+
+    m_socket->async_read_some(boost::asio::buffer(m_buffer, SOCKET_READ_BUFFER_SIZE),
+        boost::bind(&WorldSocket::HandleInput, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+    return 0;
+}
+
+int WorldSocket::HandleAuthRegisterAck()
+{
+    LOG(INFO) << "[Evil] regist auth server successfully";
 
     return 0;
 }

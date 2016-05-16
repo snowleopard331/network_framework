@@ -10,6 +10,7 @@
 #include "Common.h"
 #include "worldSocket.h"
 #include "policy/Singleton.h"
+#include "connector.h"
 
 
 class ProactorRunnable;
@@ -30,6 +31,18 @@ public:
     // wait untill all network have "joined"
     void    Wait();
 
+	const BSocket* getAuthBSocket() const
+	{
+		if (m_pAuthConnector == nullptr)
+		{
+			return nullptr;
+		}
+
+		return m_pAuthConnector->getSocket();
+	}
+
+	void detachAuthSocket();
+
 private:
     WorldSocketMgr();
     virtual ~WorldSocketMgr();
@@ -42,9 +55,11 @@ private:
     // new boost socket obj and select a thread index
     void    OnAcceptReady();
 
-    void    AddAcceptHandler();
+    void    addAcceptHandler();
 
-    void    ReadyReset();
+    void    readyReset();
+
+	void	registToAuth();
 
 private:
     ProactorRunnable*       m_NetThreads;
@@ -62,6 +77,8 @@ private:
     WorldSocket*            m_SoketReady;
     size_t                  m_NetThreadIndexReady;
 
+    // auth
+    Connector*              m_pAuthConnector;
 };
 
 #define sWorldSocketMgr Evil::Singleton<WorldSocketMgr>::Instance()

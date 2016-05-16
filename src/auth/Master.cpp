@@ -39,7 +39,7 @@ int Master::run()
         return -1;
     }
 
-    Proactor* pProactor = sAuthSockMgr.getProactor();
+    Proactor* pProactor = sAuthSockMgr.proactor();
     if(pProactor == nullptr)
     {
         LOG(ERROR)<<"get Proactor is nullptr";
@@ -77,7 +77,7 @@ void Master::stop()
 
 void Master::_masterLoop(boost::asio::deadline_timer &timer)
 {
-    if(sAuthSockMgr.getProactor() && sAuthSockMgr.getProactor()->stopped())
+    if(sAuthSockMgr.proactor() && sAuthSockMgr.proactor()->stopped())
     {
         LOG(ERROR)<<"[Auth] proactor stopped";
         return;

@@ -27,10 +27,12 @@ int Master::Run()
     if(sWorldSocketMgr.StartNetwork() == -1)
     {
         LOG(ERROR)<<"Failed to start network";
-        return -1;
+        // go down and shutdown the server
     }
 
     sWorldSocketMgr.Wait();
+
+    /// stop server option
 
     return 0;
 }

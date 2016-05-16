@@ -4,7 +4,7 @@ PROJECT_PATH=/home/yunfei/myworld
 
 cd $PROJECT_PATH/network_ramework/cmake
 
-make;make install;make clean
+make;make install
 
 cd $PROJECT_PATH/network_ramework/bin
 
