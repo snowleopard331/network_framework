@@ -35,7 +35,7 @@ private:
 
     bool    _startDB();
 
-    void    _masterLoop(boost::asio::deadline_timer &timer);
+    void    _masterLoop(Timer &timer);
 
 private:
 

@@ -43,7 +43,7 @@ bool Connector::syncConnect()
     addr.from_string(m_hostName);
     EndPoint endpoint(addr, m_port);
 
-    LOG(INFO)<<"connect host : "<<m_hostName<<SEPARATOR_SPACE<<"port : "<<m_port;
+    LOG(INFO)<<"connect host : "<<m_hostName<<SEPARATOR_COMMA<<"port : "<<m_port;
 
     boost::system::error_code ec;
 
@@ -77,7 +77,7 @@ void Connector::asyncConnect()
     addr.from_string(m_hostName);
     EndPoint endpoint(addr, m_port);
 
-    LOG(INFO)<<"connect host : "<<m_hostName<<SEPARATOR_SPACE<<"port : "<<m_port;
+    LOG(INFO)<<"connect host : "<<m_hostName<<SEPARATOR_COMMA<<"port : "<<m_port;
 
     m_socket->async_connect(endpoint, boost::bind(&Connector::HandleConnect, this, boost::asio::placeholders::error));
 }

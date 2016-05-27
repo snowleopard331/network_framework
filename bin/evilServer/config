@@ -1,5 +1,4 @@
 [Network]
-;	Ip = 192.168.195.131
 	Port = 10301
 	TcpNoDelay = true
 	Threads = 4
@@ -8,9 +7,8 @@
 
 [SQL]
 	LogSQL = false
-;	LogDir = 
 	MaxPingTime = 30
 
 [AuthInfo]
-	Host = 192.168.195.131
+	Host = 192.168.13.128
 	Port = 10300

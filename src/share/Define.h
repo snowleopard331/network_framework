@@ -30,6 +30,7 @@ typedef boost::asio::io_service                 Proactor;
 typedef boost::asio::ip::tcp::socket            BSocket;
 typedef boost::asio::ip::tcp::endpoint          EndPoint;
 typedef boost::asio::ip::tcp::acceptor          Acceptor;
+typedef boost::asio::deadline_timer             Timer;
 
 
 /*
