@@ -53,10 +53,10 @@ AuthSocket::~AuthSocket()
 
 void AuthSocket::OnAccept()
 {
-    LOG(INFO)<<"accepting connection from "<<getRemoteAddress();
-
     m_remoteAddress = m_socket->remote_endpoint().address().to_string();
     m_port = m_socket->remote_endpoint().port();
+
+    LOG(INFO)<<"accepting connection from "<<getRemoteAddress();
 
     // TCP_NODELAY
     boost::asio::ip::tcp::no_delay option(true);
@@ -127,6 +127,8 @@ void AuthSocket::OnRead(const boost::system::error_code &ec, size_t bytes_transf
         if(i == AUTH_TOTAL_REGISTED_COMMANDS)
         {
             LOG(ERROR)<<"[Auth] get unknown packet "<<header.cmd;
+            memset(m_inputBuffer.base(), 0, SOCKET_READ_BUFFER_SIZE);
+            m_inputBuffer.reset();
             break;
         }
     }

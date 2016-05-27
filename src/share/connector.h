@@ -33,7 +33,7 @@ public:
     }
 
 	/*
-		call this function when you don't want to delete Connector object 
+		call this function when you wouldn't to delete Connector object 
 		but m_socket was destroyed and must call this, if not will become wild pointer
 	*/
 	void detachSocket()

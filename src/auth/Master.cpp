@@ -50,7 +50,7 @@ int Master::run()
     m_numLoops = sConfig.getIntDefault("SQL", "MaxPingTime", 30) * (MINUTE * 1000000 / AUTH_LOOP_INTERVAL);
     if(!m_stopEvent)
     {
-        boost::asio::deadline_timer timer((*pProactor), boost::posix_time::microsec(AUTH_LOOP_INTERVAL));
+        Timer timer((*pProactor), boost::posix_time::microsec(AUTH_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&Master::_masterLoop, this, boost::ref(timer)));
     }
 
@@ -75,7 +75,7 @@ void Master::stop()
     return;
 }
 
-void Master::_masterLoop(boost::asio::deadline_timer &timer)
+void Master::_masterLoop(Timer &timer)
 {
     if(sAuthSockMgr.proactor() && sAuthSockMgr.proactor()->stopped())
     {

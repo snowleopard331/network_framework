@@ -127,7 +127,7 @@ private:
         */
         boost::asio::io_service::work work(*m_Proactor);
 
-        boost::asio::deadline_timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
+        Timer timer(*m_Proactor, boost::posix_time::microsec(THREAD_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&ProactorRunnable::threadLoop, this, boost::ref(timer)));
 
         m_Proactor->run();
@@ -135,7 +135,7 @@ private:
         LOG(INFO)<<"Network Thread Exitting";
     }
 
-    void threadLoop(boost::asio::deadline_timer &timer)
+    void threadLoop(Timer &timer)
     {
         if(m_Proactor->stopped())
         {
@@ -419,7 +419,7 @@ void WorldSocketMgr::registToAuth()
     else
     {
         // ??? 定时器不对，时间总是设置不上，待修改
-        boost::asio::deadline_timer timer(*(m_pAuthConnector->proactor()), boost::posix_time::seconds(CONNECTOR_RECONNECT_INTERNAL_SEC));
+        Timer timer(*(m_pAuthConnector->proactor()), boost::posix_time::seconds(CONNECTOR_RECONNECT_INTERNAL_SEC));
         timer.async_wait(boost::bind(&WorldSocketMgr::registToAuth, this));
     }
 }
