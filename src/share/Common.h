@@ -35,6 +35,29 @@ inline char* common_strdup(const char* src)
     return dest;
 }
 
+template<typename NumType>
+std::string numToStr(NumType num)
+{
+    std::stringstream ss;
+    ss<<num;
+    
+    std::string str;
+    ss>>str;
+    return str;
+}
+
+template<typename NumType>
+NumType strToNum(std::string& str)
+{
+    std::stringstream ss;
+    ss<<str;
+
+    NumType num;
+    ss>>num;
+
+    return num;
+}
+
 enum TimeConstants
 {
     MINUTE = 60,
