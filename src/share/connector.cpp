@@ -39,23 +39,26 @@ bool Connector::syncConnect()
 
     m_socket = new BSocket(*m_proactor);
 
-    boost::asio::ip::address addr;
-    addr.from_string(m_hostName);
-    EndPoint endpoint(addr, m_port);
-
-    LOG(INFO)<<"connect host : "<<m_hostName<<SEPARATOR_COMMA<<"port : "<<m_port;
-
     boost::system::error_code ec;
 
-	// sync
-    m_socket->connect(endpoint, ec);
+    // ??? 封装通用方法，待修改
+    std::stringstream ss;
+    ss<<m_port;
+    std::string port;
+    ss>>port;
+
+    boost::asio::ip::tcp::resolver resolver(*proactor());
+    boost::asio::ip::tcp::resolver::query query(m_hostName, port);
+    boost::asio::ip::tcp::resolver::iterator iter = resolver.resolve(query);
+
+    boost::asio::connect(*m_socket, iter, ec);
 
 	HandleConnect(ec);
 
     return (ec ? false : true);
 }
 
-void Connector::asyncConnect()
+void Connector::asyncConnect(CallbackFunc func)
 {
     if(m_proactor == nullptr)
     {
@@ -73,13 +76,17 @@ void Connector::asyncConnect()
 
     m_socket = new BSocket(*m_proactor);
 
-    boost::asio::ip::address addr;
-    addr.from_string(m_hostName);
-    EndPoint endpoint(addr, m_port);
+    
+    std::stringstream ss;
+    ss<<m_port;
+    std::string port;
+    ss>>port;
 
-    LOG(INFO)<<"connect host : "<<m_hostName<<SEPARATOR_COMMA<<"port : "<<m_port;
+    boost::asio::ip::tcp::resolver resolver(*proactor());
+    boost::asio::ip::tcp::resolver::query query(m_hostName, port);
+    boost::asio::ip::tcp::resolver::iterator iter = resolver.resolve(query);
 
-    m_socket->async_connect(endpoint, boost::bind(&Connector::HandleConnect, this, boost::asio::placeholders::error));
+    boost::asio::async_connect(*m_socket, iter, boost::bind(&Connector::HandleConnect, this, boost::asio::placeholders::error, func));
 }
 
 void Connector::HandleConnect(const boost::system::error_code& ec)
@@ -89,6 +96,27 @@ void Connector::HandleConnect(const boost::system::error_code& ec)
         ELOG(ERROR)<<boost::system::system_error(ec).what();
 		SafeDelete(m_socket);
 
+        return;
+    }
+
+    LOG(INFO) << "connect hostname " << m_hostName << SEPARATOR_SPACE
+        << "ip " << m_port << SEPARATOR_SPACE
+        << "successfully";
+
+    return;
+}
+
+void Connector::HandleConnect(const boost::system::error_code& ec, CallbackFunc func)
+{
+    /// callback func
+    func(ec ? false : true);
+
+    if(ec)
+    {
+        ELOG(ERROR)<<"error code : "<<boost::system::system_error(ec).code().value();
+        ELOG(ERROR)<<boost::system::system_error(ec).what();
+        m_socket->close();
+        SafeDelete(m_socket);
         return;
     }
 
