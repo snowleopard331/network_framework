@@ -70,6 +70,8 @@ public:
         return m_proactor;
     }
 
+
+
 private:
     void HandleConnect(const boost::system::error_code& ec);
     void HandleConnect(const boost::system::error_code& ec, CallbackFunc func);

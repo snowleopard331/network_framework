@@ -40,12 +40,7 @@ bool Connector::syncConnect()
     m_socket = new BSocket(*m_proactor);
 
     boost::system::error_code ec;
-
-    // ??? 封装通用方法，待修改
-    std::stringstream ss;
-    ss<<m_port;
-    std::string port;
-    ss>>port;
+    std::string port = numToStr(m_port);
 
     boost::asio::ip::tcp::resolver resolver(*proactor());
     boost::asio::ip::tcp::resolver::query query(m_hostName, port);
@@ -76,11 +71,7 @@ void Connector::asyncConnect(CallbackFunc func)
 
     m_socket = new BSocket(*m_proactor);
 
-    
-    std::stringstream ss;
-    ss<<m_port;
-    std::string port;
-    ss>>port;
+    std::string port = numToStr(m_port);
 
     boost::asio::ip::tcp::resolver resolver(*proactor());
     boost::asio::ip::tcp::resolver::query query(m_hostName, port);
