@@ -156,7 +156,7 @@ public:
         n. Free space can be checked by calling space().  
 
     */
-    int copy(const char* buf, size_t len)
+    int copy(const char* buf, size_t len) // ???????????????????´ýÐÞ¸Ä
     {
         if(space() < len)
         {

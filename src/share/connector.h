@@ -16,20 +16,44 @@
 //    CONNETTOR_STATES_OPEN,
 //};
 
+enum TcpOption
+{
+    OPTION_NO_DELAY         = 0x0001,
+};
+
 class Connector
 {
 public:
     explicit Connector(Proactor* proactor, std::string& hostname, uint16 port);
     ~Connector();
 
+    typedef boost::function<void (bool)>         CallbackFunc;
+
 public:
-    void asyncConnect();
+    void asyncConnect(CallbackFunc func);
 
     bool syncConnect();
 
     const BSocket* getSocket() const
     {
         return m_socket;
+    }
+
+    void setOption(uint option)
+    {
+        if(0 == option)
+        {
+            LOG(WARNING)<<"set tcp option is zero";
+            return;
+        }
+
+        if(option & OPTION_NO_DELAY)
+        {
+            boost::asio::ip::tcp::no_delay option(true);
+            m_socket->set_option(option);
+        }
+
+        return;
     }
 
 	/*
@@ -48,6 +72,7 @@ public:
 
 private:
     void HandleConnect(const boost::system::error_code& ec);
+    void HandleConnect(const boost::system::error_code& ec, CallbackFunc func);
 
 private:
     std::string         m_hostName;
