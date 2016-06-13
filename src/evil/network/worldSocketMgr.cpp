@@ -418,9 +418,11 @@ void WorldSocketMgr::registToAuth()
     }
     else
     {
-        // ??? 定时器不对，时间总是设置不上，待修改
         Timer timer(*(m_pAuthConnector->proactor()), boost::posix_time::seconds(CONNECTOR_RECONNECT_INTERNAL_SEC));
         timer.async_wait(boost::bind(&WorldSocketMgr::registToAuth, this));
+
+        // invoke poll/run function in every thread
+        m_pAuthConnector->proactor()->poll();
     }
 }
 

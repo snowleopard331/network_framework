@@ -21,6 +21,7 @@
 #include "GameDef.h"
 #include "config.h"
 
+
 /**
  * @brief operator new[] based version of strdup() function! Release memory by using operator delete[] !
  *
@@ -46,6 +47,7 @@ std::string numToStr(NumType num)
     return str;
 }
 
+/// not type safe, to be corrected ????
 template<typename NumType>
 NumType strToNum(std::string& str)
 {
