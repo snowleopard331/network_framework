@@ -156,17 +156,12 @@ public:
         n. Free space can be checked by calling space().  
 
     */
-    int copy(const char* buf, size_t len) // ???????????????????´ýÐÞ¸Ä
+    void copy(const char* buf, size_t len)
     {
-        if(space() < len)
-        {
-            return -1;
-        }
-
         memcpy(m_Buffer + m_wPtr, buf, len);
         m_wPtr += len;
 
-        return 0;
+        return;
     }
 
     // Get the length of the readable message

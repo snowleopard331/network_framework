@@ -259,10 +259,6 @@ int WorldSocket::HandleInputMissingData(size_t len)
     Buffer message_block(m_buffer, len);
 
     message_block.wr_ptr(len);
-
-#ifdef DEBUG_INFO_WRITE_AND_READ
-    ELOG(ERROR) << "message_block.length() : "<<message_block.length();
-#endif 
 	
     while(message_block.length() > 0)
     {
@@ -314,10 +310,6 @@ int WorldSocket::HandleInputMissingData(size_t len)
                 return -1;
             }
         }
-
-#ifdef DEBUG_INFO_WRITE_AND_READ
-        ELOG(ERROR) << "4";
-#endif
 
         // just received fresh new payload
         if(HandleInputPayload() == -1)
@@ -499,10 +491,6 @@ bool WorldSocket::iFlushPacketQueue()
 
 int WorldSocket::iSendPacket(const WorldPacket& pkt)
 {
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    LOG(ERROR)<<"iSendPacket size: "<<pkt.size();
-#endif
-
     if(m_outBuffer->space() < pkt.size() + sizeof(PacketHeader))
     {
         return -1;
@@ -517,33 +505,21 @@ int WorldSocket::iSendPacket(const WorldPacket& pkt)
 
     // crypt
 
-    if(m_outBuffer->copy((char*)&header, sizeof(header)) == -1)
+    if(m_outBuffer->space() < sizeof(header))
     {
-        /*LOG(ERROR)<<"packet header copy failed, cmd: "<<header.cmd
-        <<", header size: "<<sizeof(header)
-        <<", m_outBuffer space: "<<m_outBuffer.space();*/
         Evil_ASSERT(false);
     }
+    m_outBuffer->copy((char*)&header, sizeof(header));
+
 
     if(!pkt.empty())
     {
-        if(m_outBuffer->copy((char*)pkt.contents(), pkt.size()) == -1)
+        if(m_outBuffer->space() < pkt.size())
         {
-            /*LOG(ERROR)<<"packet copy failed, cmd: "<<pkt.getOpcode()
-            <<", packet size: "<<pkt.size()
-            <<", m_outBuffer space: "<<m_outBuffer.space();*/
             Evil_ASSERT(false);
         }
+        m_outBuffer->copy((char*)pkt.contents(), pkt.size());
     }
-
-#ifdef DEBUG_INFO_SOCKET_WRITE
-    char* buffer = new char[m_outBuffer->length() + 1];
-    memset(buffer, 0, m_outBuffer->length());
-    memcpy(buffer, m_outBuffer->rd_ptr(), m_outBuffer->length());
-    buffer[m_outBuffer->length()] = '\0';
-    LOG(ERROR)<<"m_outBuffer: "<<buffer<<", size: "<<m_outBuffer->length()<<" in iSendPacket";
-    SafeDeleteArray(buffer);
-#endif
 
     return 0;
 }
