@@ -40,10 +40,10 @@ bool Connector::syncConnect()
     m_socket = new BSocket(*m_proactor);
 
     boost::system::error_code ec;
-    std::string port = numToStr(m_port);
+    //std::string port = numToStr(m_port);
 
     boost::asio::ip::tcp::resolver resolver(*proactor());
-    boost::asio::ip::tcp::resolver::query query(m_hostName, port);
+    boost::asio::ip::tcp::resolver::query query(m_hostName, numToStr(m_port));
     boost::asio::ip::tcp::resolver::iterator iter = resolver.resolve(query);
 
     boost::asio::connect(*m_socket, iter, ec);
@@ -71,10 +71,10 @@ void Connector::asyncConnect(CallbackFunc func)
 
     m_socket = new BSocket(*m_proactor);
 
-    std::string port = numToStr(m_port);
+    // std::string port = numToStr(m_port);
 
     boost::asio::ip::tcp::resolver resolver(*proactor());
-    boost::asio::ip::tcp::resolver::query query(m_hostName, port);
+    boost::asio::ip::tcp::resolver::query query(m_hostName, numToStr(m_port));
     boost::asio::ip::tcp::resolver::iterator iter = resolver.resolve(query);
 
     boost::asio::async_connect(*m_socket, iter, boost::bind(&Connector::HandleConnect, this, boost::asio::placeholders::error, func));
