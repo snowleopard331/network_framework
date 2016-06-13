@@ -197,16 +197,12 @@ bool AuthSocket::send(const char* buf, size_t len)
 
     m_outBufferLock.lock();
 
-#ifdef DEBUG_INFO_WRITE_AND_READ
-	PacketHeader* header = (PacketHeader*)buf;
-	ELOG(ERROR) << "cmd : " << header->cmd << SEPARATOR_COMMA << "size : " << header->size;
-#endif
-
-    if(m_outBuffer.copy(buf, len) == -1)
+    if(m_outBuffer.space() < len)
     {
         m_outBufferLock.unlock();
         return false;
     }
+    m_outBuffer.copy(buf, len);
 
     boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer.rd_ptr(), m_outBuffer.length()), 
         boost::bind(&AuthSocket::OnAsyncWirte, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
