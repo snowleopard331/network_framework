@@ -22,6 +22,7 @@
 //#   define DEBUG_INFO_DB  
 //#   define DEBUG_INFO_UNIQUE_PTR
 //#   define DEBUG_INFO_CONNECT
+#   define DEBUG_INFO_CRUSH
 #endif//DEBUG_INFO
 
 // use in LOG
@@ -37,6 +38,8 @@ struct PacketHeader
 enum MiscDef
 {
     CONNECTOR_RECONNECT_INTERNAL_SEC        = 5,
+
+    AUTH_SOCKET_MANAGER_LOOP_INTERNAL_SEC   = 5,
 };
 
 #endif//_GAME_DEF_H_

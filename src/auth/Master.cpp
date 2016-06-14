@@ -39,25 +39,17 @@ int Master::run()
         return -1;
     }
 
-    Proactor* pProactor = sAuthSockMgr.proactor();
-    if(pProactor == nullptr)
-    {
-        LOG(ERROR)<<"get Proactor is nullptr";
-        return -1;
-    }
+    Evil_ASSERT(sAuthSockMgr.proactor());
 
     /// Loop
     m_numLoops = sConfig.getIntDefault("SQL", "MaxPingTime", 30) * (MINUTE * 1000000 / AUTH_LOOP_INTERVAL);
     if(!m_stopEvent)
     {
-        Timer timer((*pProactor), boost::posix_time::microsec(AUTH_LOOP_INTERVAL));
+        Timer timer((*sAuthSockMgr.proactor()), boost::posix_time::microsec(AUTH_LOOP_INTERVAL));
         timer.async_wait(boost::bind(&Master::_masterLoop, this, boost::ref(timer)));
     }
 
-    Proactor::work work(*pProactor);
-
-    /// blocking
-    pProactor->run();
+    sAuthSockMgr.proactorRun();
 
     return 0;
 }

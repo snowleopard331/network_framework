@@ -28,6 +28,13 @@ public:
  
     void closeSocket()
     {
+        if(m_close)
+        {
+            return;
+        }
+
+        m_close = true;
+
 		boost::system::error_code ec;
 		m_socket->close(ec);
 		if (ec)
@@ -53,16 +60,14 @@ public:
         m_socket = sock;
     }
 
-	void close(bool isClose);
-
-	inline bool close() const
-	{
-		return m_close;
-	}
-
     inline bool isEvil() const
     {
         return m_isEvil;
+    }
+
+    inline bool close() const
+    {
+        return m_close;
     }
 
 public:

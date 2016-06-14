@@ -45,6 +45,13 @@ public:
 		m_serverList.erase(addr, port);
 	}
 
+    // blocking
+    void proactorRun()
+    {
+        Proactor::work work(*m_proactor);
+        m_proactor->run();
+    }
+
 public:
 
     void OnSocketAccept(const boost::system::error_code &ec);
@@ -54,6 +61,9 @@ private:
     void addAcceptorHandler();
 
     void readyReset();
+
+    void resourcesRecovery();
+    void recoveryLoop(Timer& timer);
 
 private:
     

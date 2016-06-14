@@ -75,9 +75,7 @@ void AuthSocket::OnRead(const boost::system::error_code &ec, size_t bytes_transf
         {
             sAuthSockMgr.eraseServer(m_remoteAddress, m_port);
         }
-        this->close(true);
-     
-        // ?? socket的销毁工作还没有写， 不在这里
+        this->closeSocket();
 
         return;
     }
@@ -216,6 +214,8 @@ void AuthSocket::OnAsyncWirte(const boost::system::error_code &ec, size_t bytes_
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
         m_outBufferLock.unlock();
+
+        this->closeSocket();
         return;
     }
 
@@ -269,9 +269,4 @@ bool AuthSocket::HandleEvilUnregist()
 	sAuthSockMgr.eraseServer(m_remoteAddress, m_port);
 
     return true;
-}
-
-void AuthSocket::close(bool isClose)
-{
-	m_close = isClose;
 }
