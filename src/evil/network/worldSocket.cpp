@@ -419,9 +419,6 @@ int WorldSocket::HandleOutput()
     boost::asio::async_write(*m_socket, boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
         boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
-    /*m_socket->async_write_some(boost::asio::buffer(m_outBuffer->rd_ptr(), sendSize), 
-        boost::bind(&WorldSocket::HandleAsyncWriteComplete, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));*/
-
     return 0;
 }
 
@@ -431,6 +428,7 @@ void WorldSocket::HandleAsyncWriteComplete(const boost::system::error_code &ec, 
     {
         LOG(ERROR)<<boost::system::system_error(ec).what();
         m_OutBufferLock.unlock();
+        this->closeSocket();
         return;
     }
 
