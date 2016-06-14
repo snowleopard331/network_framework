@@ -60,6 +60,8 @@ int AuthSocketMgr::startNetwork()
 
     LOG(INFO)<<"Auth Network starting";
 
+    resourcesRecovery();
+
     return 0;    
 }
 
@@ -125,4 +127,44 @@ void AuthSocketMgr::readyReset()
     SafeDelete(m_sockReady);
 
     addAcceptorHandler();
+}
+
+void AuthSocketMgr::resourcesRecovery()
+{
+    if(nullptr == m_proactor || m_proactor->stopped())
+    {
+        LOG(ERROR)<<"resources recover function start failed";
+        return;
+    }
+
+    Timer* timer = new Timer(*m_proactor, boost::posix_time::seconds(AUTH_SOCKET_MANAGER_LOOP_INTERNAL_SEC));
+    timer->async_wait(boost::bind(&AuthSocketMgr::recoveryLoop, this, boost::ref(*timer)));
+}
+
+void AuthSocketMgr::recoveryLoop(Timer& timer)
+{
+    if(m_proactor->stopped())
+    {
+        delete &timer;
+        return;
+    }
+
+    if(!m_socketList.empty())
+    {
+        for(SocketList::iterator iter = m_socketList.begin(); iter != m_socketList.end();)
+        {
+            SocketList::iterator itTemp = iter++;
+            AuthSocket* sock = *itTemp;
+            if(sock->close())
+            {
+                SafeDelete(sock);
+                m_socketList.erase(itTemp);
+            }
+        }
+    }
+
+    timer.expires_from_now(boost::posix_time::seconds(AUTH_SOCKET_MANAGER_LOOP_INTERNAL_SEC));
+    timer.async_wait(boost::bind(&AuthSocketMgr::recoveryLoop, this, boost::ref(timer)));
+
+    return;
 }

@@ -135,7 +135,7 @@ private:
         LOG(INFO)<<"Network Thread Exitting";
     }
 
-    void threadLoop(Timer &timer)
+    void threadLoop(Timer& timer)
     {
         if(m_Proactor->stopped())
         {
