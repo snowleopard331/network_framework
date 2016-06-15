@@ -19,10 +19,10 @@ class ProactorRunnable
 {
 public:
     ProactorRunnable()
-        : m_Proactor(0)
+        : m_Proactor(new Proactor)
         , m_pThread(NULL)
     {
-        m_Proactor = new Proactor;
+        
     }
 
     ~ProactorRunnable()
@@ -41,15 +41,13 @@ public:
             return false;
         }
 
-        boost::function0<void> threadTaskFun = boost::bind(&ProactorRunnable::threadTask, this);
-        m_pThread = new boost::thread(threadTaskFun);
+        m_pThread = new boost::thread(boost::bind(&ProactorRunnable::threadTask, this));
 
         return true;
     }
 
     void stop()
     {
-        // ? Is safe delete socket first
         if(m_Proactor && !m_Proactor->stopped())
         {
             // stop will cause all unfinished messages and handlers of completed but no processing be discarded immediatelly
@@ -216,6 +214,7 @@ void WorldSocketMgr::StopNetwork()
     if(m_Acceptor)
     {
         m_Acceptor->close();
+        SafeDelete(m_Acceptor);
     }
 
     if(m_NetThreadsCount != 0)
@@ -421,8 +420,11 @@ void WorldSocketMgr::registToAuth()
         Timer timer(*(m_pAuthConnector->proactor()), boost::posix_time::seconds(CONNECTOR_RECONNECT_INTERNAL_SEC));
         timer.async_wait(boost::bind(&WorldSocketMgr::registToAuth, this));
 
+        // ?? why poll is invalid, run is normal
         // invoke poll/run function in every thread
+        m_pAuthConnector->proactor()->reset();
         m_pAuthConnector->proactor()->poll();
+        //m_pAuthConnector->proactor()->run();
     }
 }
 
