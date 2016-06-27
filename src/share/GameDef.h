@@ -37,7 +37,7 @@ struct PacketHeader
 
 enum NetMicroDef
 {
-    MSG_LENGTH_MAX                          = 10240,
+    MSG_LENGTH_MAX                          = 4096,         // tcp分包默认长度
 };
 
 enum MiscDef
