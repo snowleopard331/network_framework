@@ -346,8 +346,7 @@ int WorldSocket::HandleInputHeader()
     ELOG(ERROR) << "cmd : " << header.cmd << SEPARATOR_COMMA << "size : " << header.size;
 #endif
 
-    // ?? the max message length have no define
-    if(header.size < sizeof(PacketHeader) || header.size > 10240 || header.cmd >= MSG_MAX)
+    if(header.size < sizeof(PacketHeader) || header.size > MSG_LENGTH_MAX || header.cmd >= MSG_MAX)
     {
         // client sent malformed packet size = %d , cmd = %d
         LOG(ERROR)<<"client sent malformed packet size = "<<header.size<<SEPARATOR_COMMA<<"cmd = "<<header.cmd;

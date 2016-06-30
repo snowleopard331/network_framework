@@ -70,7 +70,11 @@ public:
         return m_proactor;
     }
 
-
+    //template<class T>
+    //CallbackFunc callbackFunc(void (*handler)(bool), T* obj)
+    //{
+    //    return boost::bind(handler, obj, _1);
+    //}
 
 private:
     void HandleConnect(const boost::system::error_code& ec);
