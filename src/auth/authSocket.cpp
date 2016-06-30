@@ -88,7 +88,6 @@ void AuthSocket::OnRead(const boost::system::error_code &ec, size_t bytes_transf
         return;
     }
 
-    // ? Is m_inputBuffer init ??
     this->m_inputBuffer.wr_ptr(bytes_transferred);
 
     /// handle message

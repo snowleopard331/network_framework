@@ -35,6 +35,11 @@ struct PacketHeader
     uint16  cmd;
 };
 
+enum NetMicroDef
+{
+    MSG_LENGTH_MAX                          = 4096,         // tcp分包默认长度
+};
+
 enum MiscDef
 {
     CONNECTOR_RECONNECT_INTERNAL_SEC        = 5,
