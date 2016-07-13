@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-valgrind --tool=memcheck --leak-check=full --show-reachable=yes --trace-children=yes  ./auth
+valgrind --tool=memcheck --log-file=./log/memeryCheck.log --leak-check=full --show-reachable=yes --trace-children=yes  ./auth
