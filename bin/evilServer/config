@@ -10,5 +10,5 @@
 	MaxPingTime = 30
 
 [AuthInfo]
-	Host = 192.168.13.128
+	Host = 192.168.241.130
 	Port = 10300

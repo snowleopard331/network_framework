@@ -6,4 +6,4 @@
 	LogSQL = false
 	MaxPingTime = 30
 	;;;;;;;;;;;;;;;;;;;;host;port;user;password;database
-	LoginDatabaseInfo = 192.168.13.129;3306;root;root;auth
+	LoginDatabaseInfo = 192.168.241.128;3306;root;root;auth
