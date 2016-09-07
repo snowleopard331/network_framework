@@ -77,6 +77,8 @@ private:
 
     bool replyStateIsOK(redisReply* reply);
 
+    bool _mset(redisContext* redis, std::string& value);
+    bool _msetnx(redisContext* redis, std::string& value);
 
 private:
 

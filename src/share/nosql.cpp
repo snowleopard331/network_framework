@@ -184,28 +184,7 @@ bool RedisManager::mset(redisContext* redis, std::map< std::string, std::string 
         valueList.append("\" ");
     }
 
-    redisReply* reply = ((opReplace == REDIS_COMMAND_OPTION_NULL) ?
-        static_cast<redisReply*>(redisCommand(redis, "MSET %s", valueList.c_str())) :
-        static_cast<redisReply*>(redisCommand(redis, "MSETNX %s", valueList.c_str())));
-
-    if (opReplace == REDIS_COMMAND_OPTION_NULL)
-    {
-        reply = static_cast<redisReply*>(redisCommand(redis, "MSET %s", valueList.c_str()));
-    }
-    else
-    {
-        reply = static_cast<redisReply*>(redisCommand(redis, "MSETNX %s", valueList.c_str()));
-    }
-
-    // to be continue
-    if (reply == NULL)
-    {
-        return false;
-    }
-
-    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
-
-    return replyStateIsOK(reply);
+    return ((opReplace == REDIS_COMMAND_OPTION_NULL) ? _mset(redis, valueList) : _msetnx(redis, valueList));
 }
 
 bool RedisManager::replyStateIsOK(redisReply* reply)
@@ -222,4 +201,40 @@ bool RedisManager::replyStateIsOK(redisReply* reply)
     }
 
     return false;
+}
+
+bool RedisManager::_mset(redisContext* redis, std::string& value)
+{
+    if(value.empty())
+    {
+        return false;
+    }
+
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "MSETNX %s", value.c_str()));
+    if(reply == nullptr)
+    {
+        return false;
+    }
+
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    return replyStateIsOK(reply);
+}
+
+bool RedisManager::_msetnx(redisContext* redis, std::string& value)
+{
+    if (value.empty())
+    {
+        return false;
+    }
+
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "MSET %s", value.c_str()));
+    if (reply == nullptr)
+    {
+        return false;
+    }
+
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    return (reply->type == REDIS_REPLY_INTEGER && reply->integer == 1) ? true : false;
 }
