@@ -57,6 +57,8 @@ public:
     bool set(redisContext* redis, const std::string& key, const std::string& value, RedisOptionTypes opReplace = REDIS_COMMAND_OPTION_NULL, 
         RedisOptionTypes opTime = REDIS_COMMAND_OPTION_NULL, uint timeValue = 0);
 
+    bool get(redisContext* redis, std::string& key, std::string& value);
+
     /*
         ²åÈë¶à¸ökey-value
 
@@ -67,7 +69,14 @@ public:
     */
     bool mset(redisContext* redis, std::map < std::string, std::string >& value, RedisOptionTypes opReplace = REDIS_COMMAND_OPTION_NULL);
 
+    bool mget(redisContext* redis, std::vector< std::string >& keys, std::map< std::string, std::string >& outMapInfo);
+
+    bool getValueLen(redisContext* redis, std::string& key, uint& len);
+
+
     // -- list
+
+
     // -- hash
     // -- set
     // -- sortset

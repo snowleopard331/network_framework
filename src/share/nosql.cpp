@@ -238,3 +238,122 @@ bool RedisManager::_msetnx(redisContext* redis, std::string& value)
 
     return (reply->type == REDIS_REPLY_INTEGER && reply->integer == 1) ? true : false;
 }
+
+// 暂时没有对keys中的每个key的合法性做检查(例如某个key中含有空格)
+bool RedisManager::mget(redisContext* redis, std::vector< std::string >& keys, std::map< std::string, std::string >& outMapInfo)
+{
+    // param check
+    if (redis == nullptr || keys.empty())
+    {
+        return false;
+    }
+    outMapInfo.clear();
+
+    // construct string keys
+    std::string valueList;
+    for (std::vector<std::string>::iterator iter = keys.begin(); iter != keys.end(); ++iter)
+    {
+        if (iter->empty())
+        {
+            return false;
+        }
+
+        valueList.append(*iter);
+        valueList.append(" ");
+    }
+
+    // excute mget
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "MGET %s", valueList.c_str()));
+    if (reply == nullptr)
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+    
+    // check reply
+    if (reply->type != REDIS_REPLY_ARRAY ||
+        reply->elements != keys.size())
+    {
+        return false;
+    }
+
+    // output data key-value
+    for (int i = 0; i < reply->elements; i++)
+    {
+        redisReply* eleReply = reply->element[i];
+
+        if (eleReply->type == REDIS_REPLY_STRING)
+        {
+            outMapInfo[keys[i]] = eleReply->str;
+        }
+        else if(eleReply->type == REDIS_REPLY_NIL)
+        {
+            continue;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool RedisManager::getValueLen(redisContext* redis, std::string& key, uint& len)
+{
+    // param check
+    if(redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // excute mget
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "STRLEN %s", key.c_str()));
+    if (reply == nullptr)
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER &&
+        0 != reply->integer)
+    {
+        len = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::get(redisContext* redis, std::string& key, std::string& value)
+{
+    // param check
+    if(redis == nullptr || key.empty())
+    {
+        return false;
+    }
+    
+    // excute mget
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "GET %s", key.c_str()));
+    if (reply == nullptr)
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    // output data
+    if (reply->type == REDIS_REPLY_STRING)
+    {
+        value.clear();
+        value = reply->str;
+        return true;
+    }
+    
+    return false;
+}
