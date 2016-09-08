@@ -25,6 +25,12 @@ enum RedisOptionTypes
 
     // mset
     REDIS_COMMAND_MSET_NX,              // 设置多个key-value对, 当且仅当所有key都不存在. 即使只有一个给定key已存在，也会拒绝执行所有给定key的设置操作
+
+    // lpush
+    REDIS_COMMAND_LPUSHX,               // 若key不存在, 则 LPUSHX 不创建新list
+
+    // rpush
+    REDIS_COMMAND_RPUSHX,               // 若key不存在, 则 RPUSHX 不创建新list
 };
 
 class RedisManager
@@ -57,7 +63,7 @@ public:
     bool set(redisContext* redis, const std::string& key, const std::string& value, RedisOptionTypes opReplace = REDIS_COMMAND_OPTION_NULL, 
         RedisOptionTypes opTime = REDIS_COMMAND_OPTION_NULL, uint timeValue = 0);
 
-    bool get(redisContext* redis, std::string& key, std::string& value);
+    bool get(redisContext* redis, const std::string& key, std::string& value);
 
     /*
         插入多个key-value
@@ -76,6 +82,24 @@ public:
 
     // -- list
 
+    // 获取list长度
+    bool llen(redisContext* redis, const std::string& key, uint& len);
+
+    // 插入表头
+    bool lpush(redisContext* redis, const std::string& key, const std::string& value, RedisOptionTypes opCreateList = REDIS_COMMAND_OPTION_NULL);
+    bool lpush(redisContext* redis, const std::string& key, std::vector<std::string>& values, RedisOptionTypes opCreateList = REDIS_COMMAND_OPTION_NULL);
+
+    // 插入表尾
+    bool rpush(redisContext* redis, const std::string& key, const std::string& value, RedisOptionTypes opCreateList = REDIS_COMMAND_OPTION_NULL);
+    bool rpush(redisContext* redis, const std::string& key, std::vector<std::string>& values, RedisOptionTypes opCreateList = REDIS_COMMAND_OPTION_NULL);
+
+    // 移除表头元素
+    bool lpop(redisContext* redis, const std::string& key);
+
+    // 移除表尾元素
+    bool rpop(redisContext* redis, const std::string& key);
+
+    bool lrem
 
     // -- hash
     // -- set
@@ -85,6 +109,9 @@ public:
 private:
 
     bool replyStateIsOK(redisReply* reply);
+
+    // if reply is nulptr or state is error, return false
+    bool replyErrOrNullCheck(redisReply* reply);
 
     bool _mset(redisContext* redis, std::string& value);
     bool _msetnx(redisContext* redis, std::string& value);
