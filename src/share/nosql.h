@@ -17,20 +17,20 @@ enum RedisOptionTypes
     REDIS_COMMAND_OPTION_NULL       = 0,
 
     // set
-    REDIS_COMMAND_SET_EX,               // 超时时间, second 
-    REDIS_COMMAND_SET_PX,               // 超时时间, millisecond
+    REDIS_COMMAND_OPTION_SET_EX,               // 超时时间, second 
+    REDIS_COMMAND_OPTION_SET_PX,               // 超时时间, millisecond
 
-    REDIS_COMMAND_SET_NX,               // 只在键不存在时, 才对键进行设置操作
-    REDIS_COMMAND_SET_XX,               // 只在键已经存在时, 才对键进行设置操作
+    REDIS_COMMAND_OPTION_SET_NX,               // 只在键不存在时, 才对键进行设置操作
+    REDIS_COMMAND_OPTION_SET_XX,               // 只在键已经存在时, 才对键进行设置操作
 
     // mset
-    REDIS_COMMAND_MSET_NX,              // 设置多个key-value对, 当且仅当所有key都不存在. 即使只有一个给定key已存在，也会拒绝执行所有给定key的设置操作
+    REDIS_COMMAND_OPTION_MSET_NX,              // 设置多个key-value对, 当且仅当所有key都不存在. 即使只有一个给定key已存在，也会拒绝执行所有给定key的设置操作
 
     // lpush
-    REDIS_COMMAND_LPUSHX,               // 若key不存在, 则 LPUSHX 不创建新list
+    REDIS_COMMAND_OPTION_LPUSHX,               // 若key不存在, 则 LPUSHX 不创建新list
 
     // rpush
-    REDIS_COMMAND_RPUSHX,               // 若key不存在, 则 RPUSHX 不创建新list
+    REDIS_COMMAND_OPTION_RPUSHX,               // 若key不存在, 则 RPUSHX 不创建新list
 };
 
 class RedisManager
@@ -56,8 +56,8 @@ public:
     /*
         将字符串value关联到key
 
-        opReplace = REDIS_COMMAND_SET_NX 或 REDIS_COMMAND_SET_XX 或 REDIS_COMMAND_OPTION_NULL
-        opTime = REDIS_COMMAND_SET_EX 或 REDIS_COMMAND_SET_PX 或 REDIS_COMMAND_OPTION_NULL
+        opReplace = REDIS_COMMAND_OPTION_SET_NX 或 REDIS_COMMAND_OPTION_SET_XX 或 REDIS_COMMAND_OPTION_NULL
+        opTime = REDIS_COMMAND_OPTION_SET_EX 或 REDIS_COMMAND_OPTION_SET_PX 或 REDIS_COMMAND_OPTION_NULL
         timeValue 当 opTime != REDIS_COMMAND_OPTION_NULL 时表示数据超时时间
     */
     bool set(redisContext* redis, const std::string& key, const std::string& value, RedisOptionTypes opReplace = REDIS_COMMAND_OPTION_NULL, 
@@ -68,10 +68,10 @@ public:
     /*
         插入多个key-value
 
-        opReplace = REDIS_COMMAND_OPTION_NULL 或 REDIS_COMMAND_MSET_NX
+        opReplace = REDIS_COMMAND_OPTION_NULL 或 REDIS_COMMAND_OPTION_MSET_NX
             
             REDIS_COMMAND_OPTION_NULL   表示如果某个给定key已经存在, 那么会用新值覆盖原来的旧值
-            REDIS_COMMAND_MSET_NX       表示同时设置多个key-value对, 当且仅当所有给定key都不存在. 即使只有一个给定key已存在, 也会拒绝执行所有给定key的设置操作
+            REDIS_COMMAND_OPTION_MSET_NX       表示同时设置多个key-value对, 当且仅当所有给定key都不存在. 即使只有一个给定key已存在, 也会拒绝执行所有给定key的设置操作
     */
     bool mset(redisContext* redis, std::map < std::string, std::string >& value, RedisOptionTypes opReplace = REDIS_COMMAND_OPTION_NULL);
 
@@ -99,11 +99,100 @@ public:
     // 移除表尾元素
     bool rpop(redisContext* redis, const std::string& key);
 
-    bool lrem
+    // 移除与value相同的值. count为移除个数, 正数表示从前到后移除count个，负数表示从后往前移除count个，0表示移除所有
+    bool lrem(redisContext* redis, const std::string& key, const std::string& value, uint& removeSize, int count = 0);
+
 
     // -- hash
+
+    /*
+        将哈希表 key 中的域 field 的值设为 value, 若 key 不存在, 则创建 key 的哈希表, 若存在且域已经存在, 旧值将被覆盖.
+        ret 返回1表示 field 是哈希表的一个新建域并设置成功, 0表示field已经存在且被新值覆盖
+    */
+    bool hset(redisContext* redis, const std::string& key, const std::string& field, const std::string& value, uint& ret);
+
+    // 哈希表 key 中给定域 field 的值
+    bool hget(redisContext* redis, const std::string& key, const std::string& field, std::string& outValue);
+
+    // 同时将多个 field-value 对设置到哈希表 key 中, 此命令会覆盖哈希表中已存在的域
+    bool hmset(redisContext* redis, const std::string& key, std::map<std::string, std::string>& values);
+
+    // 返回哈希表 key 中，一个或多个给定域的值
+    bool hmget(redisContext* redis, const std::string& key, std::vector<std::string>& fields, std::map<std::string, std::string>& outMapInfo);
+
+    // 返回哈希表 key 中所有的域和值
+    bool hgetall(redisContext* redis, const std::string& key, std::map<std::string, std::string>& outMapInfo);
+
+    // 返回哈希表 key 中所有的域
+    bool hkeys(redisContext* redis, const std::string& key, std::vector<std::string>& outFields);
+
+    // 返回哈希表 key 中所有域的值
+    bool hvals(redisContext* redis, const std::string& key, std::vector<std::string>& outValues);
+
+    // 删除哈希表 key 中的多个域
+    bool hdel(redisContext* redis, const std::string& key, std::vector<std::string>& fields, uint& delSize);
+    bool hdel(redisContext* redis, const std::string& key, std::string& field, uint& delSize);
+
+    // 判断哈希表 key 中, 给定域 filed 是否存在
+    bool hexists(redisContext* redis, const std::string& key, const std::string& field, bool& isExit);
+
+    // 获取哈希表 key 中域的数量
+    bool hlen(redisContext* redis, const std::string& key, uint& fieldSize);
+
+
     // -- set
+
+    // 判断 member 是否是集合 key 的成员
+    bool sismember(redisContext* redis, const std::string& key, const std::string& member, bool& isMember);
+
+    // 将一个或多个member 元素加入到集合key 当中，已经存在于集合的member 元素将被忽略
+    bool sadd(redisContext* redis, const std::string& key, const std::string& member);
+    bool sadd(redisContext* redis, const std::string& key, std::vector<std::string>& members);
+
+    // 获取集合中元素的数量
+    bool scard(redisContext* redis, const std::string& key, uint& memSize);
+
+    // 获取多个 key 的差集(属于第一个key 且不属于之后任何一个key的元素)
+    bool sdiff(redisContext* redis, const std::string& key, std::vector<std::string>& otherKeys, std::vector<std::string>& outInfo);
+
+    // 获取多个 key 的交集
+    bool sinter(redisContext* redis, std::vector<std::string>& keys, std::vector<std::string>& outInfo);
+
+    // 获取多个 key 的并集
+    bool sunion(redisContext* redis, std::vector<std::string>& keys, std::vector<std::string>& outInfo);
+
+    // 获取集合 key 中所有成员
+    bool smembers(redisContext* redis, const std::string& key, std::vector<std::string>& outMembers);
+
+    // 移除集合 key 中的元素
+    bool srem(redisContext* redis, const std::string& key, std::vector<std::string>& members, uint& removeSize);
+    bool srem(redisContext* redis, const std::string& key, const std::string& member);
+
+
     // -- sortset
+
+    // 添加一个或多个 member 元素及其 score 值加入到有序集 key 当中, 若 member 已存在则更新 score 值
+    bool zadd(redisContext* redis, const std::string& key, std::map<int, std::string>& members/* score - member */, uint& addSize);
+    bool zadd(redisContext* redis, const std::string& key, int score, const std::string& member);
+
+    // 返回有序集合的member数量
+    bool zcard(redisContext* redis, const std::string& key, uint& memberSize);
+
+    // 返回有序集合中, score值在min和max间(闭区间)的成员数量
+    bool zcount(redisContext* redis, const std::string& key, int scoreMin, int scoreMax, uint& size);
+
+    // 为有序集合 key 的成员 member 的 score 加上增量 inc
+    bool zincrby(redisContext* redis, const std::string& key, int inc, std::string& member, int& newScore);
+
+    /*
+        返回有序集合key中指闭定区间内的成员, 成员位置按score值从小到大排序
+            start = 1, stop = -1  表示显示整个有序集合成员
+
+        返回集合不包括socre值
+    */
+    bool zrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMember);
+
+
     // -- transaction
 
 private:
@@ -113,8 +202,13 @@ private:
     // if reply is nulptr or state is error, return false
     bool replyErrOrNullCheck(redisReply* reply);
 
-    bool _mset(redisContext* redis, std::string& value);
-    bool _msetnx(redisContext* redis, std::string& value);
+    bool _mset(redisContext* redis, const std::string& value);
+    bool _msetnx(redisContext* redis, const std::string& value);
+
+    bool _lpush(redisContext* redis, const std::string& key, const std::string& values);
+    bool _lpushx(redisContext* redis, const std::string& key, const std::string& values);
+    bool _rpush(redisContext* redis, const std::string& key, const std::string& values);
+    bool _rpushx(redisContext* redis, const std::string& key, const std::string& values);
 
 private:
 
