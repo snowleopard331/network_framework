@@ -279,7 +279,7 @@ bool RedisManager::mget(redisContext* redis, std::vector< std::string >& keys, s
         valueList.append(" ");
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "MGET %s", valueList.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -326,7 +326,7 @@ bool RedisManager::getValueLen(redisContext* redis, std::string& key, uint& len)
         return false;
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "STRLEN %s", key.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -354,7 +354,7 @@ bool RedisManager::get(redisContext* redis, const std::string& key, std::string&
         return false;
     }
     
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "GET %s", key.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -383,7 +383,7 @@ bool RedisManager::llen(redisContext* redis, const std::string& key, uint& len)
         return false;
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LLEN %s", key.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -937,7 +937,7 @@ bool RedisManager::hmget(redisContext* redis, const std::string& key, std::vecto
         fieldList.append(" ");
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HMGET %s %s", key.c_str(), fieldList.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1002,7 +1002,7 @@ bool RedisManager::hmset(redisContext* redis, const std::string& key, std::map<s
         // fieldValueList.append("\" ");
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HMSET %s %s", key.c_str(), fieldValueList.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1023,7 +1023,7 @@ bool RedisManager::hset(redisContext* redis, const std::string& key, const std::
         return false;
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HSET %s %s %s", key.c_str(), field.c_str(), value.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1065,7 +1065,7 @@ bool RedisManager::sadd(redisContext* redis, const std::string& key, std::vector
         memberList.append("\" ");
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SADD %s %s", key.c_str(), memberList.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1091,7 +1091,7 @@ bool RedisManager::scard(redisContext* redis, const std::string& key, uint& memS
         return false;
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SCARD %s", key.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1134,7 +1134,7 @@ bool RedisManager::sdiff(redisContext* redis, const std::string& key, std::vecto
         otherKeyList.append(" ");
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SDIFF %s %s", key.c_str(), otherKeyList.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1190,7 +1190,7 @@ bool RedisManager::sinter(redisContext* redis, std::vector<std::string>& keys, s
         keyList.append(" ");
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SINTER %s", keyList.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1231,7 +1231,7 @@ bool RedisManager::sismember(redisContext* redis, const std::string& key, const 
         return false;
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SISMEMBER %s %s", key.c_str(), member.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1259,7 +1259,7 @@ bool RedisManager::smembers(redisContext* redis, const std::string& key, std::ve
         return false;
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SMEMBERS %s", key.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1324,7 +1324,7 @@ bool RedisManager::srem(redisContext* redis, const std::string& key, std::vector
         memberList.append(" ");
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SREM %s %s", key.c_str(), memberList));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1337,7 +1337,6 @@ bool RedisManager::srem(redisContext* redis, const std::string& key, std::vector
     if (reply->type == REDIS_REPLY_INTEGER)
     {
         removeSize = reply->integer;
-
         return true;
     }
 
@@ -1367,7 +1366,7 @@ bool RedisManager::sunion(redisContext* redis, std::vector<std::string>& keys, s
         keyList.append(" ");
     }
 
-    // excute mget
+    // excute command
     redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SUNION %s", keyList.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
@@ -1394,6 +1393,802 @@ bool RedisManager::sunion(redisContext* redis, std::vector<std::string>& keys, s
             outInfo.push_back(member);
         }
 
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zadd(redisContext* redis, const std::string& key, std::map<int, std::string>& members, uint& addSize)
+{
+    // param check
+    if (redis == nullptr || key.empty() || members.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string memberList, score;
+    std::stringstream   ss;
+    for (std::map<int, std::string>::iterator iter = members.begin(); iter != members.end(); ++iter)
+    {
+        if (iter->second.empty())
+        {
+            return false;
+        }
+
+        // int to string
+        ss.clear();
+        ss << iter->first;
+        score.clear();
+        ss >> score;
+
+        memberList.append(score);           // score
+        memberList.append(" ");
+        memberList.append(iter->second);    // member
+        memberList.append(" ");
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZADD %s %s", key.c_str(), memberList.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        addSize = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zadd(redisContext* redis, const std::string& key, int score, const std::string& member)
+{
+    std::map<int, std::string> memberlist;
+    memberlist[score] = member;
+    uint addSize = 0;
+    return zadd(redis, key, memberlist, addSize);
+}
+
+bool RedisManager::zcard(redisContext* redis, const std::string& key, uint& memberSize)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZCARD %s", key.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        memberSize = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+// 没有判断 min 与 max 的大小关系
+bool RedisManager::zcount(redisContext* redis, const std::string& key, int scoreMin, int scoreMax, uint& size)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string min, max;
+    std::stringstream ss;
+    ss << scoreMin;
+    ss >> min;
+    ss << scoreMax;
+    ss >> max;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZCOUNT %s %s %s", key.c_str(), min.c_str(), max.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        size = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMembers)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strStart, strStop;
+    std::stringstream ss;
+    ss << start;
+    ss >> strStart;
+    ss << stop;
+    ss >> strStop;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANGE %s %s %s", key.c_str(), strStart.c_str(), strStop.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_ARRAY)
+    {
+        outMembers.clear();
+
+        for (int i = 0; i < reply->elements; ++i)
+        {
+            redisReply* eleReply = reply->element[i];
+            if(eleReply->type != REDIS_REPLY_STRING)
+            {
+                return false;
+            }
+
+            // 两次拷贝, 效率太低
+            std::string member(eleReply->str, eleReply->len);
+            outMembers.push_back(member);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMembers, std::vector<int>& outScores)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strStart, strStop;
+    std::stringstream ss;
+    ss << start;
+    ss >> strStart;
+    ss << stop;
+    ss >> strStop;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANGE %s %s %s WITHSCORES", key.c_str(), strStart.c_str(), strStop.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_ARRAY &&
+        0 == (reply->elements % 2))
+    {
+        outMembers.clear();
+        std::stringstream ss;
+
+        for (int index = 0; index < reply->elements; ++index)
+        {
+            redisReply* eleReply = reply->element[index];
+            if (eleReply->type != REDIS_REPLY_STRING)
+            {
+                return false;
+            }
+
+            std::string strEle(eleReply->str, eleReply->len);
+            if (0 == (index % 2))   // member
+            {
+                // 两次拷贝, 效率太低
+                outMembers.push_back(strEle);
+            }
+            else    // score
+            {
+                int score = 0;
+                ss << strEle;
+                ss >> score;
+
+                outScores.push_back(score);
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrangebyscore(redisContext* redis, const std::string& key, int min, int max, std::vector<std::string>& outMembers)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strMin, strMax;
+    std::stringstream ss;
+    ss << min;
+    ss >> strMin;
+    ss << max;
+    ss >> strMax;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANGEBYSCORE %s %s %s", key.c_str(), strMin.c_str(), strMax.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_ARRAY)
+    {
+        outMembers.clear();
+
+        for (int i = 0; i < reply->elements; ++i)
+        {
+            redisReply* eleReply = reply->element[i];
+            if (eleReply->type != REDIS_REPLY_STRING)
+            {
+                return false;
+            }
+
+            // 两次拷贝, 效率太低
+            std::string member(eleReply->str, eleReply->len);
+            outMembers.push_back(member);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrangebyscore(redisContext* redis, const std::string& key, int min, int max, std::vector<std::string>& outMembers, std::vector<int>& outScores)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strMin, strMax;
+    std::stringstream ss;
+    ss << min;
+    ss >> strMin;
+    ss << max;
+    ss >> strMax;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANGEBYSCORE %s %s %s WITHSCORES", key.c_str(), strMin.c_str(), strMax.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_ARRAY &&
+        0 == (reply->elements % 2))
+    {
+        outMembers.clear();
+        std::stringstream ss;
+
+        for (int index = 0; index < reply->elements; ++index)
+        {
+            redisReply* eleReply = reply->element[index];
+            if (eleReply->type != REDIS_REPLY_STRING)
+            {
+                return false;
+            }
+
+            std::string strEle(eleReply->str, eleReply->len);
+            if (0 == (index % 2))   // member
+            {
+                // 两次拷贝, 效率太低
+                outMembers.push_back(strEle);
+            }
+            else    // score
+            {
+                int score = 0;
+                ss << strEle;
+                ss >> score;
+
+                outScores.push_back(score);
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrevrangebyscore(redisContext* redis, const std::string& key, int max, int min, std::vector<std::string>& outMembers)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strMin, strMax;
+    std::stringstream ss;
+    ss << min;
+    ss >> strMin;
+    ss << max;
+    ss >> strMax;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANGEBYSCORE %s %s %s", key.c_str(), strMin.c_str(), strMax.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_ARRAY)
+    {
+        outMembers.clear();
+
+        for (int i = 0; i < reply->elements; ++i)
+        {
+            redisReply* eleReply = reply->element[i];
+            if (eleReply->type != REDIS_REPLY_STRING)
+            {
+                return false;
+            }
+
+            // 两次拷贝, 效率太低
+            std::string member(eleReply->str, eleReply->len);
+            outMembers.push_back(member);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrevrangebyscore(redisContext* redis, const std::string& key, int max, int min, std::vector<std::string>& outMembers, std::vector<int>& outScores)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strMin, strMax;
+    std::stringstream ss;
+    ss << min;
+    ss >> strMin;
+    ss << max;
+    ss >> strMax;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANGEBYSCORE %s %s %s WITHSCORES", key.c_str(), strMin.c_str(), strMax.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_ARRAY &&
+        0 == (reply->elements % 2))
+    {
+        outMembers.clear();
+        std::stringstream ss;
+
+        for (int index = 0; index < reply->elements; ++index)
+        {
+            redisReply* eleReply = reply->element[index];
+            if (eleReply->type != REDIS_REPLY_STRING)
+            {
+                return false;
+            }
+
+            std::string strEle(eleReply->str, eleReply->len);
+            if (0 == (index % 2))   // member
+            {
+                // 两次拷贝, 效率太低
+                outMembers.push_back(strEle);
+            }
+            else    // score
+            {
+                int score = 0;
+                ss << strEle;
+                ss >> score;
+
+                outScores.push_back(score);
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrank(redisContext* redis, const std::string& key, const std::string& member, uint& ranking)
+{
+    // param check
+    if (redis == nullptr || key.empty() || member.empty())
+    {
+        return false;
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANK %s %s", key.c_str(), member.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        ranking = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrem(redisContext* redis, const std::string& key, std::vector<std::string>& members, uint& removeSize)
+{
+    // param check
+    if (redis == nullptr || key.empty() || members.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string memberList;
+    for (std::vector<std::string>::iterator iter = members.begin(); iter != members.end(); ++iter)
+    {
+        if (iter->empty)
+        {
+            return false;
+        }
+
+        memberList.append(*iter);           // member
+        memberList.append(" ");
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREM %s %s", key.c_str(), memberList.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        removeSize = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrem(redisContext* redis, const std::string& key, const std::string& member)
+{
+    std::vector<std::string> memberList;
+    memberList.push_back(member);
+    uint removeSize = 0;
+    return zrem(redis, key, memberList, removeSize);
+}
+
+bool RedisManager::zremrangebyrank(redisContext* redis, const std::string& key, int start, int stop, uint& removeSize)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strStart, strStop;
+    std::stringstream ss;
+    ss << start;
+    ss >> strStart;
+    ss << stop;
+    ss >> strStop;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREMRANGEBYRANK %s %s %s", key.c_str(), strStart.c_str(), strStop.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        removeSize = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zremrangebyscore(redisContext* redis, const std::string& key, int min, int max, uint& removeSize)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strMin, strMax;
+    std::stringstream ss;
+    ss << min;
+    ss >> strMin;
+    ss << max;
+    ss >> strMax;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREMRANGEBYSCORE %s %s %s", key.c_str(), strMin.c_str(), strMax.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        removeSize = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrevrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMembers)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strStart, strStop;
+    std::stringstream ss;
+    ss << start;
+    ss >> strStart;
+    ss << stop;
+    ss >> strStop;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANGE %s %s %s", key.c_str(), strStart.c_str(), strStop.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_ARRAY)
+    {
+        outMembers.clear();
+
+        for (int i = 0; i < reply->elements; ++i)
+        {
+            redisReply* eleReply = reply->element[i];
+            if (eleReply->type != REDIS_REPLY_STRING)
+            {
+                return false;
+            }
+
+            // 两次拷贝, 效率太低
+            std::string member(eleReply->str, eleReply->len);
+            outMembers.push_back(member);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrevrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMembers, std::vector<int>& outScores)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strStart, strStop;
+    std::stringstream ss;
+    ss << start;
+    ss >> strStart;
+    ss << stop;
+    ss >> strStop;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANGE %s %s %s WITHSCORES", key.c_str(), strStart.c_str(), strStop.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_ARRAY &&
+        0 == (reply->elements % 2))
+    {
+        outMembers.clear();
+        std::stringstream ss;
+
+        for (int index = 0; index < reply->elements; ++index)
+        {
+            redisReply* eleReply = reply->element[index];
+            if (eleReply->type != REDIS_REPLY_STRING)
+            {
+                return false;
+            }
+
+            std::string strEle(eleReply->str, eleReply->len);
+            if (0 == (index % 2))   // member
+            {
+                // 两次拷贝, 效率太低
+                outMembers.push_back(strEle);
+            }
+            else    // score
+            {
+                int score = 0;
+                ss << strEle;
+                ss >> score;
+
+                outScores.push_back(score);
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zrevrank(redisContext* redis, const std::string& key, const std::string& member, uint& ranking)
+{
+    // param check
+    if (redis == nullptr || key.empty() || member.empty())
+    {
+        return false;
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANK %s %s", key.c_str(), member.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        ranking = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zscore(redisContext* redis, const std::string& key, const std::string& member, int& score)
+{
+    // param check
+    if (redis == nullptr || key.empty() || member.empty())
+    {
+        return false;
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZSCORE %s %s", key.c_str(), member.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        score = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::zincrby(redisContext* redis, const std::string& key, int inc, const std::string& member, int& newScore)
+{
+    // param check
+    if (redis == nullptr || key.empty() || member.empty() || 0 == inc)
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string strInc;
+    std::stringstream ss;
+    ss << inc;
+    ss >> strInc;
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZINCRBY %s %s %s", key.c_str(), strInc.c_str(), member.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        newScore = reply->integer;
         return true;
     }
 

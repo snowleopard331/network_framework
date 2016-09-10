@@ -171,7 +171,7 @@ public:
 
     // -- sortset
 
-    // 添加一个或多个 member 元素及其 score 值加入到有序集 key 当中, 若 member 已存在则更新 score 值
+    // 添加一个或多个 member 元素及其 score 值加入到有序集 key 当中, 若 member 已存在则更新 score 值, addSize返回被成功添加的数量(不包括更新的和已经存在的)
     bool zadd(redisContext* redis, const std::string& key, std::map<int, std::string>& members/* score - member */, uint& addSize);
     bool zadd(redisContext* redis, const std::string& key, int score, const std::string& member);
 
@@ -182,15 +182,48 @@ public:
     bool zcount(redisContext* redis, const std::string& key, int scoreMin, int scoreMax, uint& size);
 
     // 为有序集合 key 的成员 member 的 score 加上增量 inc
-    bool zincrby(redisContext* redis, const std::string& key, int inc, std::string& member, int& newScore);
+    bool zincrby(redisContext* redis, const std::string& key, int inc, const std::string& member, int& newScore);
 
     /*
-        返回有序集合key中指闭定区间内的成员, 成员位置按score值从小到大排序
-            start = 1, stop = -1  表示显示整个有序集合成员
-
-        返回集合不包括socre值
+        下标0表示第一个member, 1表示第二个member, -1表示最后一个member
+        例: start = 0, stop = -1  表示显示整个有序集合成员
     */
-    bool zrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMember);
+    // 返回指定闭区间成员, score从小到大排序, 不包括score值
+    bool zrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMembers);
+    // 返回指定闭区间成员, score从小到大排序, 包括score值
+    bool zrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMembers, std::vector<int>& outScores);
+    // 返回指定闭区间成员, score从大到小排序, 不包括score值
+    bool zrevrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMembers);
+    // 返回指定闭区间成员, score从大到小排序, 包括score值
+    bool zrevrange(redisContext* redis, const std::string& key, int start, int stop, std::vector<std::string>& outMembers, std::vector<int>& outScores);
+
+    /* 当区间为正无限或者负无限情况的api如需要, 则另行添加 */
+    // 返回有序集合中所有score介于min和max之间的成员(闭区间), 从小到大, 不包括score
+    bool zrangebyscore(redisContext* redis, const std::string& key, int min, int max, std::vector<std::string>& outMembers);
+    // 返回有序集合中所有score介于min和max之间的成员(闭区间), 从小到大, 包括score
+    bool zrangebyscore(redisContext* redis, const std::string& key, int min, int max, std::vector<std::string>& outMembers, std::vector<int>& outScores);
+    // 返回有序集合中所有score介于max和min之间的成员(闭区间), 从大到小, 不包括score
+    bool zrevrangebyscore(redisContext* redis, const std::string& key, int max, int min, std::vector<std::string>& outMembers);
+    // 返回有序集合中所有score介于max和min之间的成员(闭区间), 从大到小, 包括score
+    bool zrevrangebyscore(redisContext* redis, const std::string& key, int max, int min, std::vector<std::string>& outMembers, std::vector<int>& outScores);
+
+
+    // 返回有序集合 key 中 member 的排名, 排名从0开始
+    bool zrank(redisContext* redis, const std::string& key, const std::string& member, uint& ranking);      // 从大到小
+    bool zrevrank(redisContext* redis, const std::string& key, const std::string& member, uint& ranking);   // 从小到大
+
+    // 移除有序集合 key 中的成员
+    bool zrem(redisContext* redis, const std::string& key, std::vector<std::string>& members, uint& removeSize);
+    bool zrem(redisContext* redis, const std::string& key, const std::string& member);
+
+    // 移除有序集合 key 中, 指定排名区间内的所有成员(闭区间)
+    bool zremrangebyrank(redisContext* redis, const std::string& key, int start, int stop, uint& removeSize);
+
+    // 移除有序集合中, 所有score介于min和max之间的成员(闭区间)
+    bool zremrangebyscore(redisContext* redis, const std::string& key, int min, int max, uint& removeSize);
+
+    // 返回有序集合中, 成员 member 的 score 值
+    bool zscore(redisContext* redis, const std::string& key, const std::string& member, int& score);
 
 
     // -- transaction
