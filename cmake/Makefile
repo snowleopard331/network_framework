@@ -984,6 +984,36 @@ home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.s:
 	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.s
 .PHONY : home/yunfei/myworld/network_ramework/src/share/log/glogHelper.cpp.s
 
+home/yunfei/myworld/network_ramework/src/share/nosql.o: home/yunfei/myworld/network_ramework/src/share/nosql.cpp.o
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/nosql.o
+
+# target to build an object file
+home/yunfei/myworld/network_ramework/src/share/nosql.cpp.o:
+	$(MAKE) -f CMakeFiles/auth.dir/build.make CMakeFiles/auth.dir/home/yunfei/myworld/network_ramework/src/share/nosql.cpp.o
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/nosql.cpp.o
+.PHONY : home/yunfei/myworld/network_ramework/src/share/nosql.cpp.o
+
+home/yunfei/myworld/network_ramework/src/share/nosql.i: home/yunfei/myworld/network_ramework/src/share/nosql.cpp.i
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/nosql.i
+
+# target to preprocess a source file
+home/yunfei/myworld/network_ramework/src/share/nosql.cpp.i:
+	$(MAKE) -f CMakeFiles/auth.dir/build.make CMakeFiles/auth.dir/home/yunfei/myworld/network_ramework/src/share/nosql.cpp.i
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/nosql.cpp.i
+.PHONY : home/yunfei/myworld/network_ramework/src/share/nosql.cpp.i
+
+home/yunfei/myworld/network_ramework/src/share/nosql.s: home/yunfei/myworld/network_ramework/src/share/nosql.cpp.s
+
+.PHONY : home/yunfei/myworld/network_ramework/src/share/nosql.s
+
+# target to generate assembly for a file
+home/yunfei/myworld/network_ramework/src/share/nosql.cpp.s:
+	$(MAKE) -f CMakeFiles/auth.dir/build.make CMakeFiles/auth.dir/home/yunfei/myworld/network_ramework/src/share/nosql.cpp.s
+	$(MAKE) -f CMakeFiles/evil.dir/build.make CMakeFiles/evil.dir/home/yunfei/myworld/network_ramework/src/share/nosql.cpp.s
+.PHONY : home/yunfei/myworld/network_ramework/src/share/nosql.cpp.s
+
 home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.o: home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.cpp.o
 
 .PHONY : home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.o
@@ -1142,6 +1172,9 @@ help:
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/log/glogHelper.s"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/nosql.o"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/nosql.i"
+	@echo "... home/yunfei/myworld/network_ramework/src/share/nosql.s"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.o"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.i"
 	@echo "... home/yunfei/myworld/network_ramework/src/share/policy/ObjectLifeTime.s"

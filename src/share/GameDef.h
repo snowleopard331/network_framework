@@ -23,6 +23,7 @@
 //#   define DEBUG_INFO_UNIQUE_PTR
 //#   define DEBUG_INFO_CONNECT
 #   define DEBUG_INFO_CRUSH
+#   define DEBUG_INFO_REDIS
 #endif//DEBUG_INFO
 
 // use in LOG

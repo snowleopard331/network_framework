@@ -43,8 +43,13 @@ public:
 
 public:
 
-    bool createConnect(const char* ip, ushort port);
+    // 创建连接
+    bool createConnect(const std::string ip, const ushort port, uint timeoutSecs = 0);
+
+    // 关闭指定连接
     void closeConnect(uint fd);
+    
+    // 关闭所有连接
     void closeAllConnect();
 
 
