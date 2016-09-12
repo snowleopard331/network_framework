@@ -391,7 +391,31 @@ int WorldSocketMgr::StartIOService()
     RedisManager rdMgr;
     if (rdMgr.createConnect("192.168.195.129", 6379))
     {
-        LOG(ERROR) << "test success";
+        LOG(ERROR) << "test connect redis success";
+
+        redisContext* redis = rdMgr.getConnect();
+        if (redis == nullptr)
+        {
+            LOG(ERROR) << "get connect is nulptr";
+        }
+        else
+        {
+            if (!rdMgr.authPassword(redis, "qiuwanyou331"))
+            {
+                LOG(ERROR) << "redis password error";
+            }
+
+            if (!rdMgr.set(redis, "qiu", "yunfei"))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            
+            std::string outData;
+            if (rdMgr.get(redis, "qiu", outData))
+            {
+                LOG(ERROR) << "key: qiu, get value is " << outData;
+            }
+        }
     }
 
 #endif//DEBUG_INFO_REDIS

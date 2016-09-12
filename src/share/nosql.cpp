@@ -57,6 +57,24 @@ bool RedisManager::createConnect(const std::string ip, const ushort port, uint t
     return true;
 }
 
+bool RedisManager::authPassword(redisContext* redis, const std::string password)
+{
+    if (redis == nullptr || password.empty())
+    {
+        return false;
+    }
+
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "AUTH %s", password.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    freeReplyObject(reply);
+
+    return true;
+}
+
 void RedisManager::closeConnect(uint fd)
 {
     if (m_connectsList.empty())

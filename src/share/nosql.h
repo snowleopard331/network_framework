@@ -46,12 +46,28 @@ public:
     // 创建连接
     bool createConnect(const std::string ip, const ushort port, uint timeoutSecs = 0);
 
+    // 验证密码
+    bool authPassword(redisContext* redis, const std::string password);
+
     // 关闭指定连接
     void closeConnect(uint fd);
     
     // 关闭所有连接
     void closeAllConnect();
 
+#ifdef DEBUG_INFO_REDIS
+
+    redisContext* getConnect()
+    {
+        if (m_connectsList.empty())
+        {
+            return nullptr;
+        }
+
+        return m_connectsList.begin()->second;
+    }
+
+#endif
 
 public:
     /* redis command */
