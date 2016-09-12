@@ -17,9 +17,22 @@ RedisManager::~RedisManager()
 
 }
 
-bool RedisManager::createConnect(const char* ip, ushort port)
+bool RedisManager::createConnect(const std::string ip, const ushort port, uint timeoutSecs /* = 0 */)
 {
-    redisContext* redisClient = redisConnect(ip, port);
+    redisContext* redisClient = nullptr;
+
+    if (timeoutSecs)
+    {
+        timeval tv;
+        tv.tv_sec = timeoutSecs;
+
+        redisClient = redisConnectWithTimeout(ip.c_str(), port, tv);
+    }
+    else
+    {
+        redisClient = redisConnect(ip.c_str(), port);
+    }
+
     // two different types of errors
     if (redisClient == nullptr || redisClient->err)
     {
@@ -297,7 +310,7 @@ bool RedisManager::mget(redisContext* redis, std::vector< std::string >& keys, s
     }
 
     // output data key-value
-    for (int i = 0; i < reply->elements; i++)
+    for (size_t i = 0; i < reply->elements; i++)
     {
         redisReply* eleReply = reply->element[i];
 
@@ -783,7 +796,7 @@ bool RedisManager::hgetall(redisContext* redis, const std::string& key, std::map
     {
         outMapInfo.clear();
         
-        for (int index = 0; index < reply->elements; index++)
+        for (size_t index = 0; index < reply->elements; index++)
         {
             redisReply* eleReply = reply->element[index];
 
@@ -827,7 +840,7 @@ bool RedisManager::hvals(redisContext* redis, const std::string& key, std::vecto
     {
         outValues.clear();
 
-        for (int index = 0; index < reply->elements; index++)
+        for (size_t index = 0; index < reply->elements; index++)
         {
             redisReply* eleReply = reply->element[index];
 
@@ -869,7 +882,7 @@ bool RedisManager::hkeys(redisContext* redis, const std::string& key, std::vecto
     {
         outFields.clear();
 
-        for (int index = 0; index < reply->elements; index++)
+        for (size_t index = 0; index < reply->elements; index++)
         {
             redisReply* eleReply = reply->element[index];
 
@@ -957,7 +970,7 @@ bool RedisManager::hmget(redisContext* redis, const std::string& key, std::vecto
     outMapInfo.clear();
 
     // output data key-value
-    for (int i = 0; i < reply->elements; i++)
+    for (size_t i = 0; i < reply->elements; i++)
     {
         redisReply* eleReply = reply->element[i];
 
@@ -1148,7 +1161,7 @@ bool RedisManager::sdiff(redisContext* redis, const std::string& key, std::vecto
     {
         outInfo.clear();
 
-        for (int i = 0; i < reply->elements; i++)
+        for (size_t i = 0; i < reply->elements; i++)
         {
             redisReply* eleReply = reply->element[i];
             if(eleReply->type != REDIS_REPLY_STRING)
@@ -1204,7 +1217,7 @@ bool RedisManager::sinter(redisContext* redis, std::vector<std::string>& keys, s
     {
         outInfo.clear();
 
-        for (int i = 0; i < reply->elements; i++)
+        for (size_t i = 0; i < reply->elements; i++)
         {
             redisReply* eleReply = reply->element[i];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -1273,7 +1286,7 @@ bool RedisManager::smembers(redisContext* redis, const std::string& key, std::ve
     {
         outMembers.clear();
 
-        for (int i = 0; i < reply->elements; i++)
+        for (size_t i = 0; i < reply->elements; i++)
         {
             redisReply* eleReply = reply->element[i];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -1380,7 +1393,7 @@ bool RedisManager::sunion(redisContext* redis, std::vector<std::string>& keys, s
     {
         outInfo.clear();
 
-        for (int i = 0; i < reply->elements; i++)
+        for (size_t i = 0; i < reply->elements; i++)
         {
             redisReply* eleReply = reply->element[i];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -1549,7 +1562,7 @@ bool RedisManager::zrange(redisContext* redis, const std::string& key, int start
     {
         outMembers.clear();
 
-        for (int i = 0; i < reply->elements; ++i)
+        for (size_t i = 0; i < reply->elements; ++i)
         {
             redisReply* eleReply = reply->element[i];
             if(eleReply->type != REDIS_REPLY_STRING)
@@ -1600,7 +1613,7 @@ bool RedisManager::zrange(redisContext* redis, const std::string& key, int start
         outMembers.clear();
         std::stringstream ss;
 
-        for (int index = 0; index < reply->elements; ++index)
+        for (size_t index = 0; index < reply->elements; ++index)
         {
             redisReply* eleReply = reply->element[index];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -1660,7 +1673,7 @@ bool RedisManager::zrangebyscore(redisContext* redis, const std::string& key, in
     {
         outMembers.clear();
 
-        for (int i = 0; i < reply->elements; ++i)
+        for (size_t i = 0; i < reply->elements; ++i)
         {
             redisReply* eleReply = reply->element[i];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -1711,7 +1724,7 @@ bool RedisManager::zrangebyscore(redisContext* redis, const std::string& key, in
         outMembers.clear();
         std::stringstream ss;
 
-        for (int index = 0; index < reply->elements; ++index)
+        for (size_t index = 0; index < reply->elements; ++index)
         {
             redisReply* eleReply = reply->element[index];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -1771,7 +1784,7 @@ bool RedisManager::zrevrangebyscore(redisContext* redis, const std::string& key,
     {
         outMembers.clear();
 
-        for (int i = 0; i < reply->elements; ++i)
+        for (size_t i = 0; i < reply->elements; ++i)
         {
             redisReply* eleReply = reply->element[i];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -1822,7 +1835,7 @@ bool RedisManager::zrevrangebyscore(redisContext* redis, const std::string& key,
         outMembers.clear();
         std::stringstream ss;
 
-        for (int index = 0; index < reply->elements; ++index)
+        for (size_t index = 0; index < reply->elements; ++index)
         {
             redisReply* eleReply = reply->element[index];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -1891,7 +1904,7 @@ bool RedisManager::zrem(redisContext* redis, const std::string& key, std::vector
     std::string memberList;
     for (std::vector<std::string>::iterator iter = members.begin(); iter != members.end(); ++iter)
     {
-        if (iter->empty)
+        if (iter->empty())
         {
             return false;
         }
@@ -2027,7 +2040,7 @@ bool RedisManager::zrevrange(redisContext* redis, const std::string& key, int st
     {
         outMembers.clear();
 
-        for (int i = 0; i < reply->elements; ++i)
+        for (size_t i = 0; i < reply->elements; ++i)
         {
             redisReply* eleReply = reply->element[i];
             if (eleReply->type != REDIS_REPLY_STRING)
@@ -2078,7 +2091,7 @@ bool RedisManager::zrevrange(redisContext* redis, const std::string& key, int st
         outMembers.clear();
         std::stringstream ss;
 
-        for (int index = 0; index < reply->elements; ++index)
+        for (size_t index = 0; index < reply->elements; ++index)
         {
             redisReply* eleReply = reply->element[index];
             if (eleReply->type != REDIS_REPLY_STRING)

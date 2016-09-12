@@ -7,6 +7,12 @@
 #include "worldSocketMgr.h"
 #include "config.h"
 
+#ifdef DEBUG_INFO_REDIS
+
+#include "nosql.h"
+
+#endif
+
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/atomic.hpp>
@@ -379,6 +385,16 @@ int WorldSocketMgr::StartIOService()
     }
 
     addAcceptHandler();
+
+#ifdef DEBUG_INFO_REDIS
+
+    RedisManager rdMgr;
+    if (rdMgr.createConnect("192.168.195.129", 6379))
+    {
+        LOG(ERROR) << "test success";
+    }
+
+#endif//DEBUG_INFO_REDIS
 
     /// connect auth
 	registToAuth();

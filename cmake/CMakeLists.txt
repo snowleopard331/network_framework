@@ -32,7 +32,8 @@ AUX_SOURCE_DIRECTORY(${PROJECT_PATH}/src/share/database    AUTH_SRC_LIST)
 SET(DEP_INCLUDE_DIR ${PROJECT_PATH}/dep/glog/include 
                     ${PROJECT_PATH}/dep/boost/include 
                     ${PROJECT_PATH}/dep/cryptopp/include 
-                    ${PROJECT_PATH}/dep/mysql/include)
+                    ${PROJECT_PATH}/dep/mysql/include 
+                    ${PROJECT_PATH}/dep/hiredis/include)
 
 SET(MY_INCLUDE_DIR  ${PROJECT_PATH}/src/share 
                     ${PROJECT_PATH}/src/platform 
@@ -46,10 +47,11 @@ SET(MY_INCLUDE_DIR  ${PROJECT_PATH}/src/share
 SET(DEP_LIB_DIR ${PROJECT_PATH}/dep/glog/lib 
                 ${PROJECT_PATH}/dep/boost/lib 
                 ${PROJECT_PATH}/dep/cryptopp/lib 
-                ${PROJECT_PATH}/dep/mysql/lib)
+                ${PROJECT_PATH}/dep/mysql/lib 
+                ${PROJECT_PATH}/dep/hiredis/lib)
 
 ### dependent libs list
-SET(LIB_LIST boost_thread boost_system glog pthread cryptopp mysqlclient_r)
+SET(LIB_LIST boost_thread boost_system glog pthread cryptopp mysqlclient_r hiredis)
 
 
 ## compile options,  -rdynamic for stack, -fdiagnostics-color=auto need gcc--version more than 4.9.0
@@ -79,7 +81,7 @@ TARGET_LINK_LIBRARIES(auth ${LIB_LIST})
 
 SET(CMAKE_INSTALL_PREFIX ${PROJECT_PATH}/bin)
 INSTALL(TARGETS   evil
-	DESTINATION evilServer)
+        DESTINATION evilServer)
 
 INSTALL(TARGETS   auth
         DESTINATION authServer)
