@@ -55,6 +55,9 @@ public:
     // 关闭所有连接
     void closeAllConnect();
 
+    // Ping
+    bool ping(redisContext* redis);
+
 #ifdef DEBUG_INFO_REDIS
 
     redisContext* getConnect()
@@ -72,6 +75,19 @@ public:
 public:
     /* redis command */
     
+    // -- key
+
+    // 返回给定key的剩余生存时间
+    bool ttl(redisContext* redis, const std::string& key, int& outValue);
+
+    // 删除一个或多个key
+    bool del(redisContext* redis, std::vector<std::string>& keys, uint& delSize);
+    bool del(redisContext* redis, const std::string& key);
+
+    // 设置生存时间
+    bool expire(redisContext* redis, const std::string& key, uint secs);
+
+
     // -- string
 
     /*
@@ -98,7 +114,7 @@ public:
 
     bool mget(redisContext* redis, std::vector< std::string >& keys, std::map< std::string, std::string >& outMapInfo);
 
-    bool getValueLen(redisContext* redis, std::string& key, uint& len);
+    bool getValueLen(redisContext* redis, const std::string& key, uint& len);
 
 
     // -- list
@@ -259,10 +275,10 @@ private:
     bool _mset(redisContext* redis, const std::string& value);
     bool _msetnx(redisContext* redis, const std::string& value);
 
-    bool _lpush(redisContext* redis, const std::string& key, const std::string& values);
-    bool _lpushx(redisContext* redis, const std::string& key, const std::string& values);
-    bool _rpush(redisContext* redis, const std::string& key, const std::string& values);
-    bool _rpushx(redisContext* redis, const std::string& key, const std::string& values);
+    // bool _lpush(redisContext* redis, const std::string& key, const std::string& values);
+    // bool _lpushx(redisContext* redis, const std::string& key, const std::string& values);
+    // bool _rpush(redisContext* redis, const std::string& key, const std::string& values);
+    // bool _rpushx(redisContext* redis, const std::string& key, const std::string& values);
 
 private:
 
