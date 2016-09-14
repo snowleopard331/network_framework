@@ -410,11 +410,125 @@ int WorldSocketMgr::StartIOService()
                 LOG(ERROR) << "set failed";
             }
             
+            int expireTime = 0;
             std::string outData;
             if (rdMgr.get(redis, "qiu", outData))
             {
                 LOG(ERROR) << "key: qiu, get value is " << outData;
             }
+
+            if (!rdMgr.set(redis, "qiu", "yunfei1"))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            if (rdMgr.get(redis, "qiu", outData))
+            {
+                LOG(ERROR) << "key: qiu, get value is " << outData;
+            }
+            if (rdMgr.ttl(redis, "qiu", expireTime))
+            {
+                LOG(ERROR) << "ttl qiu " << expireTime;
+            }
+
+            if (!rdMgr.set(redis, "qiu", "yunfei2", REDIS_COMMAND_OPTION_SET_NX))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            if (rdMgr.get(redis, "qiu", outData))
+            {
+                LOG(ERROR) << "key: qiu, get value is " << outData;
+            }
+            if (rdMgr.ttl(redis, "qiu", expireTime))
+            {
+                LOG(ERROR) << "ttl qiu " << expireTime;
+            }
+
+            if (!rdMgr.set(redis, "qiu", "yunfei3", REDIS_COMMAND_OPTION_SET_XX))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            if (rdMgr.get(redis, "qiu", outData))
+            {
+                LOG(ERROR) << "key: qiu, get value is " << outData;
+            }
+            if (rdMgr.ttl(redis, "qiu", expireTime))
+            {
+                LOG(ERROR) << "ttl qiu " << expireTime;
+            }
+
+            if (!rdMgr.set(redis, "qiu", "yunfei4", REDIS_COMMAND_OPTION_NULL, REDIS_COMMAND_OPTION_SET_EX, 1000000))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            if (rdMgr.get(redis, "qiu", outData))
+            {
+                LOG(ERROR) << "key: qiu, get value is " << outData;
+            }
+            if (rdMgr.ttl(redis, "qiu", expireTime))
+            {
+                LOG(ERROR) << "ttl qiu " << expireTime;
+            }
+
+            if (!rdMgr.set(redis, "qiu", "yunfei5", REDIS_COMMAND_OPTION_NULL, REDIS_COMMAND_OPTION_SET_PX, 1000000))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            if (rdMgr.get(redis, "qiu", outData))
+            {
+                LOG(ERROR) << "key: qiu, get value is " << outData;
+            }
+            if (rdMgr.ttl(redis, "qiu", expireTime))
+            {
+                LOG(ERROR) << "ttl qiu " << expireTime;
+            }
+
+            if (!rdMgr.set(redis, "qiu", "yunfei6", REDIS_COMMAND_OPTION_SET_NX, REDIS_COMMAND_OPTION_SET_PX, 2000000))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            if (rdMgr.get(redis, "qiu", outData))
+            {
+                LOG(ERROR) << "key: qiu, get value is " << outData;
+            }
+            if (rdMgr.ttl(redis, "qiu", expireTime))
+            {
+                LOG(ERROR) << "ttl qiu " << expireTime;
+            }
+
+            if (!rdMgr.set(redis, "qiu", "yunfei7", REDIS_COMMAND_OPTION_SET_XX, REDIS_COMMAND_OPTION_SET_PX, 3000000))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            if (rdMgr.get(redis, "qiu", outData))
+            {
+                LOG(ERROR) << "key: qiu, get value is " << outData;
+            }
+            if (rdMgr.ttl(redis, "qiu", expireTime))
+            {
+                LOG(ERROR) << "ttl qiu " << expireTime;
+            }
+
+            //std::map<std::string, std::string> key_value;
+            //std::vector<std::string> keys;
+            //key_value["qiu1"] = "yunfei1";
+            //key_value["qiu2"] = "yunfei2";
+            //key_value["qiu3"] = "yunfei3";
+            //if (!rdMgr.mset(redis, key_value))
+            //{
+            //    LOG(ERROR) << "set failed";
+            //}
+            //key_value.clear();
+            //keys.push_back("qiu1");
+            //keys.push_back("qiu2");
+            //keys.push_back("qiu3");
+            //if (rdMgr.mget(redis, keys, key_value))
+            //{
+            //    LOG(ERROR) << "key: qiu, get value size is " << key_value.size();
+            //    for (auto iter = key_value.begin(); iter != key_value.end(); ++iter)
+            //    {
+            //        LOG(ERROR) << iter->first << SEPARATOR_SPACE << iter->second;
+            //    }
+            //}
         }
     }
 

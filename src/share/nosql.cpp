@@ -7,6 +7,8 @@
 #include "nosql.h"
 #include <memory>
 
+#define SPACE   " "
+
 RedisManager::RedisManager()
 {
 
@@ -64,7 +66,11 @@ bool RedisManager::authPassword(redisContext* redis, const std::string password)
         return false;
     }
 
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "AUTH %s", password.c_str()));
+    // construct command
+    std::string cmd = "AUTH ";
+    cmd.append(password);
+
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -111,76 +117,54 @@ bool RedisManager::set(redisContext* redis, const std::string& key, const std::s
     RedisOptionTypes opTime /* = REDIS_COMMAND_OPTION_NULL */, uint timeValue /* = 0 */)
 {
     // param check
-    if (redis == nullptr)
+    if (redis == nullptr || key.empty() || value.empty())
     {
         return false;
     }
 
-    if (key.empty() || value.empty())
+    if (opTime != REDIS_COMMAND_OPTION_NULL && 0 == timeValue)
     {
         return false;
     }
+
+    // construct command
+    std::string cmd = "SET ";
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(value);
+    cmd.append(SPACE);
 
     // option
-    std::string setOption;
-    if (opTime != REDIS_COMMAND_OPTION_NULL)
+    if (opTime == REDIS_COMMAND_OPTION_SET_EX)
     {
-        if (0 == timeValue)
-        {
-            return false;
-        }
-
-        if (opTime == REDIS_COMMAND_OPTION_SET_EX)
-        {
-            setOption.append(" EX ");
-        }
-        else if (opTime == REDIS_COMMAND_OPTION_SET_PX)
-        {
-            setOption.append(" PX ");
-        }
-        else
-        {
-            return false;
-        }
-
-        std::stringstream ss;
-        ss << timeValue;
-
-        std::string strNum;
-        ss >> strNum;
-
-        setOption.append(strNum);
+        cmd.append("EX ");
+        cmd.append(numToStr(timeValue));
+        cmd.append(SPACE);
+    }
+    else if(opTime == REDIS_COMMAND_OPTION_SET_PX)
+    {
+        cmd.append("PX ");
+        cmd.append(numToStr(timeValue));
+        cmd.append(SPACE);
     }
 
-    if (opReplace != REDIS_COMMAND_OPTION_NULL)
+    if (opReplace == REDIS_COMMAND_OPTION_SET_NX)
     {
-        if (opReplace == REDIS_COMMAND_OPTION_SET_NX)
-        {
-            setOption.append(" NX");
-        }
-        else if ( opReplace == REDIS_COMMAND_OPTION_SET_XX)
-        {
-            setOption.append(" XX");
-        }
-        else
-        {
-            return false;
-        }
+        cmd.append("NX");
+    }
+    else if (opReplace == REDIS_COMMAND_OPTION_SET_XX)
+    {
+        cmd.append("XX");
     }
 
-    std::string valueOp = std::string("\"") + value + std::string("\"");
-    
-    if (!setOption.empty())
-    {
-        valueOp.append(setOption);
-    }
-
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SET %s %s", key.c_str(), valueOp.c_str()));
+    // execute
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
     }
 
+    // auto free reply
     std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
 
     return replyStateIsOK(reply);
@@ -188,6 +172,7 @@ bool RedisManager::set(redisContext* redis, const std::string& key, const std::s
 
 bool RedisManager::mset(redisContext* redis, std::map< std::string, std::string >& value, RedisOptionTypes opReplace /* = REDIS_COMMAND_OPTION_NULL */)
 {
+    // param check
     if(redis == nullptr || value.empty())
     {
         return false;
@@ -199,8 +184,8 @@ bool RedisManager::mset(redisContext* redis, std::map< std::string, std::string 
         return false;
     }
 
-    std::string valueList;
-    
+    // construct command option
+    std::string valueList;    
     for (std::map< std::string, std::string >::iterator iter = value.begin(); iter != value.end(); ++iter)
     {
         if(iter->first.empty() || iter->second.empty())
@@ -209,10 +194,9 @@ bool RedisManager::mset(redisContext* redis, std::map< std::string, std::string 
         }
 
         valueList.append(iter->first);  // key
-        valueList.append(" ");
-        valueList.append("\"");
+        valueList.append(SPACE);
         valueList.append(iter->second); // value
-        valueList.append("\" ");
+        valueList.append(SPACE);
     }
 
     return ((opReplace == REDIS_COMMAND_OPTION_NULL) ? _mset(redis, valueList) : _msetnx(redis, valueList));
@@ -258,7 +242,11 @@ bool RedisManager::_mset(redisContext* redis, const std::string& value)
         return false;
     }
 
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "MSETNX %s", value.c_str()));
+    // construct command
+    std::string cmd = "MSET ";
+    cmd.append(value);
+
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if(!replyErrOrNullCheck(reply))
     {
         return false;
@@ -276,7 +264,11 @@ bool RedisManager::_msetnx(redisContext* redis, const std::string& value)
         return false;
     }
 
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "MSET %s", value.c_str()));
+    // construct command
+    std::string cmd = "MSETNX ";
+    cmd.append(value);
+
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -295,10 +287,9 @@ bool RedisManager::mget(redisContext* redis, std::vector< std::string >& keys, s
     {
         return false;
     }
-    outMapInfo.clear();
 
-    // construct string keys
-    std::string valueList;
+    // construct command
+    std::string cmd = "MGET ";
     for (std::vector<std::string>::iterator iter = keys.begin(); iter != keys.end(); ++iter)
     {
         if (iter->empty())
@@ -306,12 +297,12 @@ bool RedisManager::mget(redisContext* redis, std::vector< std::string >& keys, s
             return false;
         }
 
-        valueList.append(*iter);
-        valueList.append(" ");
+        cmd.append(*iter);
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "MGET %s", valueList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -326,6 +317,8 @@ bool RedisManager::mget(redisContext* redis, std::vector< std::string >& keys, s
     {
         return false;
     }
+
+    outMapInfo.clear();
 
     // output data key-value
     for (size_t i = 0; i < reply->elements; i++)
@@ -349,7 +342,7 @@ bool RedisManager::mget(redisContext* redis, std::vector< std::string >& keys, s
     return true;
 }
 
-bool RedisManager::getValueLen(redisContext* redis, std::string& key, uint& len)
+bool RedisManager::getValueLen(redisContext* redis, const std::string& key, uint& len)
 {
     // param check
     if(redis == nullptr || key.empty())
@@ -357,8 +350,12 @@ bool RedisManager::getValueLen(redisContext* redis, std::string& key, uint& len)
         return false;
     }
 
+    // construct command
+    std::string cmd = "STRLEN ";
+    cmd.append(key);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "STRLEN %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -385,8 +382,12 @@ bool RedisManager::get(redisContext* redis, const std::string& key, std::string&
         return false;
     }
     
+    // construct command
+    std::string cmd = "GET ";
+    cmd.append(key);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "GET %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -414,8 +415,12 @@ bool RedisManager::llen(redisContext* redis, const std::string& key, uint& len)
         return false;
     }
 
+    // construct command
+    std::string cmd = "LLEN ";
+    cmd.append(key);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LLEN %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -456,8 +461,23 @@ bool RedisManager::lpush(redisContext* redis, const std::string& key, std::vecto
         return false;
     }
 
-    // construct valueList
-    std::string valueList;
+    // construct command
+    std::string cmd;
+    if (opCreateList == REDIS_COMMAND_OPTION_NULL)
+    {
+        cmd.append("LPUSH ");
+    }
+    else if(opCreateList == REDIS_COMMAND_OPTION_LPUSHX)
+    {
+        cmd.append("LPUSHX ");
+    }
+    else
+    {
+        return false;
+    }
+
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::vector< std::string >::iterator iter = values.begin(); iter != values.end(); ++iter)
     {
         if (iter->empty())
@@ -465,46 +485,11 @@ bool RedisManager::lpush(redisContext* redis, const std::string& key, std::vecto
             return false;
         }
 
-        valueList.append(*iter);  // value
-        valueList.append(" ");
+        cmd.append(*iter);  // value
+        cmd.append(SPACE);
     }
 
-    return ((opCreateList == REDIS_COMMAND_OPTION_NULL) ? _lpush(redis, key, valueList) : _lpushx(redis, key, valueList));
-}
-
-bool RedisManager::_lpush(redisContext* redis, const std::string& key, const std::string& values)
-{
-    // param check
-    if(redis == nullptr || values.empty())
-    {
-        return false;
-    }
-
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LPUSH %s %s", key.c_str(), values.c_str()));
-    if (!replyErrOrNullCheck(reply))
-    {
-        return false;
-    }
-
-    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
-    
-    if (reply->type == REDIS_REPLY_INTEGER)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-bool RedisManager::_lpushx(redisContext* redis, const std::string& key, const std::string& values)
-{
-    // param check
-    if (redis == nullptr || values.empty())
-    {
-        return false;
-    }
-
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LPUSHX %s %s", key.c_str(), values.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -519,6 +504,54 @@ bool RedisManager::_lpushx(redisContext* redis, const std::string& key, const st
 
     return false;
 }
+
+//bool RedisManager::_lpush(redisContext* redis, const std::string& key, const std::string& values)
+//{
+//    // param check
+//    if(redis == nullptr || values.empty())
+//    {
+//        return false;
+//    }
+//
+//    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LPUSH %s %s", key.c_str(), values.c_str()));
+//    if (!replyErrOrNullCheck(reply))
+//    {
+//        return false;
+//    }
+//
+//    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+//    
+//    if (reply->type == REDIS_REPLY_INTEGER)
+//    {
+//        return true;
+//    }
+//
+//    return false;
+//}
+//
+//bool RedisManager::_lpushx(redisContext* redis, const std::string& key, const std::string& values)
+//{
+//    // param check
+//    if (redis == nullptr || values.empty())
+//    {
+//        return false;
+//    }
+//
+//    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LPUSHX %s %s", key.c_str(), values.c_str()));
+//    if (!replyErrOrNullCheck(reply))
+//    {
+//        return false;
+//    }
+//
+//    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+//
+//    if (reply->type == REDIS_REPLY_INTEGER)
+//    {
+//        return true;
+//    }
+//
+//    return false;
+//}
 
 bool RedisManager::rpush(redisContext* redis, const std::string& key, std::vector<std::string>& values, RedisOptionTypes opCreateList /* = REDIS_COMMAND_OPTION_NULL */)
 {
@@ -528,14 +561,23 @@ bool RedisManager::rpush(redisContext* redis, const std::string& key, std::vecto
         return false;
     }
 
-    if (opCreateList != REDIS_COMMAND_OPTION_NULL ||
-        opCreateList != REDIS_COMMAND_OPTION_RPUSHX)
+    // construct command
+    std::string cmd;
+    if (opCreateList == REDIS_COMMAND_OPTION_NULL)
+    {
+        cmd.append("RPUSH ");
+    }
+    else if (opCreateList == REDIS_COMMAND_OPTION_RPUSHX)
+    {
+        cmd.append("RPUSHX ");
+    }
+    else
     {
         return false;
     }
 
-    // construct valueList
-    std::string valueList;
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::vector< std::string >::iterator iter = values.begin(); iter != values.end(); ++iter)
     {
         if (iter->empty())
@@ -543,11 +585,25 @@ bool RedisManager::rpush(redisContext* redis, const std::string& key, std::vecto
             return false;
         }
 
-        valueList.append(*iter);  // value
-        valueList.append(" ");
+        cmd.append(*iter);  // value
+        cmd.append(SPACE);
     }
 
-    return ((opCreateList == REDIS_COMMAND_OPTION_NULL) ? _rpush(redis, key, valueList) : _rpush(redis, key, valueList));
+    // execute
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 bool RedisManager::rpush(redisContext* redis, const std::string& key, const std::string& value, RedisOptionTypes opCreateList /* = REDIS_COMMAND_OPTION_NULL */)
@@ -558,53 +614,53 @@ bool RedisManager::rpush(redisContext* redis, const std::string& key, const std:
     return rpush(redis, key, values, opCreateList);
 }
 
-bool RedisManager::_rpush(redisContext* redis, const std::string& key, const std::string& values)
-{
-    // param check
-    if (redis == nullptr || values.empty())
-    {
-        return false;
-    }
-
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "RPUSH %s %s", key.c_str(), values.c_str()));
-    if (!replyErrOrNullCheck(reply))
-    {
-        return false;
-    }
-
-    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
-
-    if (reply->type == REDIS_REPLY_INTEGER)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-bool RedisManager::_rpushx(redisContext* redis, const std::string& key, const std::string& values)
-{
-    // param check
-    if (redis == nullptr || values.empty())
-    {
-        return false;
-    }
-
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "RPUSHX %s %s", key.c_str(), values.c_str()));
-    if (!replyErrOrNullCheck(reply))
-    {
-        return false;
-    }
-
-    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
-
-    if (reply->type == REDIS_REPLY_INTEGER)
-    {
-        return true;
-    }
-
-    return false;
-}
+//bool RedisManager::_rpush(redisContext* redis, const std::string& key, const std::string& values)
+//{
+//    // param check
+//    if (redis == nullptr || values.empty())
+//    {
+//        return false;
+//    }
+//
+//    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "RPUSH %s %s", key.c_str(), values.c_str()));
+//    if (!replyErrOrNullCheck(reply))
+//    {
+//        return false;
+//    }
+//
+//    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+//
+//    if (reply->type == REDIS_REPLY_INTEGER)
+//    {
+//        return true;
+//    }
+//
+//    return false;
+//}
+//
+//bool RedisManager::_rpushx(redisContext* redis, const std::string& key, const std::string& values)
+//{
+//    // param check
+//    if (redis == nullptr || values.empty())
+//    {
+//        return false;
+//    }
+//
+//    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "RPUSHX %s %s", key.c_str(), values.c_str()));
+//    if (!replyErrOrNullCheck(reply))
+//    {
+//        return false;
+//    }
+//
+//    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+//
+//    if (reply->type == REDIS_REPLY_INTEGER)
+//    {
+//        return true;
+//    }
+//
+//    return false;
+//}
 
 bool RedisManager::lpop(redisContext* redis, const std::string& key)
 {
@@ -2224,4 +2280,132 @@ bool RedisManager::zincrby(redisContext* redis, const std::string& key, int inc,
     }
 
     return false;
+}
+
+bool RedisManager::ping(redisContext* redis)
+{
+    // param check
+    if(redis == nullptr)
+    {
+        return false;
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "PING"));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_STATUS)
+    {
+        return (strcasecmp(reply->str, "pong") == 0);
+    }
+
+    return false;
+}
+
+bool RedisManager::ttl(redisContext* redis, const std::string& key, int& outValue)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "TTL %s", key.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        outValue = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::expire(redisContext* redis, const std::string& key, uint secs)
+{
+    // param check
+    if (redis == nullptr || key.empty())
+    {
+        return false;
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "EXPIRE %s %d", key.c_str(), secs));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER && 
+        1 == reply->integer)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::del(redisContext* redis, std::vector<std::string>& keys, uint& delSize)
+{
+    // param check
+    if (redis == nullptr || keys.empty())
+    {
+        return false;
+    }
+
+    // construct command params
+    std::string keyList;
+    for (std::vector<std::string>::iterator iter = keys.begin(); iter != keys.end(); ++iter)
+    {
+        if (iter->empty())
+        {
+            return false;
+        }
+
+        keyList.append(*iter);           // key
+        keyList.append(" ");
+    }
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "del %s", keyList.c_str()));
+    if (!replyErrOrNullCheck(reply))
+    {
+        return false;
+    }
+
+    // auto free reply
+    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
+
+    if (reply->type == REDIS_REPLY_INTEGER)
+    {
+        delSize = reply->integer;
+        return true;
+    }
+
+    return false;
+}
+
+bool RedisManager::del(redisContext* redis, const std::string& key)
+{
+    std::vector<std::string> keyList;
+    keyList.push_back(key);
+    uint delSize = 0;
+    return del(redis, keyList, delSize);
 }
