@@ -58,20 +58,6 @@ public:
     // Ping
     bool ping(redisContext* redis);
 
-#ifdef DEBUG_INFO_REDIS
-
-    redisContext* getConnect()
-    {
-        if (m_connectsList.empty())
-        {
-            return nullptr;
-        }
-
-        return m_connectsList.begin()->second;
-    }
-
-#endif
-
 public:
     /* redis command */
     
@@ -274,11 +260,6 @@ private:
 
     bool _mset(redisContext* redis, const std::string& value);
     bool _msetnx(redisContext* redis, const std::string& value);
-
-    // bool _lpush(redisContext* redis, const std::string& key, const std::string& values);
-    // bool _lpushx(redisContext* redis, const std::string& key, const std::string& values);
-    // bool _rpush(redisContext* redis, const std::string& key, const std::string& values);
-    // bool _rpushx(redisContext* redis, const std::string& key, const std::string& values);
 
 private:
 
