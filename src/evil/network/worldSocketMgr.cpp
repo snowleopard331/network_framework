@@ -405,11 +405,13 @@ int WorldSocketMgr::StartIOService()
                 LOG(ERROR) << "redis password error";
             }
 
+            // -- set
+
             if (!rdMgr.set(redis, "qiu", "yunfei"))
             {
                 LOG(ERROR) << "set failed";
             }
-            
+
             int expireTime = 0;
             std::string outData;
             if (rdMgr.get(redis, "qiu", outData))
@@ -508,27 +510,97 @@ int WorldSocketMgr::StartIOService()
                 LOG(ERROR) << "ttl qiu " << expireTime;
             }
 
-            //std::map<std::string, std::string> key_value;
-            //std::vector<std::string> keys;
-            //key_value["qiu1"] = "yunfei1";
-            //key_value["qiu2"] = "yunfei2";
-            //key_value["qiu3"] = "yunfei3";
-            //if (!rdMgr.mset(redis, key_value))
-            //{
-            //    LOG(ERROR) << "set failed";
-            //}
-            //key_value.clear();
-            //keys.push_back("qiu1");
-            //keys.push_back("qiu2");
-            //keys.push_back("qiu3");
-            //if (rdMgr.mget(redis, keys, key_value))
-            //{
-            //    LOG(ERROR) << "key: qiu, get value size is " << key_value.size();
-            //    for (auto iter = key_value.begin(); iter != key_value.end(); ++iter)
-            //    {
-            //        LOG(ERROR) << iter->first << SEPARATOR_SPACE << iter->second;
-            //    }
-            //}
+
+            // -- mset
+
+            std::map<std::string, std::string> key_value;
+            std::vector<std::string> keys;
+            key_value["qiu1"] = "yunfei1";
+            key_value["qiu2"] = "yunfei2";
+            key_value["qiu3"] = "yunfei3";
+            if (!rdMgr.mset(redis, key_value))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            key_value.clear();
+            keys.push_back("qiu1");
+            keys.push_back("qiu2");
+            keys.push_back("qiu3");
+            if (rdMgr.mget(redis, keys, key_value))
+            {
+                LOG(ERROR) << "key: qiu, get value size is " << key_value.size();
+                for (auto iter = key_value.begin(); iter != key_value.end(); ++iter)
+                {
+                    LOG(ERROR) << iter->first << SEPARATOR_SPACE << iter->second;
+                }
+            }
+
+            key_value.clear();
+            key_value["qiu4"] = "yunfei4";
+            key_value["qiu5"] = "yunfei5";
+            key_value["qiu6"] = "yunfei6";
+            keys.push_back("qiu4");
+            keys.push_back("qiu5");
+            keys.push_back("qiu6");
+
+            if (!rdMgr.mset(redis, key_value))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            key_value.clear();
+
+            if (rdMgr.mget(redis, keys, key_value))
+            {
+                LOG(ERROR) << "key: qiu, get value size is " << key_value.size();
+                for (auto iter = key_value.begin(); iter != key_value.end(); ++iter)
+                {
+                    LOG(ERROR) << iter->first << SEPARATOR_SPACE << iter->second;
+                }
+            }
+
+            key_value.clear();
+            key_value["qiu6"] = "yunfei6";
+            key_value["qiu7"] = "yunfei7";
+            key_value["qiu8"] = "yunfei8";
+            keys.push_back("qiu7");
+            keys.push_back("qiu8");
+
+            if (!rdMgr.mset(redis, key_value))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            key_value.clear();
+
+            if (rdMgr.mget(redis, keys, key_value))
+            {
+                LOG(ERROR) << "key: qiu, get value size is " << key_value.size();
+                for (auto iter = key_value.begin(); iter != key_value.end(); ++iter)
+                {
+                    LOG(ERROR) << iter->first << SEPARATOR_SPACE << iter->second;
+                }
+            }
+
+            key_value.clear();
+            key_value["qiu8"] = "yunfei8";
+            key_value["qiu9"] = "yunfei9";
+            key_value["qiu10"] = "yunfei10";
+            keys.push_back("qiu9");
+            keys.push_back("qiu10");
+
+            if (!rdMgr.mset(redis, key_value, REDIS_COMMAND_OPTION_MSET_NX))
+            {
+                LOG(ERROR) << "set failed";
+            }
+            key_value.clear();
+
+            if (rdMgr.mget(redis, keys, key_value))
+            {
+                LOG(ERROR) << "key: qiu, get value size is " << key_value.size();
+                for (auto iter = key_value.begin(); iter != key_value.end(); ++iter)
+                {
+                    LOG(ERROR) << iter->first << SEPARATOR_SPACE << iter->second;
+                }
+            }
         }
     }
 
