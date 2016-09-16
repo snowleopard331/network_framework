@@ -499,54 +499,6 @@ bool RedisManager::lpush(redisContext* redis, const std::string& key, std::vecto
     return false;
 }
 
-//bool RedisManager::_lpush(redisContext* redis, const std::string& key, const std::string& values)
-//{
-//    // param check
-//    if(redis == nullptr || values.empty())
-//    {
-//        return false;
-//    }
-//
-//    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LPUSH %s %s", key.c_str(), values.c_str()));
-//    if (!replyErrOrNullCheck(reply))
-//    {
-//        return false;
-//    }
-//
-//    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
-//    
-//    if (reply->type == REDIS_REPLY_INTEGER)
-//    {
-//        return true;
-//    }
-//
-//    return false;
-//}
-//
-//bool RedisManager::_lpushx(redisContext* redis, const std::string& key, const std::string& values)
-//{
-//    // param check
-//    if (redis == nullptr || values.empty())
-//    {
-//        return false;
-//    }
-//
-//    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LPUSHX %s %s", key.c_str(), values.c_str()));
-//    if (!replyErrOrNullCheck(reply))
-//    {
-//        return false;
-//    }
-//
-//    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
-//
-//    if (reply->type == REDIS_REPLY_INTEGER)
-//    {
-//        return true;
-//    }
-//
-//    return false;
-//}
-
 bool RedisManager::rpush(redisContext* redis, const std::string& key, std::vector<std::string>& values, RedisOptionTypes opCreateList /* = REDIS_COMMAND_OPTION_NULL */)
 {
     // param check
@@ -607,54 +559,6 @@ bool RedisManager::rpush(redisContext* redis, const std::string& key, const std:
 
     return rpush(redis, key, values, opCreateList);
 }
-
-//bool RedisManager::_rpush(redisContext* redis, const std::string& key, const std::string& values)
-//{
-//    // param check
-//    if (redis == nullptr || values.empty())
-//    {
-//        return false;
-//    }
-//
-//    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "RPUSH %s %s", key.c_str(), values.c_str()));
-//    if (!replyErrOrNullCheck(reply))
-//    {
-//        return false;
-//    }
-//
-//    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
-//
-//    if (reply->type == REDIS_REPLY_INTEGER)
-//    {
-//        return true;
-//    }
-//
-//    return false;
-//}
-//
-//bool RedisManager::_rpushx(redisContext* redis, const std::string& key, const std::string& values)
-//{
-//    // param check
-//    if (redis == nullptr || values.empty())
-//    {
-//        return false;
-//    }
-//
-//    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "RPUSHX %s %s", key.c_str(), values.c_str()));
-//    if (!replyErrOrNullCheck(reply))
-//    {
-//        return false;
-//    }
-//
-//    std::unique_ptr<redisReply, decltype(freeReplyObject)*> p(reply, freeReplyObject);
-//
-//    if (reply->type == REDIS_REPLY_INTEGER)
-//    {
-//        return true;
-//    }
-//
-//    return false;
-//}
 
 bool RedisManager::lpop(redisContext* redis, const std::string& key)
 {
