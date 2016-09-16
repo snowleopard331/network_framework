@@ -15,6 +15,7 @@
 #include <set>
 #include <string.h>
 #include <sstream>
+#include <boost/lexical_cast.hpp>
 
 #include "Define.h"
 #include "log/glogHelper.h"
@@ -47,17 +48,40 @@ std::string numToStr(NumType num)
     return str;
 }
 
-/// not type safe, to be corrected ????
-template<typename NumType>
-NumType strToNum(std::string& str)
+template<typename NumType = int>
+bool numToStr(NumType num, std::string& str)
 {
-    std::stringstream ss;
-    ss<<str;
+    bool ret = true;
 
-    NumType num;
-    ss>>num;
+    try
+    {
+        str = boost::lexical_cast<std::string>(num);
+    }
+    catch (boost::bad_lexical_cast& e)
+    {
+        LOG(ERROR) << e.what();
+        ret = false;
+    }
 
-    return num;
+    return ret;
+}
+
+template<typename NumType = int>
+bool strToNum(std::string& str, NumType& num)
+{
+    bool ret = true;
+
+    try
+    {
+        num = boost::lexical_cast<NumType>(str);
+    }
+    catch (boost::bad_lexical_cast& e)
+    {
+        LOG(ERROR) << e.what();
+        ret = false;
+    }
+
+    return ret;
 }
 
 enum TimeConstants

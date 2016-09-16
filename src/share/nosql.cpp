@@ -297,7 +297,7 @@ bool RedisManager::mget(redisContext* redis, std::vector< std::string >& keys, s
             return false;
         }
 
-        cmd.append(*iter);
+        cmd.append(*iter);  // key
         cmd.append(SPACE);
     }
 
@@ -451,12 +451,6 @@ bool RedisManager::lpush(redisContext* redis, const std::string& key, std::vecto
 {
     // param check
     if (key.empty() || values.empty())
-    {
-        return false;
-    }
-
-    if (opCreateList != REDIS_COMMAND_OPTION_NULL ||
-        opCreateList != REDIS_COMMAND_OPTION_LPUSHX)
     {
         return false;
     }
@@ -670,8 +664,12 @@ bool RedisManager::lpop(redisContext* redis, const std::string& key)
         return false;
     }
 
+    // construct command
+    std::string cmd = "LPOP ";
+    cmd.append(key);
+
     // excute
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LPOP %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -696,8 +694,12 @@ bool RedisManager::rpop(redisContext* redis, const std::string& key)
         return false;
     }
 
+    // construct command
+    std::string cmd = "RPOP ";
+    cmd.append(key);
+
     // excute
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "RPOP %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -722,12 +724,23 @@ bool RedisManager::lrem(redisContext* redis, const std::string& key, const std::
         return false;
     }
 
-    std::string strCount;
-    std::stringstream ss;
-    ss << count;
-    ss >> strCount;
+    // construct command
+    std::string cmd = "LREM ";
 
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "LREM %s %s %s", key.c_str(), strCount.c_str(), value.c_str()));
+    std::string strCount;
+    if (!numToStr<int>(count, strCount))
+    {
+        return false;
+    }
+
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(strCount);
+    cmd.append(SPACE);
+    cmd.append(value);
+
+    // excute command
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -752,8 +765,10 @@ bool RedisManager::hdel(redisContext* redis, const std::string& key, std::vector
         return false;
     }
 
-    // construct fieldList
-    std::string fieldList;
+    // construct command
+    std::string cmd = "HDEL ";
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::vector< std::string >::iterator iter = fields.begin(); iter != fields.end(); ++iter)
     {
         if (iter->empty())
@@ -761,11 +776,11 @@ bool RedisManager::hdel(redisContext* redis, const std::string& key, std::vector
             return false;
         }
 
-        fieldList.append(*iter);  // field
-        fieldList.append(" ");
+        cmd.append(*iter);  // field
+        cmd.append(SPACE);
     }
 
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HDEL %s %s", key.c_str(), fieldList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -799,8 +814,14 @@ bool RedisManager::hexists(redisContext* redis, const std::string& key, const st
         return false;
     }
 
+    // construct command
+    std::string cmd = "HEXISTS ";
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(field);
+
     // excute
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HEXISTS %s %s", key.c_str(), field.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -827,8 +848,14 @@ bool RedisManager::hget(redisContext* redis, const std::string& key, const std::
         return false;
     }
 
+    // construct command
+    std::string cmd = "HGET ";
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(field);
+
     // excute
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HGET %s %s", key.c_str(), field.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -855,8 +882,12 @@ bool RedisManager::hgetall(redisContext* redis, const std::string& key, std::map
         return false;
     }
 
+    // construct command
+    std::string cmd = "HGETALL ";
+    cmd.append(key);
+
     // excute
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HGETALL %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -899,8 +930,12 @@ bool RedisManager::hvals(redisContext* redis, const std::string& key, std::vecto
         return false;
     }
 
+    // construct command
+    std::string cmd = "HVALS ";
+    cmd.append(key);
+
     // excute
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HVALS %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -941,8 +976,12 @@ bool RedisManager::hkeys(redisContext* redis, const std::string& key, std::vecto
         return false;
     }
 
+    // construct command
+    std::string cmd = "HKEYS ";
+    cmd.append(key);
+
     // excute
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HKEYS %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -983,8 +1022,12 @@ bool RedisManager::hlen(redisContext* redis, const std::string& key, uint& field
         return false;
     }
 
+    // construct command
+    std::string cmd = "HLEN ";
+    cmd.append(key);
+
     // excute
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HLEN %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1011,8 +1054,10 @@ bool RedisManager::hmget(redisContext* redis, const std::string& key, std::vecto
         return false;
     }
 
-    // construct fields
-    std::string fieldList;
+    // construct command
+    std::string cmd = "HMGET ";
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::vector<std::string>::iterator iter = fields.begin(); iter != fields.end(); ++iter)
     {
         if (iter->empty())
@@ -1020,12 +1065,12 @@ bool RedisManager::hmget(redisContext* redis, const std::string& key, std::vecto
             return false;
         }
 
-        fieldList.append(*iter);
-        fieldList.append(" ");
+        cmd.append(*iter);  // field
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HMGET %s %s", key.c_str(), fieldList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1073,8 +1118,10 @@ bool RedisManager::hmset(redisContext* redis, const std::string& key, std::map<s
         return false;
     }
 
-    // construct fields
-    std::string fieldValueList;
+    // construct command
+    std::string cmd = "HMSET ";
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::map<std::string, std::string>::iterator iter = values.begin(); iter != values.end(); ++iter)
     {
         if (iter->first.empty() || iter->second.empty())
@@ -1082,15 +1129,14 @@ bool RedisManager::hmset(redisContext* redis, const std::string& key, std::map<s
             return false;
         }
 
-        fieldValueList.append(iter->first);  // field
-        fieldValueList.append(" ");
-        // fieldValueList.append("\"");
-        fieldValueList.append(iter->second); // value
-        // fieldValueList.append("\" ");
+        cmd.append(iter->first);  // field
+        cmd.append(SPACE);
+        cmd.append(iter->second); // value
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HMSET %s %s", key.c_str(), fieldValueList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1110,8 +1156,16 @@ bool RedisManager::hset(redisContext* redis, const std::string& key, const std::
         return false;
     }
 
+    // construct command
+    std::string cmd = "HSET ";
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(field);
+    cmd.append(SPACE);
+    cmd.append(value);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "HSET %s %s %s", key.c_str(), field.c_str(), value.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1138,8 +1192,10 @@ bool RedisManager::sadd(redisContext* redis, const std::string& key, std::vector
         return false;
     }
 
-    // construct command params
-    std::string memberList;
+    // construct command
+    std::string cmd = "SADD ";
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::vector<std::string>::iterator iter = members.begin(); iter != members.end(); ++iter)
     {
         if (iter->empty())
@@ -1147,13 +1203,12 @@ bool RedisManager::sadd(redisContext* redis, const std::string& key, std::vector
             return false;
         }
 
-        memberList.append("\"");
-        memberList.append(*iter); // member
-        memberList.append("\" ");
+        cmd.append(*iter);  // member
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SADD %s %s", key.c_str(), memberList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1178,8 +1233,12 @@ bool RedisManager::scard(redisContext* redis, const std::string& key, uint& memS
         return false;
     }
 
+    // construct command
+    std::string cmd = "SCARD ";
+    cmd.append(key);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SCARD %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1206,8 +1265,10 @@ bool RedisManager::sdiff(redisContext* redis, const std::string& key, std::vecto
         return false;
     }
 
-    // construct command params
-    std::string otherKeyList;
+    // construct command
+    std::string cmd = "SDIFF ";
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::vector<std::string>::iterator iter = otherKeys.begin(); iter != otherKeys.end(); ++iter)
     {
         if (iter->empty())
@@ -1215,14 +1276,12 @@ bool RedisManager::sdiff(redisContext* redis, const std::string& key, std::vecto
             return false;
         }
 
-        //otherKeyList.append("\"");
-        otherKeyList.append(*iter); // member
-        //otherKeyList.append("\"");
-        otherKeyList.append(" ");
+        cmd.append(*iter);  // member
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SDIFF %s %s", key.c_str(), otherKeyList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1262,8 +1321,8 @@ bool RedisManager::sinter(redisContext* redis, std::vector<std::string>& keys, s
         return false;
     }
 
-    // construct command params
-    std::string keyList;
+    // construct command
+    std::string cmd = "SINTER ";
     for (std::vector<std::string>::iterator iter = keys.begin(); iter != keys.end(); ++iter)
     {
         if (iter->empty())
@@ -1271,14 +1330,12 @@ bool RedisManager::sinter(redisContext* redis, std::vector<std::string>& keys, s
             return false;
         }
 
-        //otherKeyList.append("\"");
-        keyList.append(*iter);      // member
-        //otherKeyList.append("\"");
-        keyList.append(" ");
+        cmd.append(*iter);          // key
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SINTER %s", keyList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1318,8 +1375,14 @@ bool RedisManager::sismember(redisContext* redis, const std::string& key, const 
         return false;
     }
 
+    // construct command
+    std::string cmd = "SISMEMBER ";
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(member);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SISMEMBER %s %s", key.c_str(), member.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1346,8 +1409,12 @@ bool RedisManager::smembers(redisContext* redis, const std::string& key, std::ve
         return false;
     }
 
+    // construct command
+    std::string cmd = "SMEMBERS ";
+    cmd.append(key);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SMEMBERS %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1396,8 +1463,10 @@ bool RedisManager::srem(redisContext* redis, const std::string& key, std::vector
         return false;
     }
 
-    // construct command params
-    std::string memberList;
+    // construct command
+    std::string cmd = "SREM ";
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::vector<std::string>::iterator iter = members.begin(); iter != members.end(); ++iter)
     {
         if (iter->empty())
@@ -1405,14 +1474,12 @@ bool RedisManager::srem(redisContext* redis, const std::string& key, std::vector
             return false;
         }
 
-        // memberList.append("\"");
-        memberList.append(*iter);      // member
-        // memberList.append("\"");
-        memberList.append(" ");
+        cmd.append(*iter);          // member
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SREM %s %s", key.c_str(), memberList));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1438,8 +1505,8 @@ bool RedisManager::sunion(redisContext* redis, std::vector<std::string>& keys, s
         return false;
     }
 
-    // construct command params
-    std::string keyList;
+    // construct command
+    std::string cmd = "SUNION ";
     for (std::vector<std::string>::iterator iter = keys.begin(); iter != keys.end(); ++iter)
     {
         if (iter->empty())
@@ -1447,14 +1514,12 @@ bool RedisManager::sunion(redisContext* redis, std::vector<std::string>& keys, s
             return false;
         }
 
-        // keyList.append("\"");
-        keyList.append(*iter);      // member
-        // keyList.append("\"");
-        keyList.append(" ");
+        cmd.append(*iter);          // key
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "SUNION %s", keyList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1494,9 +1559,12 @@ bool RedisManager::zadd(redisContext* redis, const std::string& key, std::map<in
         return false;
     }
 
-    // construct command params
-    std::string memberList, score;
-    std::stringstream   ss;
+    // construct command
+    std::string cmd = "ZADD ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
+    std::string score;
     for (std::map<int, std::string>::iterator iter = members.begin(); iter != members.end(); ++iter)
     {
         if (iter->second.empty())
@@ -1504,20 +1572,19 @@ bool RedisManager::zadd(redisContext* redis, const std::string& key, std::map<in
             return false;
         }
 
-        // int to string
-        ss.clear();
-        ss << iter->first;
-        score.clear();
-        ss >> score;
+        if (!numToStr<int>(iter->first, score))
+        {
+            return false;
+        }
 
-        memberList.append(score);           // score
-        memberList.append(" ");
-        memberList.append(iter->second);    // member
-        memberList.append(" ");
+        cmd.append(score);          // score
+        cmd.append(SPACE);
+        cmd.append(iter->second);   // member
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZADD %s %s", key.c_str(), memberList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1551,8 +1618,12 @@ bool RedisManager::zcard(redisContext* redis, const std::string& key, uint& memb
         return false;
     }
 
+    // construct command
+    std::string cmd = "ZCARD ";
+    cmd.append(key);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZCARD %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1579,16 +1650,23 @@ bool RedisManager::zcount(redisContext* redis, const std::string& key, int score
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZCOUNT ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string min, max;
-    std::stringstream ss;
-    ss << scoreMin;
-    ss >> min;
-    ss << scoreMax;
-    ss >> max;
+    if (!numToStr<int>(scoreMin, min) || !numToStr<int>(scoreMax, max))
+    {
+        return false;
+    }
+
+    cmd.append(min);
+    cmd.append(SPACE);
+    cmd.append(max);
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZCOUNT %s %s %s", key.c_str(), min.c_str(), max.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1614,16 +1692,23 @@ bool RedisManager::zrange(redisContext* redis, const std::string& key, int start
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZRANGE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strStart, strStop;
-    std::stringstream ss;
-    ss << start;
-    ss >> strStart;
-    ss << stop;
-    ss >> strStop;
+    if (!numToStr(start, strStart) || !numToStr(stop, strStop))
+    {
+        return false;
+    }
+
+    cmd.append(strStart);
+    cmd.append(SPACE);
+    cmd.append(strStop);
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANGE %s %s %s", key.c_str(), strStart.c_str(), strStop.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1663,16 +1748,25 @@ bool RedisManager::zrange(redisContext* redis, const std::string& key, int start
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZRANGE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strStart, strStop;
-    std::stringstream ss;
-    ss << start;
-    ss >> strStart;
-    ss << stop;
-    ss >> strStop;
+    if (!numToStr(start, strStart) || !numToStr(stop, strStop))
+    {
+        return false;
+    }
+
+    cmd.append(strStart);
+    cmd.append(SPACE);
+    cmd.append(strStop);
+    cmd.append(SPACE);
+    cmd.append("WITHSCORES");
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANGE %s %s %s WITHSCORES", key.c_str(), strStart.c_str(), strStop.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1685,7 +1779,6 @@ bool RedisManager::zrange(redisContext* redis, const std::string& key, int start
         0 == (reply->elements % 2))
     {
         outMembers.clear();
-        std::stringstream ss;
 
         for (size_t index = 0; index < reply->elements; ++index)
         {
@@ -1704,8 +1797,10 @@ bool RedisManager::zrange(redisContext* redis, const std::string& key, int start
             else    // score
             {
                 int score = 0;
-                ss << strEle;
-                ss >> score;
+                if (!strToNum(strEle, score))
+                {
+                    return false;
+                }
 
                 outScores.push_back(score);
             }
@@ -1725,16 +1820,23 @@ bool RedisManager::zrangebyscore(redisContext* redis, const std::string& key, in
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZRANGEBYSCORE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strMin, strMax;
-    std::stringstream ss;
-    ss << min;
-    ss >> strMin;
-    ss << max;
-    ss >> strMax;
+    if(!numToStr(min, strMin) || !numToStr(max, strMax))
+    {
+        return false;
+    }
+
+    cmd.append(strMin);
+    cmd.append(SPACE);
+    cmd.append(strMax);
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANGEBYSCORE %s %s %s", key.c_str(), strMin.c_str(), strMax.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1774,16 +1876,25 @@ bool RedisManager::zrangebyscore(redisContext* redis, const std::string& key, in
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZRANGEBYSCORE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strMin, strMax;
-    std::stringstream ss;
-    ss << min;
-    ss >> strMin;
-    ss << max;
-    ss >> strMax;
+    if (!numToStr(min, strMin) || !numToStr(max, strMax))
+    {
+        return false;
+    }
+
+    cmd.append(strMin);
+    cmd.append(SPACE);
+    cmd.append(strMax);
+    cmd.append(SPACE);
+    cmd.append("WITHSCORES");
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANGEBYSCORE %s %s %s WITHSCORES", key.c_str(), strMin.c_str(), strMax.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1836,16 +1947,23 @@ bool RedisManager::zrevrangebyscore(redisContext* redis, const std::string& key,
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZREVRANGEBYSCORE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strMin, strMax;
-    std::stringstream ss;
-    ss << min;
-    ss >> strMin;
-    ss << max;
-    ss >> strMax;
+    if (!numToStr(min, strMin) || !numToStr(max, strMax))
+    {
+        return false;
+    }
+
+    cmd.append(strMax);
+    cmd.append(SPACE);
+    cmd.append(strMin);
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANGEBYSCORE %s %s %s", key.c_str(), strMin.c_str(), strMax.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1885,16 +2003,25 @@ bool RedisManager::zrevrangebyscore(redisContext* redis, const std::string& key,
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZREVRANGEBYSCORE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strMin, strMax;
-    std::stringstream ss;
-    ss << min;
-    ss >> strMin;
-    ss << max;
-    ss >> strMax;
+    if (!numToStr(min, strMin) || !numToStr(max, strMax))
+    {
+        return false;
+    }
+
+    cmd.append(strMax);
+    cmd.append(SPACE);
+    cmd.append(strMin);
+    cmd.append(SPACE);
+    cmd.append("WITHSCORES");
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANGEBYSCORE %s %s %s WITHSCORES", key.c_str(), strMin.c_str(), strMax.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1947,8 +2074,14 @@ bool RedisManager::zrank(redisContext* redis, const std::string& key, const std:
         return false;
     }
 
+    // construct command
+    std::string cmd = "ZRANK ";
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(member);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZRANK %s %s", key.c_str(), member.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -1974,8 +2107,10 @@ bool RedisManager::zrem(redisContext* redis, const std::string& key, std::vector
         return false;
     }
 
-    // construct command params
-    std::string memberList;
+    // construct command
+    std::string cmd = "ZREM ";
+    cmd.append(key);
+    cmd.append(SPACE);
     for (std::vector<std::string>::iterator iter = members.begin(); iter != members.end(); ++iter)
     {
         if (iter->empty())
@@ -1983,12 +2118,12 @@ bool RedisManager::zrem(redisContext* redis, const std::string& key, std::vector
             return false;
         }
 
-        memberList.append(*iter);           // member
-        memberList.append(" ");
+        cmd.append(*iter);      // member
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREM %s %s", key.c_str(), memberList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2022,16 +2157,23 @@ bool RedisManager::zremrangebyrank(redisContext* redis, const std::string& key, 
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZREMRANGEBYRANK ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strStart, strStop;
-    std::stringstream ss;
-    ss << start;
-    ss >> strStart;
-    ss << stop;
-    ss >> strStop;
+    if(!numToStr(start, strStart) || !numToStr(stop, strStop))
+    {
+        return false;
+    }
+
+    cmd.append(strStart);
+    cmd.append(SPACE);
+    cmd.append(strStop);
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREMRANGEBYRANK %s %s %s", key.c_str(), strStart.c_str(), strStop.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2057,16 +2199,23 @@ bool RedisManager::zremrangebyscore(redisContext* redis, const std::string& key,
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZREMRANGEBYSCORE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strMin, strMax;
-    std::stringstream ss;
-    ss << min;
-    ss >> strMin;
-    ss << max;
-    ss >> strMax;
+    if (!numToStr(min, strMin) || !numToStr(max, strMax))
+    {
+        return false;
+    }
+
+    cmd.append(strMin);
+    cmd.append(SPACE);
+    cmd.append(strMax);
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREMRANGEBYSCORE %s %s %s", key.c_str(), strMin.c_str(), strMax.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2092,16 +2241,23 @@ bool RedisManager::zrevrange(redisContext* redis, const std::string& key, int st
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZREVRANGE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strStart, strStop;
-    std::stringstream ss;
-    ss << start;
-    ss >> strStart;
-    ss << stop;
-    ss >> strStop;
+    if (!numToStr(start, strStart) || !numToStr(stop, strStop))
+    {
+        return false;
+    }
+
+    cmd.append(strStart);
+    cmd.append(SPACE);
+    cmd.append(strStop);
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANGE %s %s %s", key.c_str(), strStart.c_str(), strStop.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2141,16 +2297,25 @@ bool RedisManager::zrevrange(redisContext* redis, const std::string& key, int st
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZREVRANGE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strStart, strStop;
-    std::stringstream ss;
-    ss << start;
-    ss >> strStart;
-    ss << stop;
-    ss >> strStop;
+    if (!numToStr(start, strStart) || !numToStr(stop, strStop))
+    {
+        return false;
+    }
+
+    cmd.append(strStart);
+    cmd.append(SPACE);
+    cmd.append(strStop);
+    cmd.append(SPACE);
+    cmd.append("WITHSCORES");
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANGE %s %s %s WITHSCORES", key.c_str(), strStart.c_str(), strStop.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2203,8 +2368,14 @@ bool RedisManager::zrevrank(redisContext* redis, const std::string& key, const s
         return false;
     }
 
+    // construct command
+    std::string cmd = "ZREVRANK ";
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(member);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZREVRANK %s %s", key.c_str(), member.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2230,8 +2401,14 @@ bool RedisManager::zscore(redisContext* redis, const std::string& key, const std
         return false;
     }
 
+    // construct command
+    std::string cmd = "ZSCORE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+    cmd.append(member);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZSCORE %s %s", key.c_str(), member.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2257,14 +2434,23 @@ bool RedisManager::zincrby(redisContext* redis, const std::string& key, int inc,
         return false;
     }
 
-    // construct command params
+    // construct command
+    std::string cmd = "ZSCORE ";
+    cmd.append(key);
+    cmd.append(SPACE);
+
     std::string strInc;
-    std::stringstream ss;
-    ss << inc;
-    ss >> strInc;
+    if(!numToStr(inc, strInc))
+    {
+        return false;
+    }
+
+    cmd.append(strInc);
+    cmd.append(SPACE);
+    cmd.append(member);
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "ZINCRBY %s %s %s", key.c_str(), strInc.c_str(), member.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2316,8 +2502,12 @@ bool RedisManager::ttl(redisContext* redis, const std::string& key, int& outValu
         return false;
     }
 
+    // construct command
+    std::string cmd = "TTL ";
+    cmd.append(key);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "TTL %s", key.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2343,8 +2533,19 @@ bool RedisManager::expire(redisContext* redis, const std::string& key, uint secs
         return false;
     }
 
+    // construct command
+    std::string cmd = "EXPIRE ";
+    
+    std::string strSecs;
+    if(!numToStr<uint>(secs, strSecs))
+    {
+        return false;
+    }
+
+    cmd.append(strSecs);
+
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "EXPIRE %s %d", key.c_str(), secs));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
@@ -2370,8 +2571,8 @@ bool RedisManager::del(redisContext* redis, std::vector<std::string>& keys, uint
         return false;
     }
 
-    // construct command params
-    std::string keyList;
+    // construct command
+    std::string cmd = "DEL ";
     for (std::vector<std::string>::iterator iter = keys.begin(); iter != keys.end(); ++iter)
     {
         if (iter->empty())
@@ -2379,12 +2580,12 @@ bool RedisManager::del(redisContext* redis, std::vector<std::string>& keys, uint
             return false;
         }
 
-        keyList.append(*iter);           // key
-        keyList.append(" ");
+        cmd.append(*iter);              // key
+        cmd.append(SPACE);
     }
 
     // excute command
-    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, "del %s", keyList.c_str()));
+    redisReply* reply = static_cast<redisReply*>(redisCommand(redis, cmd.c_str()));
     if (!replyErrOrNullCheck(reply))
     {
         return false;
