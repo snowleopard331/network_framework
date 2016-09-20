@@ -32,19 +32,19 @@ public:
 
     std::string getStringDefault(const std::string& sectionName, const std::string& key, const std::string& def);
 
-    std::string getStringDefault(const char* sectionName, const char* key, const std::string& def);
+    // std::string getStringDefault(const char* sectionName, const char* key, const std::string& def);
 
     bool getBoolDefault(const std::string& sectionName, const std::string& key, const bool def = false);
 
-    bool getBoolDefault(const char* sectionName, const char* key, const bool def = false);
+    // bool getBoolDefault(const char* sectionName, const char* key, const bool def = false);
 
     int getIntDefault(const std::string& sectionName, const std::string& key, const int def);
 
-    int getIntDefault(const char* sectionName, const char* key, const int def);
+    // int getIntDefault(const char* sectionName, const char* key, const int def);
 
     float getFloatDefault(const std::string& sectionName, const std::string& key, const float def);
     
-    float getFloatDefault(const char* sectionName, const char* key, const float def);
+    // float getFloatDefault(const char* sectionName, const char* key, const float def);
 
     std::string getFileName() const
     {

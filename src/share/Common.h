@@ -49,7 +49,7 @@ std::string numToStr(NumType num)
 }
 
 template<typename NumType = int>
-bool numToStr(NumType num, std::string& str)
+inline bool numToStr(NumType num, std::string& str)
 {
     bool ret = true;
 
@@ -67,7 +67,7 @@ bool numToStr(NumType num, std::string& str)
 }
 
 template<typename NumType = int>
-bool strToNum(std::string& str, NumType& num)
+inline bool strToNum(std::string& str, NumType& num)
 {
     bool ret = true;
 
