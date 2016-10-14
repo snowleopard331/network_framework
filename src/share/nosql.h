@@ -24,7 +24,7 @@ enum RedisOptionTypes
     REDIS_COMMAND_OPTION_SET_XX,               // 只在键已经存在时, 才对键进行设置操作
 
     // mset
-    REDIS_COMMAND_OPTION_MSET_NX,              // 设置多个key-value对, 当且仅当所有key都不存在. 即使只有一个给定key已存在，也会拒绝执行所有给定key的设置操作
+    REDIS_COMMAND_OPTION_MSET_NX,              // 设置多个key-value对, 当且仅当所有key都不存在. 即使只有一个给定key已存在, 也会拒绝执行所有给定key的设置操作
 
     // lpush
     REDIS_COMMAND_OPTION_LPUSHX,               // 若key不存在, 则 LPUSHX 不创建新list
@@ -122,7 +122,7 @@ public:
     // 移除表尾元素
     bool rpop(redisContext* redis, const std::string& key);
 
-    // 移除与value相同的值. count为移除个数, 正数表示从前到后移除count个，负数表示从后往前移除count个，0表示移除所有
+    // 移除与value相同的值. count为移除个数, 正数表示从前到后移除count个, 负数表示从后往前移除count个, 0表示移除所有
     bool lrem(redisContext* redis, const std::string& key, const std::string& value, uint& removeSize, int count = 0);
 
 
@@ -140,7 +140,7 @@ public:
     // 同时将多个 field-value 对设置到哈希表 key 中, 此命令会覆盖哈希表中已存在的域
     bool hmset(redisContext* redis, const std::string& key, std::map<std::string, std::string>& values);
 
-    // 返回哈希表 key 中，一个或多个给定域的值
+    // 返回哈希表 key 中, 一个或多个给定域的值
     bool hmget(redisContext* redis, const std::string& key, std::vector<std::string>& fields, std::map<std::string, std::string>& outMapInfo);
 
     // 返回哈希表 key 中所有的域和值
@@ -168,7 +168,7 @@ public:
     // 判断 member 是否是集合 key 的成员
     bool sismember(redisContext* redis, const std::string& key, const std::string& member, bool& isMember);
 
-    // 将一个或多个member 元素加入到集合key 当中，已经存在于集合的member 元素将被忽略
+    // 将一个或多个member 元素加入到集合key 当中, 已经存在于集合的member 元素将被忽略
     bool sadd(redisContext* redis, const std::string& key, const std::string& member);
     bool sadd(redisContext* redis, const std::string& key, std::vector<std::string>& members);
 
