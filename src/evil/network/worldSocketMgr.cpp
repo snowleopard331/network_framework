@@ -190,13 +190,14 @@ WorldSocketMgr::WorldSocketMgr()
     , m_SoketReady(NULL)
     , m_NetThreadIndexReady(0)
     , m_pAuthConnector(NULL)
+	, m_registTimer(nullptr)
 {
     
 }
 
 WorldSocketMgr::~WorldSocketMgr()
 {
-
+	SafeDelete(m_registTimer);
 }
 
 int WorldSocketMgr::StartNetwork()
@@ -417,14 +418,18 @@ void WorldSocketMgr::registToAuth()
     }
     else
     {
-        Timer timer(*(m_pAuthConnector->proactor()), boost::posix_time::seconds(CONNECTOR_RECONNECT_INTERNAL_SEC));
-        timer.async_wait(boost::bind(&WorldSocketMgr::registToAuth, this));
+		if (nullptr == m_registTimer)
+		{
+			m_registTimer = new Timer(*(m_pAuthConnector->proactor()), boost::posix_time::seconds(CONNECTOR_RECONNECT_INTERNAL_SEC));
+		}
 
-        // ?? why poll is invalid, run is normal
-        // invoke poll/run function in every thread
+		m_registTimer->expires_from_now(boost::posix_time::seconds(CONNECTOR_RECONNECT_INTERNAL_SEC));
+		m_registTimer->async_wait(boost::bind(&WorldSocketMgr::registToAuth, this));
+
+        // notice timer's lifetime(correct bug)
+        // invoke poll/run function per thread
         m_pAuthConnector->proactor()->reset();
         m_pAuthConnector->proactor()->poll();
-        //m_pAuthConnector->proactor()->run();
     }
 }
 

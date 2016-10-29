@@ -79,6 +79,7 @@ private:
 
     // auth
     Connector*              m_pAuthConnector;
+	Timer*					m_registTimer;
 };
 
 #define sWorldSocketMgr Evil::Singleton<WorldSocketMgr>::Instance()
