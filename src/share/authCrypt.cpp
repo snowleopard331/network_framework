@@ -213,7 +213,7 @@ CryptoPP::RandomPool& CryptRSA::getRandomPool()
 //
 //    //generate private key
 //    RSAES_OAEP_SHA_Decryptor Priv(RandPool, KeyLength);
-//    HexEncoder PrivateEncoder(new StringSink(strPriv));//本博客作者加：就为了这句代码整整找了1天！
+//    HexEncoder PrivateEncoder(new StringSink(strPriv));//本博客作者加: 就为了这句代码整整找了1天！
 //    Priv.DEREncode(PrivateEncoder);
 //    PrivateEncoder.MessageEnd();               
 //

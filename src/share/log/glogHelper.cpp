@@ -51,9 +51,9 @@ void GLogHelper::initialize(char* programName)
     google::SetStderrLogging(google::INFO); 
 
     /*
-        日志文件名格式:basename+时间戳（年月日-HH:MM:SS.主线程ID）
-        日志是分级别存放的，低级别的日志文件包含高级别的日志信息, 
-        如INFO级别的日志包含其他高级别的所有日志，ERROR级别的日志只包含ERROR和FATAL两个级别
+        日志文件名格式:basename+时间戳 (年月日-HH:MM:SS.主线程ID) 
+        日志是分级别存放的, 低级别的日志文件包含高级别的日志信息, 
+        如INFO级别的日志包含其他高级别的所有日志, ERROR级别的日志只包含ERROR和FATAL两个级别
     */
     //设置 google::ERROR 级别的日志存储路径和文件名前缀(basename)
     google::SetLogDestination(google::ERROR, "log/log_error_");
@@ -62,11 +62,11 @@ void GLogHelper::initialize(char* programName)
     google::SetLogDestination(google::WARNING, "log/log_warning_");
     google::SetLogDestination(google::FATAL, "log/log_fatal_");
 
-    //缓冲日志输出，默认为30秒，此处改为立即输出
+    //缓冲日志输出, 默认为30秒, 此处改为立即输出
     FLAGS_logbufsecs = 0;
     //最大日志大小为 1024MB
     FLAGS_max_log_size = 1024;
-    //当磁盘被写满时，停止日志输出
+    //当磁盘被写满时, 停止日志输出
     FLAGS_stop_logging_if_full_disk = true;
     //设置输出到屏幕的日志
     FLAGS_colorlogtostderr = true;
@@ -76,6 +76,6 @@ void GLogHelper::initialize(char* programName)
     */
     //捕捉 core dumped
     google::InstallFailureSignalHandler();
-    //默认捕捉 SIGSEGV 信号信息输出会输出到 stderr，可以通过下面的方法自定义输出>方式：
+    //默认捕捉 SIGSEGV 信号信息输出会输出到 stderr, 可以通过下面的方法自定义输出>方式: 
     google::InstallFailureWriter(&signalHandle);
 }
