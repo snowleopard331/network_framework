@@ -91,7 +91,7 @@ void Connector::HandleConnect(const boost::system::error_code& ec)
     }
 
     LOG(INFO) << "connect hostname " << m_hostName << SEPARATOR_SPACE
-        << "ip " << m_port << SEPARATOR_SPACE
+        << "port " << m_port << SEPARATOR_SPACE
         << "successfully";
 
     return;

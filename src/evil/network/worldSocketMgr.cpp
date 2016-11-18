@@ -225,7 +225,7 @@ void WorldSocketMgr::StopNetwork()
             m_NetThreads[i].stop();
         }
     }
-    // ?? 可能没有意义 stop执行时候run就已经退出了
+    
     Wait();
 }
 
@@ -262,7 +262,7 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
     // set some options here
     if(m_SockOutKBuff >= 0)
     {
-        // SO_SNDBUF
+        // SO_SNDBUF, 发送缓冲区大小
         boost::asio::socket_base::send_buffer_size option(m_SockOutKBuff);
         m_SoketReady->bsocket()->set_option(option);
     }
@@ -270,7 +270,7 @@ int WorldSocketMgr::OnSocketOpen(const boost::system::error_code &ec)
     // set nodelay
     if(m_UseNoDelay)
     {
-        // TCP_NODELAY
+        // TCP_NODELAY, 关闭Nagle算法
         boost::asio::ip::tcp::no_delay option(true);
         m_SoketReady->bsocket()->set_option(option);
     }

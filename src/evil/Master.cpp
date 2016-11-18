@@ -33,6 +33,7 @@ int Master::Run()
     sWorldSocketMgr.Wait();
 
     /// stop server option
+    sWorldSocketMgr.StopNetwork();
 
     return 0;
 }
