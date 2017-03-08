@@ -2,6 +2,9 @@
 
 PROJECT_PATH=/home/yunfei/myworld
 
+
+# boot sequence
+
 cd $PROJECT_PATH/network_ramework/bin/authServer
 ./start.sh
 
