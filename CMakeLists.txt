@@ -40,6 +40,8 @@ SET(CRYPTOPP_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/cryptopp/lib)
 SET(MYSQL_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/mysql/lib)
 SET(HIREDIS_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/hiredis/lib)
 
+## create full edition MakeFile
+# SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 ## compile options,  -rdynamic for stack, -fdiagnostics-color=auto need gcc--version more than 4.9.0
 ADD_DEFINITIONS(-g -W -Wall -std=c++11 -fdiagnostics-color=auto)
