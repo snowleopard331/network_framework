@@ -1,10 +1,10 @@
 #!/bin/bash
 
-PROJECT_PATH=/home/yunfei/myworld
+BATH_PATH=$(cd `dirname $0`; pwd)
 
-cd $PROJECT_PATH/network_ramework/cmake
+cd $BATH_PATH/../build
 
-make;make install
+make -j 4;make install
 
-cd $PROJECT_PATH/network_ramework/bin
+cd -
 
