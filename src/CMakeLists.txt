@@ -1,0 +1,21 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
+
+PROJECT(server)
+
+ADD_SUBDIRECTORY(auth)
+ADD_SUBDIRECTORY(evil)
+#ADD_SUBDIRECTORY(platform)
+#ADD_SUBDIRECTORY(share)
+#ADD_SUBDIRECTORY(utilities)
+
+
+
+
+
+
+
+
+
+
+
+
