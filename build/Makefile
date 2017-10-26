@@ -177,7 +177,7 @@ game: cmake_check_build_system
 
 # fast build rule for target.
 game/fast:
-	$(MAKE) -f src/evil/CMakeFiles/game.dir/build.make src/evil/CMakeFiles/game.dir/build
+	$(MAKE) -f src/game/CMakeFiles/game.dir/build.make src/game/CMakeFiles/game.dir/build
 .PHONY : game/fast
 
 # Help Target
