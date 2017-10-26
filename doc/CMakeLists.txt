@@ -1,0 +1,5 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
+
+PROJECT(server)
+
+# INSTALL(FILES <file>  DESTINATION network_ramework/doc)

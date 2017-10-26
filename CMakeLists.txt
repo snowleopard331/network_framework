@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
 PROJECT(server)
 
 ## set executable path
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+# SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 ############################### source files ####################################
 
@@ -47,4 +47,5 @@ SET(HIREDIS_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/hiredis/lib)
 ADD_DEFINITIONS(-g -W -Wall -std=c++11 -fdiagnostics-color=auto)
 
 ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(doc)
 
