@@ -21,8 +21,6 @@ install_manifest.txt
 
 *.swp
 log
-game
-auth
 
 # dep folder
 boost_1_60_0
