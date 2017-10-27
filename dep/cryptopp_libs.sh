@@ -24,7 +24,7 @@ fi
 
 cd cryptopp-master/
 
-make;make libcryptopp.so
+make -j 4;make libcryptopp.so
 make install PREFIX=$CTYPTOPP_PATH
 make clean
 

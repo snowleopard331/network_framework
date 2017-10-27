@@ -7,7 +7,7 @@
 #ifndef _DATABASE_MYSQL_H_
 #define _DATABASE_MYSQL_H_
 
-#include <mysql/mysql.h>
+#include <mysql.h>
 
 #include "Database.h"
 

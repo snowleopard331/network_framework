@@ -2,7 +2,8 @@
 
 PROJECT_PATH=/home/yunfei/myworld
 
-GLOG_PATH=$PROJECT_PATH/network_ramework/dep/glog
+REDIS_PATH=$PROJECT_PATH/network_ramework/dep/hiredis
+REDIS_INSTALL_PATH=/usr/local/redis
 
 cd $PROJECT_PATH/network_ramework/dep
 
@@ -11,28 +12,29 @@ cd $PROJECT_PATH/network_ramework/dep
 # check folder
 #####################################
 
-if [ -d "glog" ];then
-    rm -rv $GLOG_PATH/*
+if [ -d "hiredis" ];then
+    rm -rv $REDIS_PATH/*
 else
-    mkdir -vpm 775 $GLOG_PATH
+    mkdir -vpm 775 $REDIS_PATH
 fi
 
 #####################################
 # compile libs
 #####################################
 
-cd glog-0.3.3/
+cd redis-3.2.1//deps/hiredis
 
-./configure --prefix=$GLOG_PATH
-
-make -j 4;make install
+make -j 4
+make install PREFIX=$REDIS_PATH
+make clean
 
 cd -
 
-rm -rv $GLOG_PATH/share
+
+rm -rv $REDIS_PATH/share
 
 echo -e "\n"
 echo "**********************************************************"
-echo "*                 glog compile finished                  *"
+echo "*                 hiredis compile finished                  *"
 echo "**********************************************************"
 echo -e "\n"

@@ -7,7 +7,7 @@
 #ifndef _QUERYRESULT_MYSQL_H_
 #define _QUERYRESULT_MYSQL_H_
 
-#include <mysql/mysql.h>
+#include <mysql.h>
 
 #include "Common.h"
 

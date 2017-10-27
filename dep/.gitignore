@@ -1,0 +1,14 @@
+# dep folder
+
+boost_1_60_0
+glog-0.3.3
+cryptopp-master
+mysql-5.6.30
+redis-3.2.1
+
+# ignore libs
+mysql
+boost 
+cryptopp 
+glog 
+hiredis
