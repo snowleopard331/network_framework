@@ -1,4 +1,5 @@
 ## ignore build folder
 ../build/
+src
 
 !*.sh
