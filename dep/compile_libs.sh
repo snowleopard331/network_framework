@@ -10,7 +10,13 @@ $PROJECT_PATH/network_ramework/dep/glog_libs.sh
 sleep 3
 
 $PROJECT_PATH/network_ramework/dep/cryptopp_libs.sh
+sleep 3
 
+$PROJECT_PATH/network_ramework/dep/mysql_libs.sh
+sleep 3
+
+$PROJECT_PATH/network_ramework/dep/redis_libs.sh
+sleep 3
 
 
 
