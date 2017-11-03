@@ -2,11 +2,11 @@
 
 PROJECT_PATH=/home/yunfei/myworld
 
-CTYPTOPP_PATH=$PROJECT_PATH/network_ramework/dep/cryptopp
-BOOST_PATH=$PROJECT_PATH/network_ramework/dep/boost
-GLOG_PATH=$PROJECT_PATH/network_ramework/dep/glog
-MYSQL_PATH=$PROJECT_PATH/network_ramework/dep/mysql
-HIREDIS_PATH=$PROJECT_PATH/network_ramework/dep/hiredis
+CTYPTOPP_PATH=$PROJECT_PATH/network_framework/dep/cryptopp
+BOOST_PATH=$PROJECT_PATH/network_framework/dep/boost
+GLOG_PATH=$PROJECT_PATH/network_framework/dep/glog
+MYSQL_PATH=$PROJECT_PATH/network_framework/dep/mysql
+HIREDIS_PATH=$PROJECT_PATH/network_framework/dep/hiredis
 
 TARGET_PATH=/lib64
 
