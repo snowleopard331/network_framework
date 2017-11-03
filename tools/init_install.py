@@ -14,6 +14,9 @@ import os
 # update system to latest version
 os.system("dnf -y update");
 
+# update system time,  the time server of the  Beijing University of Posts and Telecommunications
+os.system("ntpdate -u s1a.time.edu.cn");
+
 # install necenary tools
 os.system("dnf -y install gcc gcc-c++ cmake samba gdb valgrind");
 
