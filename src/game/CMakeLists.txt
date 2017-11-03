@@ -21,15 +21,4 @@ TARGET_LINK_LIBRARIES(game ${LIB_LIST})
 
 ############################## install ######################################
 
-INSTALL(TARGETS game DESTINATION network_ramework/bin/game_server)
-
-
-
-
-
-
-
-
-
-
-
+INSTALL(TARGETS game DESTINATION network_framework/bin/game_server)

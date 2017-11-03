@@ -20,15 +20,4 @@ TARGET_LINK_LIBRARIES(auth ${LIB_LIST})
 ############################## install ######################################
 
 ## SET(CMAKE_INSTALL_PREFIX ${PROJECT_PATH}/bin)
-INSTALL(TARGETS auth DESTINATION network_ramework/bin/auth_server)
-
-
-
-
-
-
-
-
-
-
-
+INSTALL(TARGETS auth DESTINATION network_framework/bin/auth_server)
