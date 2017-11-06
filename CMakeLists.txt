@@ -2,6 +2,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
 
 PROJECT(server)
 
+MESSAGE(STATUS "Running cmake version ${CMAKE_VERSION}")
+
 ## set executable path
 # SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
