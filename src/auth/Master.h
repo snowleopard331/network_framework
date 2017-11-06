@@ -7,7 +7,7 @@
 #ifndef _AUTH_MASTER_H_
 #define _AUTH_MASTER_H_
 
-#include "policy/Singleton.h"
+#include "Singleton.h"
 #include "database/DatabaseEnv.h"
 
 class AuthSocket;

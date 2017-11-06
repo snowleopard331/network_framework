@@ -8,7 +8,7 @@
 #define _POSIX_DAEMON_H_
 
 #include "Common.h"
-#include "log/glogHelper.h"
+#include "glogHelper.h"
 
 void startDaemon(/*uint32 timeout = 10*/);
 

@@ -8,7 +8,7 @@
 #define _EVENT_MGR_H_
 
 #include "Common.h"
-#include "policy/Singleton.h"
+#include "Singleton.h"
 
 ///---------------------------- define event type -----------------------------------
 

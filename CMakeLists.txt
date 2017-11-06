@@ -8,12 +8,8 @@ PROJECT(server)
 ############################### source files ####################################
 
 ## common
-AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/share             COMMON_SRC_LIST)
-AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/share/log         COMMON_SRC_LIST)
-AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/share/policy      COMMON_SRC_LIST)
 AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/platform          COMMON_SRC_LIST)
 AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/utilities         COMMON_SRC_LIST)
-AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/share/database    COMMON_SRC_LIST)
 
 
 ## include head file folder of 3rd lib
@@ -39,6 +35,7 @@ SET(BOOST_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/boost/lib)
 SET(CRYPTOPP_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/cryptopp/lib)
 SET(MYSQL_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/mysql/lib)
 SET(HIREDIS_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/hiredis/lib)
+SET(MY_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 
 ## create full edition MakeFile
 # SET(CMAKE_VERBOSE_MAKEFILE ON)

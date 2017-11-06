@@ -7,7 +7,7 @@
 #ifndef _AUTH_SOCKET_MGR_H_
 #define _AUTH_SOCKET_MGR_H_
 
-#include "policy/Singleton.h"
+#include "Singleton.h"
 #include "Common.h"
 #include "serverList.h"
 

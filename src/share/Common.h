@@ -18,7 +18,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "Define.h"
-#include "log/glogHelper.h"
+#include "glogHelper.h"
 #include "GameDef.h"
 #include "config.h"
 

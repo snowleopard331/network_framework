@@ -9,7 +9,7 @@
 
 #include <assert.h>
 #include "StackTrace.h"
-#include "log/glogHelper.h"
+#include "glogHelper.h"
 
 #include <boost/asio.hpp>
 #include <boost/asio/ip/tcp.hpp>

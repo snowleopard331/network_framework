@@ -5,7 +5,7 @@
 */
 
 #include "byteBuffer.h"
-#include "log/glogHelper.h"
+#include "glogHelper.h"
 #include "StackTrace.h"
 
 void ByteBufferException::printPosError() const

@@ -12,7 +12,7 @@ des:    this file function is packaging and pratice glog libiary
 
 #include <glog/logging.h>
 #include <glog/raw_logging.h>
-#include "policy/Singleton.h"
+#include "Singleton.h"
 
 // 将信息输出到单独的文件和 LOG(ERROR)
 void signalHandle(const char* data, int size);

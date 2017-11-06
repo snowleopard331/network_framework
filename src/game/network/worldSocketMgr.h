@@ -9,7 +9,7 @@
 
 #include "Common.h"
 #include "worldSocket.h"
-#include "policy/Singleton.h"
+#include "Singleton.h"
 #include "connector.h"
 
 

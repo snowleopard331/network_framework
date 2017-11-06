@@ -8,7 +8,7 @@
 #define _SERVER_LIST_H_
 
 #include "Common.h"
-#include "policy/Singleton.h"
+#include "Singleton.h"
 
 // Storage object for the list of realms on the server
 

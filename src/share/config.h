@@ -11,7 +11,7 @@ des:    read config file
 #define _CONFIG_H_
 
 #include "Common.h"
-#include "policy/Singleton.h"
+#include "Singleton.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>

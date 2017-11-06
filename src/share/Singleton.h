@@ -7,9 +7,9 @@
 #ifndef _SINGLETON_H_
 #define _SINGLETON_H_
 
-#include "policy/ThreadingModel.h"
-#include "policy/CreationPolicy.h"
-#include "policy/ObjectLifeTime.h"
+#include "ThreadingModel.h"
+#include "CreationPolicy.h"
+#include "ObjectLifeTime.h"
 
 namespace Evil
 {
