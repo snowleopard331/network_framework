@@ -7,11 +7,10 @@ MESSAGE(STATUS "Running cmake version ${CMAKE_VERSION}")
 ## set executable path
 # SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-############################### source files ####################################
 
 ## common
-AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/platform          COMMON_SRC_LIST)
-AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/utilities         COMMON_SRC_LIST)
+# AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/platform          COMMON_SRC_LIST)
+# AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src/utilities         COMMON_SRC_LIST)
 
 
 ## include head file folder of 3rd lib
@@ -23,8 +22,8 @@ SET(HIREDIS_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/dep/hiredis/include)
 
 ## common head file folder
 SET(SHARE_INCLUDE_DIR  ${PROJECT_SOURCE_DIR}/src/share) 
-SET(PLATFORM_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/platform)
-SET(UTILITIES_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/utilities)
+# SET(PLATFORM_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/platform)
+# SET(UTILITIES_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/utilities)
 
 ## project head file folder
 SET(GAME_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/game)
