@@ -27,9 +27,12 @@ SET(PLATFORM_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/platform)
 SET(UTILITIES_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/utilities)
 
 ## project head file folder
-SET(GAME_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/game ${PROJECT_SOURCE_DIR}/src/game/network)
+SET(GAME_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/game)
 SET(AUTH_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/auth)
 
+## component head file folder
+SET(NETWORK_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/component/network)
+SET(DATABASE_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/component/database)
 
 ## all dependent library directorys
 SET(GLOG_LIB_DIR ${PROJECT_SOURCE_DIR}/dep/glog/lib)
