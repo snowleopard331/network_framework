@@ -2,3 +2,7 @@
 
 !network_framework.sln
 !auth/
+!share/
+
+!*/*.vcxproj
+!*/*.vcxproj.filters

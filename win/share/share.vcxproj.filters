@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="redis">
+      <UniqueIdentifier>{b7236f0b-3417-4146-ba8c-9ba2cbe4b350}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\share\nosql.cpp">
+      <Filter>redis</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\share\nosql.h">
+      <Filter>redis</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
