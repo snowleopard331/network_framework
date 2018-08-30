@@ -4,6 +4,9 @@
     <Filter Include="redis">
       <UniqueIdentifier>{b7236f0b-3417-4146-ba8c-9ba2cbe4b350}</UniqueIdentifier>
     </Filter>
+    <Filter Include="coroutine">
+      <UniqueIdentifier>{95342e7e-8cfc-4640-9b4a-56b0b12f46b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\share\nosql.cpp">
@@ -13,6 +16,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\share\nosql.h">
       <Filter>redis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\share\coroutine.h">
+      <Filter>coroutine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
